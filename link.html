@@ -97,17 +97,21 @@
         return formattedText;
     }
 
+    function fillmoney() {
+        let money = document.getElementById("money").value;
+        return money ? `
+
+We've added ₹${money} as Cashback to your account for your next shopping until ${getLastDateOfNextMonth()}.` : "";
+    }
+
     function myFunction() {
         event.preventDefault();
         let name = document.getElementById("name").value;
-        let money = document.getElementById("money").value;
         let mobile = document.getElementById("mobile").value;
         name = formatText(name);
         let msg = `Dear ${name} Ji,
 
-Thank you for choosing GC Jewellers and for your recent visit. We're thrilled to hear that you had a fantastic experience! 💐
-
-We've added ₹${money} as Cashback to your account for your next shopping until ${getLastDateOfNextMonth()}.
+Thank you for choosing GC Jewellers and for your recent visit. We're thrilled to hear that you had a fantastic experience! 💐${fillmoney()}
 
 For more updates and details, 
 Instagram: 👇
