@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <style>
+        input {
+            position: relative;
+            width: 90%;
+            margin-top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 16px;
+            font-size: 17px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            outline: 0;
+        }
+
+        button {
+            position: relative;
+            width: 90%;
+            height: 50px;
+            margin-top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 0;
+            background-color: rgb(247, 194, 20);
+            border-radius: 10px;
+            outline: 0;
+            cursor: pointer;
+            font-size: 23px;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div>Start Name</div>
+    <input type="text" name="" id="">
+    <textarea name="" id="" cols="30" rows="10"></textarea>
+    <br>
+    <button onclick="myFunction()">Submit</button>
+</body>
+<script>
+    function createVCard() {
+        let starttext = document.getElementsByTagName("input")[0].value;
+        let inputText = document.getElementsByTagName("textarea")[0].value;
+        let lines = inputText.trim().split('\n');
+        let vCardStrings = [];
+        for (let i = 0; i < lines.length; i += 2) {
+            let name = lines[i].trim();
+            if (starttext) {
+                name = starttext + "-" + name;
+            }
+            let phone = lines[i + 1].trim();
+            if (name && phone) {
+                let vCard = [
+                    `BEGIN:VCARD`,
+                    `VERSION:2.1`,
+                    `FN:${name}`,
+                    `TEL;CELL:${phone}`,
+                    `END:VCARD`
+                ].join('\n');
+
+                vCardStrings.push(vCard);
+            }
+        }
+        return vCardStrings.join('\n');
+    }
+
+    function downloadTextAsFile(text, filename) {
+        let blob = new Blob([text], {
+            type: 'text/plain'
+        });
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
+    function myFunction() {
+        downloadTextAsFile(createVCard(), "abc.vcf")
+    }
+</script>
+
+</html>
