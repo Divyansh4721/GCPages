@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="logo.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KhataBook Message</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/9f9e58ef8b.js" crossorigin="anonymous"></script>
+    <style>
+        a {
+            font-size: 20px;
+            text-decoration: none;
+            color: black;
+            background-color: lightgray;
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        td {
+            font-size: 15px;
+            padding: 10px 3px 10px 3px;
+            text-align: center;
+        }
+
+        pre {
+            margin: 0;
+        }
+
+        button {
+            position: relative;
+            width: 90%;
+            height: 50px;
+            margin-top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 0;
+            background-color: rgb(247, 194, 20);
+            border-radius: 10px;
+            outline: 0;
+            cursor: pointer;
+            font-size: 23px;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="index.html">
+        <button type="submit" style="width: fit-content;left: 10%;">Home</button>
+    </form>
+    <textarea id="input" cols="30" rows="10" value=""></textarea>
+    <br>
+    <button onclick="helper()">Submit</button>
+    <table id="table" border="1"></table>
+</body>
+<script>
+    function helper() {
+        let data = document.getElementById("input").value;
+        data = data.replaceAll("\n", " ");
+        data = data.replaceAll(".00", "\n");
+        data = data.replaceAll("\n ", "\n");
+        data = data.trim();
+        let lines = data.split('\n');
+        let convertedData = [];
+        lines.forEach(line => {
+            let parts = line.split(' ');
+            let name = parts[0];
+            let number = parts.pop();
+            let amount = parts.pop();
+            convertedData.push([name, number, amount]);
+        });
+        let table = $("#table");
+
+        for (let i = 0; i < convertedData.length; i++) {
+            let row = $('<tr/>');
+            row.append($('<td/>').html(convertedData[i][0]));
+            row.append($('<td/>').html(convertedData[i][1]));
+            row.append($('<td/>').html(convertedData[i][2]));
+            let message = `Hello ${convertedData[i][0]}
+Hope this message finds you well.
+
+Your outstanding balance is currently at ${convertedData[i][1]}/- according to our records.
+Please disregard if you have already made the payment online or in cash, and kindly update us accordingly.
+Apologies for any inconvenience caused.
+
+Regards,
+Team GC Jewellers
+9215917770
+7027701770`;
+            // row.append($('<td/>').append($(`<pre>${message}</pre>`)));
+            console.log(message);
+            row.append($(
+                `<td><a class="fa-brands fa-whatsapp" target="_blank" href="https://wa.me/91${convertedData[i][2]}?text=${encodeURIComponent(message)}"></a></td>`
+            ));
+            row.append($(
+                `<td><a class="fa-solid fa-comment-sms" target="_blank" href="sms:+91${convertedData[i][2]}?body=${encodeURIComponent(message)}"></a></td>`
+            ));
+            table.append(row);
+        }
+    }
+</script>
+
+</html>
