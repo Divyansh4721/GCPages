@@ -62,14 +62,14 @@
         <form id="itemform" onsubmit="ItemForm(event)">
             <select id="prefix">
                 <option value="">Select Start Name</option>
-                <option value="HM.">HM</option>
+                <option value="HM." selected>HM</option>
                 <option value="MD.">MD</option>
                 <option value="D.">D</option>
                 <option value="CVD.">CVD</option>
             </select>
             <select id="ornament" required>
                 <option value="">Select Ornament</option>
-                <option value="B.Bali">B.Bali</option>
+                <option value="B.Bali" selected>B.Bali</option>
                 <option value="Bali ">Bali </option>
                 <option value="Bangles ">Bangles </option>
                 <option value="Bracelet ">Bracelet </option>
@@ -96,16 +96,17 @@
             </select>
             <select id="purity" required>
                 <option value="">Select Purity</option>
-                <option value="22/KDM$92-93">92-93</option>
+                <option value="22/KDM$92-93" selected>92-93</option>
                 <option value="23/20$83-85">83-85</option>
                 <option value="22/18$78-80">78-80</option>
                 <option value="18$75">75</option>
                 <option value="14$60">60</option>
             </select>
-            <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required>
-            <input type="number" id="netweight" placeholder="Net Weight" step="0.001" required>
-            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" required>
+            <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" value="15" required>
+            <input type="number" id="netweight" placeholder="Net Weight" step="0.001" value="10" required>
+            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" value="1000" required>
             <select id="wastage" required>
+                <option value="0">0</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
                 <option value="15">15</option>
@@ -129,6 +130,7 @@
         </form>
     </div>
     <br>
+    <button onclick="printTable()">Print Table</button>
     <table id="table">
         <tr>
             <th>S.No</th>
@@ -146,7 +148,6 @@
             <th>Amount</th>
         </tr>
     </table>
-    <button onclick="printTable()">Print Table</button>
 </body>
 <script>
     let index = 1;
@@ -211,8 +212,8 @@
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
-        // let form = document.getElementById("itemform");
-        // form.reset();
+        let form = document.getElementById("itemform");
+        form.reset();
     }
 
     function StoneForm(event) {
@@ -243,8 +244,8 @@
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
-        // let form = document.getElementById("stoneform");
-        // form.reset();
+        let form = document.getElementById("stoneform");
+        form.reset();
     }
 </script>
 <script>
@@ -267,29 +268,29 @@
         if (table) {
             let win = window.open('', '_blank');
             win.document.write(
-                `<html><head><title>Print Table</title><style>body {margin: 0;font-family: sans-serif;width: 100vw;}table {border: 1px solid black;border-collapse: collapse;text-align: center;scale: 1;}th {border: 1px solid black;}td {padding: 10px 5px 0px 5px;white-space: nowrap;border-left: 1px solid black;}div {width: min-content;}tbody tr:last-child td {padding-top: 140px;}#previewImg{    width: 100%;}canvas{width: 100% !important;height: auto !important;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri`
+                `<html><head><title>Print Table</title><style>body {margin: 0;font-family: sans-serif;width: 100vw;}table {border: 1px solid black;border-collapse: collapse;text-align: center;scale: 1;}th {border-left: 1px solid black;border-bottom: 1px solid black;}td {padding: 10px 5px 0px 5px;white-space: nowrap;border-left: 1px solid black;}div {width: min-content;}tbody tr:last-child td {padding-top: 140px;}#previewImg{    width: 100%;}canvas{width: 100% !important;height: auto !important;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri`
             );
             win.document.write(`pt></head><body><div id="previewImg"></div><div id="maindata">`);
             win.document.write("<center>");
             win.document.write(getCurrentTime());
             win.document.write(
-                "</center><br><center>GST 3% Applicable on Bill/Goods are not Delivered</center><br><center>"
+                "</center><br><center>GST 3% Applicable on Bill/Goods are not Delivered</center><br>"
             );
             win.document.write(table.outerHTML);
             win.document.write(
-                `</center><script>window.print();let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.style.display = "none";`
+                `</div><script>let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.innerHTML = "";`
             );
             win.document.write(
                 `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();`
             );
             win.document.write(
-                `});</scri`
+                `window.print();});</scri`
             );
             win.document.write(`pt></bod`);
             win.document.write(`y></htm`);
             win.document.write(`l>`);
             win.document.close();
-            win.print();
+            win.open();
         }
     }
 </script>
