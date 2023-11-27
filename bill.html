@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Generate Bill</title>
+    <style>
+        table {
+            text-align: center;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <div style="display: flex;flex-direction: row;">
+        <form id="itemform" onsubmit="ItemForm(event)" style="width:fit-content;border: 1px solid black;">
+            <select id="prefix">
+                <option value="">Select Start Name</option>
+                <option value="HM." selected>HM</option>
+                <option value="MD.">MD</option>
+                <option value="D.">D</option>
+                <option value="CVD.">CVD</option>
+            </select>
+            <br><br>
+            <select id="ornament" required>
+                <option value="B.Bali">B.Bali</option>
+                <option value="Bali ">Bali </option>
+                <option value="Bangles ">Bangles </option>
+                <option value="Bracelet ">Bracelet </option>
+                <option value="Chain ">Chain </option>
+                <option value="CPS ">CPS </option>
+                <option value="G.R.">G.R.</option>
+                <option value="K.chain">K.chain</option>
+                <option value="K.set">K.set</option>
+                <option value="Kade ">Kade </option>
+                <option value="L.R.">L.R.</option>
+                <option value="L.R.C.">L.R.C.</option>
+                <option value="L.R.N.">L.R.N.</option>
+                <option value="M.P.">M.P.</option>
+                <option value="M.S.L.">M.S.L.</option>
+                <option value="MSPS">MSPS</option>
+                <option value="Nath">Nath</option>
+                <option value="PDL">PDL</option>
+                <option value="Set ">Set </option>
+                <option value="T.C.">T.C.</option>
+                <option value="T.J.">T.J.</option>
+                <option value="T.N.">T.N.</option>
+                <option value="Tika">Tika</option>
+                <option value="Tops">Tops</option>
+            </select>
+            <br><br>
+            <select id="purity" required>
+                <option value="">Select Purity</option>
+                <option value="22/KDM$92-93" selected>92-93</option>
+                <option value="23/20$83-85">83-85</option>
+                <option value="22/18$78-80">78-80</option>
+                <option value="18$75">75</option>
+                <option value="14$60">60</option>
+            </select>
+            <br><br>
+            <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" value="58.070">
+            <br><br>
+            <input type="number" id="netweight" placeholder="Net Weight" step="0.001" value="23.510">
+            <br><br>
+            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" value="5600">
+            <br><br>
+            <select id="wastage" required>
+                <option value="">Select Wastage</option>
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+            </select>
+            <br><br>
+            <button type="submit">Submit</button>
+        </form>
+        <br>
+        <form id="stoneform" onsubmit="StoneForm(event)" style="width:fit-content;border: 1px solid black;">
+            <select id="stonetype" required>
+                <option value="">Select Stone Type</option>
+                <option value="Stone">Stone</option>
+                <option value="Diamond">Diamond</option>
+                <option value="M.Diamond" selected>M.Diamond</option>
+            </select>
+            <br><br>
+            <input type="number" id="stoneweight" placeholder="Stone Weight" step="0.01" value="2">
+            <br><br>
+            <input type="number" id="stonerate" placeholder="Stone Rate" step="0.01" value="6000">
+            <br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <br><br>
+    <table id="table" border="1">
+        <tr>
+            <th>S.No</th>
+            <th>Ornament</th>
+            <th>Carat</th>
+            <th>Purity</th>
+            <th>Gross Weight</th>
+            <th>Stone Weight</th>
+            <th>Gold Rate</th>
+            <th>KDM Rate</th>
+            <th>Net Weight</th>
+            <th>Wastage (In gms)</th>
+            <th>Charged Weight</th>
+            <th>Rate</th>
+            <th>Amount</th>
+        </tr>
+    </table>
+    <br><br>
+    <button onclick="printTable()">Print Table</button>
+
+</body>
+<script>
+    let index = 1;
+
+    function ItemForm(event) {
+        event.preventDefault();
+        let prefix = document.getElementById("prefix").value;
+        let ornament = document.getElementById("ornament").value;
+        let carat = document.getElementById("purity").value.split("$")[0];
+        let purity = document.getElementById("purity").value.split("$")[1];
+        let grossweight = document.getElementById("grossweight").value * 1.000;
+        let netweight = document.getElementById("netweight").value * 1.000;
+        let goldrate = document.getElementById("goldrate").value * 1.00;
+        let wastage = document.getElementById("wastage").value * 1.000;
+        let kdmrate = "";
+        if (carat.includes("KDM"))
+            kdmrate = goldrate / 10;
+
+        let chargedweight = goldrate * 1;
+        if (carat.includes("KDM"))
+            chargedweight = goldrate * 1.10;
+
+        let row = $('<tr/>');
+        row.append($('<td/>').html(index++));
+        row.append($('<td/>').html(prefix + ornament));
+        row.append($('<td/>').html(carat));
+        row.append($('<td/>').html(purity));
+        row.append($('<td/>').html(grossweight));
+        row.append($('<td/>').html(grossweight - netweight));
+        row.append($('<td/>').html(goldrate));
+        row.append($('<td/>').html(kdmrate));
+        row.append($('<td/>').html(netweight));
+        row.append($('<td/>').html(netweight / wastage));
+        row.append($('<td/>').html((netweight * 1) + (netweight / wastage)));
+        row.append($('<td/>').html(chargedweight.toFixed(2)));
+        row.append($('<td/>').html((((netweight * 1) + (netweight / wastage)) * (chargedweight * 1)).toFixed(2)));
+
+        let table = $("#table");
+        table.append(row);
+
+        var form = document.getElementById("itemform");
+        console.log(form);
+        form.reset();
+    }
+
+    function StoneForm(event) {
+        event.preventDefault();
+        let stonetype = document.getElementById("stonetype").value;
+        let stoneweight = document.getElementById("stoneweight").value;
+        let stonerate = document.getElementById("stonerate").value;
+
+        let row = $('<tr/>');
+        row.append($('<td/>').html(index++));
+        row.append($('<td/>').html(stonetype));
+        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(stoneweight));
+        row.append($('<td/>').html(stonerate));
+        if (stoneweight)
+            row.append($('<td/>').html(stoneweight * stonerate));
+        else
+            row.append($('<td/>').html(stoneweight));
+
+        let table = $("#table");
+        table.append(row);
+
+        // var form = document.getElementById("stoneform");
+        // form.reset();
+    }
+</script>
+<script>
+    function printTable() {
+        var table = document.getElementById("table");
+        if (table) {
+            var win = window.open('', '_blank');
+            win.document.write('<html><head><title>Print Table</title></head><body>');
+            win.document.write(table.outerHTML);
+            win.document.write('</body></html>');
+            win.document.close();
+            win.print();
+        }
+    }
+</script>
+
+</html>
