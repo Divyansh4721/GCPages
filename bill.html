@@ -3,27 +3,72 @@
 
 <head>
     <title>Generate Bill</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable = no">
     <style>
+        body {
+            width: 95vw;
+        }
+
         table {
+            border: 1px solid black;
+            border-collapse: collapse;
             text-align: center;
+            width: 1%;
+            transform-origin: top left;
+            scale: 0.4;
+        }
+
+        th {
+            border: 1px solid black;
+        }
+
+        td {
+            padding: 10px 5px 0px 5px;
+            white-space: nowrap;
+            border-left: 1px solid black;
+        }
+
+        tbody tr:last-child td {
+            padding-top: 140px;
+        }
+
+        #outerbox {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+        }
+
+        form {
+            border: 1px solid black;
+            width: 50%;
+            align-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input,
+        select,
+        button {
+            width: 90%;
+            margin: 10px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
-
-    <div style="display: flex;flex-direction: row;">
-        <form id="itemform" onsubmit="ItemForm(event)" style="width:fit-content;border: 1px solid black;">
+    <div id="outerbox">
+        <form id="itemform" onsubmit="ItemForm(event)">
             <select id="prefix">
                 <option value="">Select Start Name</option>
-                <option value="HM." selected>HM</option>
+                <option value="HM.">HM</option>
                 <option value="MD.">MD</option>
                 <option value="D.">D</option>
                 <option value="CVD.">CVD</option>
             </select>
-            <br><br>
             <select id="ornament" required>
+                <option value="">Select Ornament</option>
                 <option value="B.Bali">B.Bali</option>
                 <option value="Bali ">Bali </option>
                 <option value="Bangles ">Bangles </option>
@@ -31,8 +76,8 @@
                 <option value="Chain ">Chain </option>
                 <option value="CPS ">CPS </option>
                 <option value="G.R.">G.R.</option>
-                <option value="K.chain">K.chain</option>
-                <option value="K.set">K.set</option>
+                <option value="K.Chain">K.Chain</option>
+                <option value="K.Set">K.Set</option>
                 <option value="Kade ">Kade </option>
                 <option value="L.R.">L.R.</option>
                 <option value="L.R.C.">L.R.C.</option>
@@ -49,52 +94,42 @@
                 <option value="Tika">Tika</option>
                 <option value="Tops">Tops</option>
             </select>
-            <br><br>
             <select id="purity" required>
                 <option value="">Select Purity</option>
-                <option value="22/KDM$92-93" selected>92-93</option>
+                <option value="22/KDM$92-93">92-93</option>
                 <option value="23/20$83-85">83-85</option>
                 <option value="22/18$78-80">78-80</option>
                 <option value="18$75">75</option>
                 <option value="14$60">60</option>
             </select>
-            <br><br>
-            <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" value="58.070">
-            <br><br>
-            <input type="number" id="netweight" placeholder="Net Weight" step="0.001" value="23.510">
-            <br><br>
-            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" value="5600">
-            <br><br>
+            <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required>
+            <input type="number" id="netweight" placeholder="Net Weight" step="0.001" required>
+            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" required>
             <select id="wastage" required>
-                <option value="">Select Wastage</option>
                 <option value="5">5</option>
-                <option value="10" selected>10</option>
+                <option value="10">10</option>
                 <option value="15">15</option>
-                <option value="20">20</option>
+                <option value="20" selected>20</option>
                 <option value="25">25</option>
                 <option value="30">30</option>
             </select>
-            <br><br>
             <button type="submit">Submit</button>
         </form>
         <br>
-        <form id="stoneform" onsubmit="StoneForm(event)" style="width:fit-content;border: 1px solid black;">
+        <form id="stoneform" onsubmit="StoneForm(event)">
             <select id="stonetype" required>
                 <option value="">Select Stone Type</option>
                 <option value="Stone">Stone</option>
                 <option value="Diamond">Diamond</option>
-                <option value="M.Diamond" selected>M.Diamond</option>
+                <option value="M.Diamond">M.Diamond</option>
             </select>
-            <br><br>
-            <input type="number" id="stoneweight" placeholder="Stone Weight" step="0.01" value="2">
-            <br><br>
-            <input type="number" id="stonerate" placeholder="Stone Rate" step="0.01" value="6000">
-            <br><br>
+            <input type="number" id="stoneweight" placeholder="Stone Weight" step="0.001">
+            <input type="number" id="stonerate" placeholder="Stone Rate" step="0.01">
             <button type="submit">Submit</button>
         </form>
     </div>
-    <br><br>
-    <table id="table" border="1">
+    <br>
+    <table id="table">
         <tr>
             <th>S.No</th>
             <th>Ornament</th>
@@ -111,15 +146,40 @@
             <th>Amount</th>
         </tr>
     </table>
-    <br><br>
     <button onclick="printTable()">Print Table</button>
-
 </body>
 <script>
     let index = 1;
 
+    function calculateAndAppendTotal() {
+        let table = document.getElementById('table');
+        if (table) {
+            let rows = table.querySelectorAll('tbody tr');
+            let columnsToSum = [4, 8, 10, 12];
+            let totalRow = table.insertRow();
+            let cell = totalRow.insertCell();
+            cell.textContent = 'Total';
+            cell.style.fontWeight = 'bold';
+            for (let i = 1; i < 13; i++) {
+                let cell = totalRow.insertCell();
+                if (columnsToSum.includes(i)) {
+                    let sum = 0;
+                    for (let j = 1; j < rows.length; j++) {
+                        let rowData = rows[j].querySelectorAll('td');
+                        sum += parseFloat(rowData[columnsToSum[columnsToSum.indexOf(i)]].textContent) || 0;
+                    }
+                    cell.textContent = sum.toFixed(3);
+                    cell.style.fontWeight = 'bold';
+                } else {}
+            }
+        }
+    }
+
     function ItemForm(event) {
         event.preventDefault();
+        let table = document.getElementById('table');
+        if (table.rows.length !== 1)
+            table.deleteRow(table.rows.length - 1);
         let prefix = document.getElementById("prefix").value;
         let ornament = document.getElementById("ornament").value;
         let carat = document.getElementById("purity").value.split("$")[0];
@@ -131,73 +191,103 @@
         let kdmrate = "";
         if (carat.includes("KDM"))
             kdmrate = goldrate / 10;
-
-        let chargedweight = goldrate * 1;
+        let rate = goldrate * 1;
         if (carat.includes("KDM"))
-            chargedweight = goldrate * 1.10;
-
+            rate = goldrate * 1.10;
         let row = $('<tr/>');
         row.append($('<td/>').html(index++));
         row.append($('<td/>').html(prefix + ornament));
         row.append($('<td/>').html(carat));
         row.append($('<td/>').html(purity));
-        row.append($('<td/>').html(grossweight));
-        row.append($('<td/>').html(grossweight - netweight));
-        row.append($('<td/>').html(goldrate));
-        row.append($('<td/>').html(kdmrate));
-        row.append($('<td/>').html(netweight));
-        row.append($('<td/>').html(netweight / wastage));
-        row.append($('<td/>').html((netweight * 1) + (netweight / wastage)));
-        row.append($('<td/>').html(chargedweight.toFixed(2)));
-        row.append($('<td/>').html((((netweight * 1) + (netweight / wastage)) * (chargedweight * 1)).toFixed(2)));
-
-        let table = $("#table");
+        row.append($('<td/>').html(grossweight.toFixed(3)));
+        row.append($('<td/>').html((grossweight - netweight).toFixed(3)));
+        row.append($('<td/>').html(goldrate.toFixed(2)));
+        row.append($('<td/>').html(kdmrate ? kdmrate.toFixed(2) : ""));
+        row.append($('<td/>').html(netweight.toFixed(3)));
+        row.append($('<td/>').html((netweight / wastage).toFixed(3)));
+        row.append($('<td/>').html(((netweight * 1) + (netweight / wastage)).toFixed(3)));
+        row.append($('<td/>').html(rate.toFixed(2)));
+        row.append($('<td/>').html((((netweight * 1) + (netweight / wastage)) * (rate * 1)).toFixed(2)));
+        table = $("#table");
         table.append(row);
-
-        var form = document.getElementById("itemform");
-        console.log(form);
-        form.reset();
+        calculateAndAppendTotal();
+        // let form = document.getElementById("itemform");
+        // form.reset();
     }
 
     function StoneForm(event) {
         event.preventDefault();
+        let table = document.getElementById('table');
+        if (table.rows.length !== 1)
+            table.deleteRow(table.rows.length - 1);
         let stonetype = document.getElementById("stonetype").value;
         let stoneweight = document.getElementById("stoneweight").value;
         let stonerate = document.getElementById("stonerate").value;
-
         let row = $('<tr/>');
         row.append($('<td/>').html(index++));
         row.append($('<td/>').html(stonetype));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
+        row.append($('<td/>').html((stoneweight * 1).toFixed(3)));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
-        row.append($('<td/>').html(stoneweight));
-        row.append($('<td/>').html(stonerate));
+        row.append($('<td/>').html((stonerate * 1).toFixed(2)));
         if (stoneweight)
             row.append($('<td/>').html(stoneweight * stonerate));
         else
-            row.append($('<td/>').html(stoneweight));
-
-        let table = $("#table");
+            row.append($('<td/>').html(stonerate));
+        table = $("#table");
         table.append(row);
-
-        // var form = document.getElementById("stoneform");
+        calculateAndAppendTotal();
+        // let form = document.getElementById("stoneform");
         // form.reset();
     }
 </script>
 <script>
+    function getCurrentTime() {
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        let now = new Date();
+        let dayOfWeek = days[now.getDay()];
+        let dayOfMonth = now.getDate();
+        let month = months[now.getMonth()];
+        let year = now.getFullYear();
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+        let formattedTime = `Printed On ${dayOfWeek} ${dayOfMonth}-${month}-${year} at ${hours}:${minutes}`;
+        return formattedTime;
+    }
+
     function printTable() {
-        var table = document.getElementById("table");
+        let table = document.getElementById("table");
         if (table) {
-            var win = window.open('', '_blank');
-            win.document.write('<html><head><title>Print Table</title></head><body>');
+            let win = window.open('', '_blank');
+            win.document.write(
+                `<html><head><title>Print Table</title><style>body {margin: 0;font-family: sans-serif;width: 100vw;}table {border: 1px solid black;border-collapse: collapse;text-align: center;scale: 1;}th {border: 1px solid black;}td {padding: 10px 5px 0px 5px;white-space: nowrap;border-left: 1px solid black;}div {width: min-content;}tbody tr:last-child td {padding-top: 140px;}#previewImg{    width: 100%;}canvas{width: 100% !important;height: auto !important;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri`
+            );
+            win.document.write(`pt></head><body><div id="previewImg"></div><div id="maindata">`);
+            win.document.write("<center>");
+            win.document.write(getCurrentTime());
+            win.document.write(
+                "</center><br><center>GST 3% Applicable on Bill/Goods are not Delivered</center><br><center>"
+            );
             win.document.write(table.outerHTML);
-            win.document.write('</body></html>');
+            win.document.write(
+                `</center><script>window.print();let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.style.display = "none";`
+            );
+            win.document.write(
+                `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();`
+            );
+            win.document.write(
+                `});</scri`
+            );
+            win.document.write(`pt></bod`);
+            win.document.write(`y></htm`);
+            win.document.write(`l>`);
             win.document.close();
             win.print();
         }
