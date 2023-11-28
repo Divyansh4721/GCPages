@@ -240,11 +240,11 @@
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html((stonerate * 1).toFixed(0)));
-        row.append($('<td/>').html(""));
         if (stoneweight)
             row.append($('<td/>').html((stoneweight * stonerate).toFixed(0)));
         else
             row.append($('<td/>').html((stonerate * 1).toFixed(0)));
+        row.append($('<td/>').html(""));
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
