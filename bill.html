@@ -64,15 +64,15 @@
             <select id="ornament" required>
                 <option value="">Select Ornament</option>
                 <option value="B.Bali">B.Bali</option>
-                <option value="Bali ">Bali </option>
-                <option value="Bangles ">Bangles </option>
-                <option value="Bracelet ">Bracelet </option>
-                <option value="Chain ">Chain </option>
-                <option value="CPS ">CPS </option>
+                <option value="Bali">Bali </option>
+                <option value="Bangles">Bangles </option>
+                <option value="Bracelet">Bracelet </option>
+                <option value="Chain">Chain </option>
+                <option value="CPS">CPS </option>
                 <option value="G.R.">G.R.</option>
                 <option value="K.Chain">K.Chain</option>
                 <option value="K.Set">K.Set</option>
-                <option value="Kade ">Kade </option>
+                <option value="Kade">Kade </option>
                 <option value="L.R.">L.R.</option>
                 <option value="L.R.C.">L.R.C.</option>
                 <option value="L.R.N.">L.R.N.</option>
@@ -81,7 +81,7 @@
                 <option value="MSPS">MSPS</option>
                 <option value="Nath">Nath</option>
                 <option value="PDL">PDL</option>
-                <option value="Set ">Set </option>
+                <option value="Set">Set </option>
                 <option value="T.C.">T.C.</option>
                 <option value="T.J.">T.J.</option>
                 <option value="T.N.">T.N.</option>
@@ -272,9 +272,11 @@
         if (table) {
             let win = window.open('', '_blank');
             win.document.write(
-                `<html><head><title>Print Table</title><style>body {margin: 0;width: 100vw;}table {border: 2px solid black;border-collapse: collapse;text-align: center;scale: 1;}th{padding: 5px;}td {padding: 5px;white-space: nowrap;}div {width: min-content;}tbody tr:last-child td {padding-top: 140px;}#previewImg {width: 100%;}canvas {width: 100% !important;height: auto !important;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri`
+                `<html><head><title>Print Table</title><style>body {margin: 0;width: 100vw;}table {border: 2px solid black;border-collapse: collapse;text-align: center;scale: 1;}th {padding: 5px;}td {padding: 5px;white-space: nowrap;}div {width: min-content;}tbody tr:last-child td {padding-top: 140px;}#previewImg {width: 100%;}canvas {width: 100% !important;height: auto !important;}#maindata {position: relative;}#hallmark {height: 50px;position: absolute;top: 10px;right: 10px;}#gclogo {height: 60px;position: absolute;top: 6px;left: 10px;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri`
             );
-            win.document.write(`pt></head><body><div id="previewImg"></div><div id="maindata">`);
+            win.document.write(
+                `pt></head><body><div id="previewImg"></div><div id="maindata"><img id="gclogo" src="GCLogo.png"><img id="hallmark" src="hallmark.png">`
+            );
             win.document.write("<center>");
             win.document.write(getCurrentTime());
             win.document.write(
@@ -284,9 +286,9 @@
             win.document.write(
                 `</div><script>let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.innerHTML = "";`
             );
-            // win.document.write(
-            //     `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();`
-            // );
+            win.document.write(
+                `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();`
+            );
             win.document.write(
                 `window.print();});</scri`
             );
