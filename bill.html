@@ -3,8 +3,15 @@
 
 <head>
     <title>Generate Bill</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable = no">
+    <link rel="icon" href="logobill.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        @media (max-width: 767px) {
+            table {
+                scale: 0.4;
+            }
+        }
+
         body {
             width: 95vw;
         }
@@ -15,7 +22,6 @@
             text-align: center;
             width: 1%;
             transform-origin: top left;
-            scale: 0.4;
         }
 
         td {
@@ -46,7 +52,7 @@
         select,
         button {
             width: 90%;
-            margin: 10px;
+            margin: 10px 0px 10px 0px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -57,7 +63,7 @@
         <form id="itemform" onsubmit="ItemForm(event)">
             <select id="prefix">
                 <option value="">Select Start Name</option>
-                <option value="MD.">MD</option>
+                <option value="MD." selected>MD</option>
                 <option value="D.">D</option>
                 <option value="CVD.">CVD</option>
             </select>
@@ -66,7 +72,7 @@
                 <option value="B.Bali">B.Bali</option>
                 <option value="Bali">Bali </option>
                 <option value="Bangles">Bangles </option>
-                <option value="Bracelet">Bracelet </option>
+                <option value="Bracelet" selected>Bracelet </option>
                 <option value="Chain">Chain </option>
                 <option value="CPS">CPS </option>
                 <option value="G.R.">G.R.</option>
@@ -96,9 +102,10 @@
                 <option value="18$75">75</option>
                 <option value="14$60">60</option>
             </select>
-            <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required>
-            <input type="number" id="netweight" placeholder="Net Weight" step="0.001" required>
-            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" min="1000" max="9999" required>
+            <input type="number" id="grossweight" placeholder="Gross Weight" value="10" step="0.001" required>
+            <input type="number" id="netweight" placeholder="Net Weight" value="10" step="0.001" required>
+            <input type="number" id="goldrate" placeholder="Gold Rate" value="6000" step="0.01" min="1000" max="9999"
+                required>
             <select id="wastage" required>
                 <option value="0">0</option>
                 <option value="5">5</option>
@@ -116,10 +123,10 @@
                 <option value="">Select Stone Type</option>
                 <option value="Stone">Stone</option>
                 <option value="Diamond">Diamond</option>
-                <option value="M.Diamond">M.Diamond</option>
+                <option value="M.Diamond" selected>M.Diamond</option>
             </select>
-            <input type="number" id="stoneweight" placeholder="Stone Weight" step="0.001">
-            <input type="number" id="stonerate" placeholder="Stone Rate" step="0.01">
+            <input type="number" id="stoneweight" placeholder="Stone Weight" value="3" step="0.001">
+            <input type="number" id="stonerate" placeholder="Stone Rate" value="6000" step="0.01">
             <button type="submit">Submit</button>
         </form>
     </div>
@@ -149,6 +156,20 @@
     document.getElementById("grossweight").addEventListener("change", () => {
         document.getElementById("netweight").value = document.getElementById("grossweight").value
     });
+
+    function deleteRow(input) {
+        let table = document.getElementById('table');
+        table.deleteRow(input - 1);
+        index--;
+        for (let i = input - 1; i < table.rows.length - 1; i++) {
+            table.rows[i].innerHTML = table.rows[i].innerHTML
+                .replace(`<td>${i+1}</td>`, `<td>${i}</td>`)
+                .replace(`deleteRow(${i+2})`, `deleteRow(${i+1})`);
+        }
+        if (table.rows.length !== 1)
+            table.deleteRow(table.rows.length - 1);
+        calculateAndAppendTotal();
+    }
 
     function calculateAndAppendTotal() {
         let table = document.getElementById('table');
@@ -211,7 +232,7 @@
         row.append($('<td/>').html(kdmrate ? kdmrate.toFixed(0) : ""));
         row.append($('<td/>').html(rate.toFixed(0)));
         row.append($('<td/>').html((((netweight * 1) + (netweight * wastage / 100)) * (rate * 1)).toFixed(0)));
-        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(`<button onclick="deleteRow(${index})">Delete</button>`));
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
@@ -244,7 +265,7 @@
             row.append($('<td/>').html((stoneweight * stonerate).toFixed(0)));
         else
             row.append($('<td/>').html((stonerate * 1).toFixed(0)));
-        row.append($('<td/>').html(""));
+        row.append($('<td/>').html(`<button onclick="deleteRow(${index})">Delete</button>`));
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
@@ -282,7 +303,11 @@
             win.document.write(
                 "</center><center>Rought Estimate / Quotation</center><center>GST 3% Applicable on Bill/Goods are not Delivered</center><br>"
             );
-            win.document.write(table.outerHTML);
+            let temp = table.outerHTML;
+            while (temp.includes("button")) {
+                temp = temp.substring(0, temp.indexOf("<button")) + temp.substring(temp.indexOf("</button>") + 9);
+            }
+            win.document.write(temp);
             win.document.write(
                 `</div><script>let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.innerHTML = "";`
             );
