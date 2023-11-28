@@ -62,14 +62,14 @@
         <form id="itemform" onsubmit="ItemForm(event)">
             <select id="prefix">
                 <option value="">Select Start Name</option>
-                <option value="HM." selected>HM</option>
+                <option value="HM.">HM</option>
                 <option value="MD.">MD</option>
                 <option value="D.">D</option>
                 <option value="CVD.">CVD</option>
             </select>
             <select id="ornament" required>
                 <option value="">Select Ornament</option>
-                <option value="B.Bali" selected>B.Bali</option>
+                <option value="B.Bali">B.Bali</option>
                 <option value="Bali ">Bali </option>
                 <option value="Bangles ">Bangles </option>
                 <option value="Bracelet ">Bracelet </option>
@@ -96,15 +96,15 @@
             </select>
             <select id="purity" required>
                 <option value="">Select Purity</option>
-                <option value="22/KDM$92-93" selected>92-93</option>
-                <option value="23/20$83-85">83-85</option>
+                <option value="22/KDM$92-93">92-93</option>
+                <option value="23/20$83-85" selected>83-85</option>
                 <option value="22/18$78-80">78-80</option>
                 <option value="18$75">75</option>
                 <option value="14$60">60</option>
             </select>
-            <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" value="15" required>
-            <input type="number" id="netweight" placeholder="Net Weight" step="0.001" value="10" required>
-            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" value="1000" required>
+            <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required>
+            <input type="number" id="netweight" placeholder="Net Weight" step="0.001" required>
+            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" required>
             <select id="wastage" required>
                 <option value="0">0</option>
                 <option value="5">5</option>
@@ -139,11 +139,11 @@
             <th>Purity</th>
             <th>Gross Weight</th>
             <th>Stone Weight</th>
-            <th>Gold Rate</th>
-            <th>KDM Rate</th>
             <th>Net Weight</th>
             <th>Wastage (In gms)</th>
             <th>Charged Weight</th>
+            <th>Gold Rate</th>
+            <th>KDM Rate</th>
             <th>Rate</th>
             <th>Amount</th>
         </tr>
@@ -156,7 +156,7 @@
         let table = document.getElementById('table');
         if (table) {
             let rows = table.querySelectorAll('tbody tr');
-            let columnsToSum = [4, 8, 10, 12];
+            let columnsToSum = [4, 7, 12];
             let totalRow = table.insertRow();
             let cell = totalRow.insertCell();
             cell.textContent = 'Total';
@@ -202,13 +202,13 @@
         row.append($('<td/>').html(purity));
         row.append($('<td/>').html(grossweight.toFixed(3)));
         row.append($('<td/>').html((grossweight - netweight).toFixed(3)));
-        row.append($('<td/>').html(goldrate.toFixed(2)));
-        row.append($('<td/>').html(kdmrate ? kdmrate.toFixed(2) : ""));
         row.append($('<td/>').html(netweight.toFixed(3)));
         row.append($('<td/>').html((netweight / wastage).toFixed(3)));
         row.append($('<td/>').html(((netweight * 1) + (netweight / wastage)).toFixed(3)));
-        row.append($('<td/>').html(rate.toFixed(2)));
-        row.append($('<td/>').html((((netweight * 1) + (netweight / wastage)) * (rate * 1)).toFixed(2)));
+        row.append($('<td/>').html(goldrate.toFixed(2)));
+        row.append($('<td/>').html(kdmrate ? kdmrate.toFixed(2) : ""));
+        row.append($('<td/>').html(rate.toFixed(0)));
+        row.append($('<td/>').html((((netweight * 1) + (netweight / wastage)) * (rate * 1)).toFixed(0)));
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
@@ -230,17 +230,17 @@
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
-        row.append($('<td/>').html((stoneweight * 1).toFixed(3)));
+        row.append($('<td/>').html((stoneweight * 1).toFixed(2)));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
-        row.append($('<td/>').html((stonerate * 1).toFixed(2)));
+        row.append($('<td/>').html((stonerate * 1).toFixed(0)));
         if (stoneweight)
-            row.append($('<td/>').html(stoneweight * stonerate));
+            row.append($('<td/>').html((stoneweight * stonerate).toFixed(0)));
         else
-            row.append($('<td/>').html(stonerate));
+            row.append($('<td/>').html(stonerate.toFixed(0)));
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
@@ -274,7 +274,7 @@
             win.document.write("<center>");
             win.document.write(getCurrentTime());
             win.document.write(
-                "</center><br><center>GST 3% Applicable on Bill/Goods are not Delivered</center><br>"
+                "</center><br><center>Rought Estimate / Quotation</center><br><center>GST 3% Applicable on Bill/Goods are not Delivered</center><br>"
             );
             win.document.write(table.outerHTML);
             win.document.write(
