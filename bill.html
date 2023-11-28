@@ -240,6 +240,7 @@
         row.append($('<td/>').html(""));
         row.append($('<td/>').html(""));
         row.append($('<td/>').html((stonerate * 1).toFixed(0)));
+        row.append($('<td/>').html(""));
         if (stoneweight)
             row.append($('<td/>').html((stoneweight * stonerate).toFixed(0)));
         else
@@ -283,9 +284,9 @@
             win.document.write(
                 `</div><script>let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.innerHTML = "";`
             );
-            win.document.write(
-                `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();`
-            );
+            // win.document.write(
+            //     `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();`
+            // );
             win.document.write(
                 `window.print();});</scri`
             );
