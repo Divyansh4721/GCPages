@@ -10,7 +10,7 @@
         }
 
         table {
-            border: 1px solid black;
+            border: 2px solid black;
             border-collapse: collapse;
             text-align: center;
             width: 1%;
@@ -18,14 +18,9 @@
             scale: 0.4;
         }
 
-        th {
-            border: 1px solid black;
-        }
-
         td {
-            padding: 10px 5px 0px 5px;
+            padding: 5px;
             white-space: nowrap;
-            border-left: 1px solid black;
         }
 
         tbody tr:last-child td {
@@ -62,7 +57,6 @@
         <form id="itemform" onsubmit="ItemForm(event)">
             <select id="prefix">
                 <option value="">Select Start Name</option>
-                <option value="HM.">HM</option>
                 <option value="MD.">MD</option>
                 <option value="D.">D</option>
                 <option value="CVD.">CVD</option>
@@ -104,7 +98,8 @@
             </select>
             <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required>
             <input type="number" id="netweight" placeholder="Net Weight" step="0.001" required>
-            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" required>
+            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" min="1000" max="9999"
+                required>
             <select id="wastage" required>
                 <option value="0">0</option>
                 <option value="5">5</option>
@@ -131,7 +126,7 @@
     </div>
     <br>
     <button onclick="printTable()">Print Table</button>
-    <table id="table">
+    <table id="table" border="1">
         <tr>
             <th>S.No</th>
             <th>Ornament</th>
@@ -151,6 +146,9 @@
 </body>
 <script>
     let index = 1;
+    document.getElementById("grossweight").addEventListener("change", () => {
+        document.getElementById("netweight").value = document.getElementById("grossweight").value
+    });
 
     function calculateAndAppendTotal() {
         let table = document.getElementById('table');
@@ -203,12 +201,12 @@
         row.append($('<td/>').html(grossweight.toFixed(3)));
         row.append($('<td/>').html((grossweight - netweight).toFixed(3)));
         row.append($('<td/>').html(netweight.toFixed(3)));
-        row.append($('<td/>').html((netweight / wastage).toFixed(3)));
-        row.append($('<td/>').html(((netweight * 1) + (netweight / wastage)).toFixed(3)));
-        row.append($('<td/>').html(goldrate.toFixed(2)));
-        row.append($('<td/>').html(kdmrate ? kdmrate.toFixed(2) : ""));
+        row.append($('<td/>').html((netweight * wastage / 100).toFixed(3)));
+        row.append($('<td/>').html(((netweight * 1) + (netweight * wastage / 100)).toFixed(3)));
+        row.append($('<td/>').html(goldrate.toFixed(0)));
+        row.append($('<td/>').html(kdmrate ? kdmrate.toFixed(0) : ""));
         row.append($('<td/>').html(rate.toFixed(0)));
-        row.append($('<td/>').html((((netweight * 1) + (netweight / wastage)) * (rate * 1)).toFixed(0)));
+        row.append($('<td/>').html((((netweight * 1) + (netweight * wastage / 100)) * (rate * 1)).toFixed(0)));
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
@@ -240,7 +238,7 @@
         if (stoneweight)
             row.append($('<td/>').html((stoneweight * stonerate).toFixed(0)));
         else
-            row.append($('<td/>').html(stonerate.toFixed(0)));
+            row.append($('<td/>').html((stonerate * 1).toFixed(0)));
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
@@ -268,7 +266,7 @@
         if (table) {
             let win = window.open('', '_blank');
             win.document.write(
-                `<html><head><title>Print Table</title><style>body {margin: 0;font-family: sans-serif;width: 100vw;}table {border: 1px solid black;border-collapse: collapse;text-align: center;scale: 1;}th {border-left: 1px solid black;border-bottom: 1px solid black;}td {padding: 10px 5px 0px 5px;white-space: nowrap;border-left: 1px solid black;}div {width: min-content;}tbody tr:last-child td {padding-top: 140px;}#previewImg{    width: 100%;}canvas{width: 100% !important;height: auto !important;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri`
+                `<html><head><title>Print Table</title><style>body {margin: 0;width: 100vw;}table {border: 2px solid black;border-collapse: collapse;text-align: center;scale: 1;}th{padding: 5px;}td {padding: 5px;white-space: nowrap;}div {width: min-content;}tbody tr:last-child td {padding-top: 140px;}#previewImg {width: 100%;}canvas {width: 100% !important;height: auto !important;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri`
             );
             win.document.write(`pt></head><body><div id="previewImg"></div><div id="maindata">`);
             win.document.write("<center>");
@@ -280,9 +278,9 @@
             win.document.write(
                 `</div><script>let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.innerHTML = "";`
             );
-            win.document.write(
-                `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();`
-            );
+            // win.document.write(
+            //     `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();`
+            // );
             win.document.write(
                 `window.print();});</scri`
             );
