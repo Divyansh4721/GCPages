@@ -98,8 +98,7 @@
             </select>
             <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required>
             <input type="number" id="netweight" placeholder="Net Weight" step="0.001" required>
-            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" min="1000" max="9999"
-                required>
+            <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" min="1000" max="9999" required>
             <select id="wastage" required>
                 <option value="0">0</option>
                 <option value="5">5</option>
@@ -141,6 +140,7 @@
             <th>KDM Rate</th>
             <th>Rate</th>
             <th>Amount</th>
+            <th>With GST3%</th>
         </tr>
     </table>
 </body>
@@ -159,10 +159,11 @@
             let cell = totalRow.insertCell();
             cell.textContent = 'Total';
             cell.style.fontWeight = 'bold';
+            let sum = 0;
             for (let i = 1; i < 13; i++) {
                 let cell = totalRow.insertCell();
                 if (columnsToSum.includes(i)) {
-                    let sum = 0;
+                    sum = 0;
                     for (let j = 1; j < rows.length; j++) {
                         let rowData = rows[j].querySelectorAll('td');
                         sum += parseFloat(rowData[columnsToSum[columnsToSum.indexOf(i)]].textContent) || 0;
@@ -171,6 +172,9 @@
                     cell.style.fontWeight = 'bold';
                 } else {}
             }
+            cell = totalRow.insertCell();
+            cell.textContent = (sum * 1.03).toFixed(2);
+            cell.style.fontWeight = 'bold';
         }
     }
 
@@ -207,6 +211,7 @@
         row.append($('<td/>').html(kdmrate ? kdmrate.toFixed(0) : ""));
         row.append($('<td/>').html(rate.toFixed(0)));
         row.append($('<td/>').html((((netweight * 1) + (netweight * wastage / 100)) * (rate * 1)).toFixed(0)));
+        row.append($('<td/>').html(""));
         table = $("#table");
         table.append(row);
         calculateAndAppendTotal();
@@ -257,7 +262,7 @@
         let year = now.getFullYear();
         let hours = now.getHours().toString().padStart(2, '0');
         let minutes = now.getMinutes().toString().padStart(2, '0');
-        let formattedTime = `Printed On ${dayOfWeek} ${dayOfMonth}-${month}-${year} at ${hours}:${minutes}`;
+        let formattedTime = `${dayOfWeek} ${dayOfMonth}-${month}-${year} at ${hours}:${minutes}`;
         return formattedTime;
     }
 
@@ -272,7 +277,7 @@
             win.document.write("<center>");
             win.document.write(getCurrentTime());
             win.document.write(
-                "</center><br><center>Rought Estimate / Quotation</center><br><center>GST 3% Applicable on Bill/Goods are not Delivered</center><br>"
+                "</center><center>Rought Estimate / Quotation</center><center>GST 3% Applicable on Bill/Goods are not Delivered</center><br>"
             );
             win.document.write(table.outerHTML);
             win.document.write(
