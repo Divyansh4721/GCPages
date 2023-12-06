@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="voucher.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        input {
+            position: relative;
+            width: 90%;
+            margin-top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 16px;
+            font-size: 17px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            outline: 0;
+        }
+
+        button {
+            position: relative;
+            width: 90%;
+            height: 50px;
+            margin-top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 0;
+            background-color: rgb(247, 194, 20);
+            border-radius: 10px;
+            outline: 0;
+            cursor: pointer;
+            font-size: 23px;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="index.html">
+        <button type="submit" style="width: fit-content;left: 10%;">Home</button>
+    </form>
+    <form>
+        <input type="text" id="name" placeholder="Name" required>
+        <br>
+        <input type="number" id="money" placeholder="Voucher Amount" required>
+        <br>
+        <input type="tel" id="mobile" placeholder="Mobile Number" required>
+        <br>
+        <button type="submit" onclick="myFunction(event)">Submit</button>
+    </form>
+</body>
+
+<script>
+    function getLastDateOfNextMonth() {
+        let currentDate = new Date();
+        currentDate.setMonth(currentDate.getMonth() + 4);
+        currentDate.setDate(0);
+        let day = currentDate.getDate();
+        let monthNames = [
+            "January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"
+        ];
+        let month = monthNames[currentDate.getMonth()];
+        let year = currentDate.getFullYear();
+        let formattedDate = `${day}${getDaySuffix(day)} ${month} ${year}`;
+        return formattedDate;
+    }
+
+    function getDaySuffix(day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+        switch (day % 10) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+    function formatText(inputText) {
+        let words = inputText.split(' ');
+        let formattedWords = [];
+        for (let word of words) {
+            let formattedWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            formattedWords.push(formattedWord);
+        }
+        let formattedText = formattedWords.join(' ');
+        return formattedText;
+    }
+
+    function fillmoney() {
+        let money = document.getElementById("money").value;
+        return money ? `
+
+We've added ₹${money} as Cashback to your account for your next shopping until ${getLastDateOfNextMonth()}.` : "";
+    }
+
+    function myFunction() {
+        event.preventDefault();
+        let name = document.getElementById("name").value;
+        let mobile = document.getElementById("mobile").value;
+        name = formatText(name);
+        let msg = `Dear ${name} Ji,
+
+Thank you for choosing GC Jewellers and for your recent visit. We're thrilled to hear that you had a fantastic experience! 💐${fillmoney()}
+
+For more updates and details, 
+Instagram: 👇
+https://instagram.com/gc_jewellers_karnal/
+
+Website: 👇
+https://dimoss.in/
+`;
+        let link = `https://wa.me/91${mobile}?text=` + encodeURIComponent(msg);
+        window.open(link);
+    }
+</script>
+
+</html>
