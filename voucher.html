@@ -35,10 +35,10 @@
 
         function updateMessage() {
             let temp = document.getElementById("updatemessage").value;
-            if (!temp.includes("[{CustomeName}]") &&
+            if (!temp.includes("[{CustomerName}]") &&
                 !temp.includes("[{VoucherAmount}]") &&
                 !temp.includes("[{ExpiryDate}]")) {
-                window.alert("Variable Not included [{CustomeName}],[{VoucherAmount}],[{ExpiryDate}]!");
+                window.alert("Variable Not included [{CustomerName}],[{VoucherAmount}],[{ExpiryDate}]!");
             } else {
                 docRef.update({
                         Message: temp.toString()
@@ -159,14 +159,14 @@
         let name = document.getElementById("name").value;
         let mobile = document.getElementById("mobile").value;
         let money = document.getElementById("money").value;
-        let temp = msg.replace("[{CustomeName}]", formatText(name));
+        let temp = msg.replace("[{CustomerName}]", formatText(name));
         temp = temp.replace("[{VoucherAmount}]", money);
         temp = temp.replace("[{ExpiryDate}]", getLastDateOfNextMonth());
         let link = `https://wa.me/91${mobile}?text=` + encodeURIComponent(temp);
         window.open(link);
     }
     let xyz =
-        `Dear [{CustomeName}] Ji,\n\nThank you for choosing GC Jewellers and for your recent visit. We're thrilled to hear that you had a fantastic experience! 💐\n\nWe've added ₹[{VoucherAmount}] as Cashback to your account for your next shopping until [{ExpiryDate}].\n\nFor more updates and details, \nInstagram: 👇\nhttps://instagram.com/gc_jewellers_karnal/\n\nWebsite: 👇\nhttps://dimoss.in/`;
+        `Dear [{CustomerName}] Ji,\n\nThank you for choosing GC Jewellers and for your recent visit. We're thrilled to hear that you had a fantastic experience! 💐\n\nWe've added ₹[{VoucherAmount}] as Cashback to your account for your next shopping until [{ExpiryDate}].\n\nFor more updates and details, \nInstagram: 👇\nhttps://instagram.com/gc_jewellers_karnal/\n\nWebsite: 👇\nhttps://dimoss.in/`;
 </script>
 
 </html>
