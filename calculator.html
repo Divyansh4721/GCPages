@@ -21,9 +21,8 @@
         let docRef = firestore.collection("GoldRate").doc("XRe7zLwLsKAVNKzIrWVh");
         docRef.get()
             .then((doc) => {
-                if (doc.exists) {
+                if (doc.exists)
                     document.getElementById("goldprice").value = doc.data().Rate;
-                } else {}
             })
             .catch((error) => {
                 console.error("Error getting document:", error);

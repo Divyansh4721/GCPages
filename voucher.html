@@ -27,7 +27,7 @@
                 if (doc.exists) {
                     msg = doc.data().Message;
                     var textarea = document.getElementById('updatemessage').value = msg.replaceAll("\\n", "\n");
-                } else {}
+                }
             })
             .catch((error) => {
                 console.error("Error getting document:", error);
