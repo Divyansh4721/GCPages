@@ -4,16 +4,12 @@
 <head>
     <title>Generate Bill</title>
     <link rel="icon" href="bill.ico" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/9f9e58ef8b.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @media (max-width: 767px) {
-            table {
-                scale: 0.4;
-            }
-        }
-
         body {
             width: 95vw;
+            font-family: sans-serif;
         }
 
         table {
@@ -25,7 +21,8 @@
         }
 
         td {
-            padding: 5px;
+            padding-top: 5px;
+            padding-bottom: 5px;
             white-space: nowrap;
         }
 
@@ -48,19 +45,59 @@
             align-items: center;
         }
 
-        input,
-        select,
+        input {
+            width: 80%;
+            margin: 10px;
+            padding: 0px 5px;
+            font-size: 12px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            outline: 0;
+        }
+
+        select {
+            width: 90%;
+            margin: 10px;
+            padding: 0px 5px;
+            font-size: 12px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            outline: 0;
+        }
+
         button {
             width: 90%;
-            margin: 10px 0px 10px 0px;
+            margin: 10px;
+            border: 0;
+            background-color: rgb(247, 194, 20);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+        }
+
+        table {
+            font-size: 16px;
+        }
+
+        #deletebutton {
+            font-size: 4px;
+            margin: 0;
+        }
+
+        @media (max-width: 767px) {
+            table {
+                font-size: 6px;
+            }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
 <body>
+    <button onclick="window.location.href='index.html'" class="fas fa-home" style="height: 40px; width: 40px;"></button>
     <center>
-        <button onclick=" localStorage.setItem('mydata', ''); location.reload();">Reset</button>
         <div id="outerbox">
             <form id="itemform" onsubmit="ItemForm(event)">
                 <select id="prefix">
@@ -118,7 +155,6 @@
                 </select>
                 <button type="submit">Submit</button>
             </form>
-            <br>
             <form id="stoneform" onsubmit="StoneForm(event)">
                 <select id="stonetype" required>
                     <option value="">Select Stone Type</option>
@@ -132,7 +168,7 @@
                 <button type="submit">Submit</button>
             </form>
         </div>
-        <br>
+        <button onclick=" localStorage.setItem('mydata', ''); location.reload();">Reset</button>
         <button onclick="printTable()">Print Table</button>
         <table id="table" border="1">
             <tr>
@@ -265,7 +301,7 @@
         for (let i = 0; i < input.length; i++) {
             row.append($('<td/>').html(input[i]));
         }
-        row.append($('<td/>').html(`<button onclick="deleteRow(${input[0]+1})">Delete</button>`));
+        row.append($('<td/>').html(`<button id="deletebutton" onclick="deleteRow(${input[0]+1})">Delete</button>`));
         table = $("#table");
         table.append(row);
     }

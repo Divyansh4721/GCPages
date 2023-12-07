@@ -5,15 +5,71 @@
     <meta charset="UTF-8">
     <link rel="icon" href="voucher.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link</title>
+    <title>Voucher Message</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/9f9e58ef8b.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        let firebaseConfig = {
+            apiKey: "AIzaSyC2UPzS4WS4rec5VcWUwD15lR7p-Ba7js0",
+            authDomain: "goldrate-b474f.firebaseapp.com",
+            projectId: "goldrate-b474f",
+            storageBucket: "goldrate-b474f.appspot.com",
+            messagingSenderId: "1091177947332",
+            appId: "1:1091177947332:web:f58b7ead15a1b6b1d8a991"
+        };
+        firebase.initializeApp(firebaseConfig);
+        let firestore = firebase.firestore();
+        let docRef = firestore.collection("GoldRate").doc("Ygos90u9rd6xJwr91rcz");
+        docRef.get()
+            .then((doc) => {
+                if (doc.exists) {
+                    msg = doc.data().Message;
+                    var textarea = document.getElementById('updatemessage').value = msg.replaceAll("\\n", "\n");
+                } else {}
+            })
+            .catch((error) => {
+                console.error("Error getting document:", error);
+            });
+
+        function updateMessage() {
+            let temp = document.getElementById("updatemessage").value;
+            if (!temp.includes("[{CustomeName}]") &&
+                !temp.includes("[{VoucherAmount}]") &&
+                !temp.includes("[{ExpiryDate}]")) {
+                window.alert("Variable Not included [{CustomeName}],[{VoucherAmount}],[{ExpiryDate}]!");
+            } else {
+                docRef.update({
+                        Message: temp.toString()
+                    })
+                    .then(() => {
+                        location.reload()
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });
+            }
+        }
+    </script>
     <style>
+        body {
+            font-family: sans-serif;
+        }
+
         input {
-            position: relative;
             width: 90%;
             margin-top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            padding: 14px 16px;
+            font-size: 17px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            outline: 0;
+        }
+
+        textarea {
+            width: 90%;
+            margin-top: 10px;
             padding: 14px 16px;
             font-size: 17px;
             border: 1px solid #dfe1e4;
@@ -22,16 +78,12 @@
         }
 
         button {
-            position: relative;
             width: 90%;
             height: 50px;
             margin-top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
             border: 0;
             background-color: rgb(247, 194, 20);
             border-radius: 10px;
-            outline: 0;
             cursor: pointer;
             font-size: 23px;
             font-weight: bold;
@@ -41,20 +93,23 @@
 </head>
 
 <body>
-    <form action="index.html">
-        <button type="submit" style="width: fit-content;left: 10%;">Home</button>
-    </form>
-    <form>
-        <input type="text" id="name" placeholder="Name" required>
+    <button onclick="window.location.href='index.html'" class="fas fa-home" style="height: 40px; width: 40px;"></button>
+    <center>
+        <form onsubmit="myFunction(event)">
+            <input type="text" id="name" placeholder="Name" required autocomplete="off">
+            <br>
+            <input type="number" id="money" placeholder="Voucher Amount" required>
+            <br>
+            <input type="tel" id="mobile" placeholder="Mobile Number" required autocomplete="off">
+            <br>
+            <button type="submit">Submit</button>
+        </form>
         <br>
-        <input type="number" id="money" placeholder="Voucher Amount" required>
         <br>
-        <input type="tel" id="mobile" placeholder="Mobile Number" required>
-        <br>
-        <button type="submit" onclick="myFunction(event)">Submit</button>
-    </form>
+        <textarea type="text" id="updatemessage" rows="20" required></textarea>
+        <button type="submit" onclick="updateMessage()">Update Message</button>
+    </center>
 </body>
-
 <script>
     function getLastDateOfNextMonth() {
         let currentDate = new Date();
@@ -88,7 +143,7 @@
     }
 
     function formatText(inputText) {
-        let words = inputText.split(' ');
+        let words = inputText.trim().split(' ');
         let formattedWords = [];
         for (let word of words) {
             let formattedWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
@@ -97,33 +152,21 @@
         let formattedText = formattedWords.join(' ');
         return formattedText;
     }
-
-    function fillmoney() {
-        let money = document.getElementById("money").value;
-        return money ? `
-
-We've added ₹${money} as Cashback to your account for your next shopping until ${getLastDateOfNextMonth()}.` : "";
-    }
+    let msg = "";
 
     function myFunction() {
         event.preventDefault();
         let name = document.getElementById("name").value;
         let mobile = document.getElementById("mobile").value;
-        name = formatText(name);
-        let msg = `Dear ${name} Ji,
-
-Thank you for choosing GC Jewellers and for your recent visit. We're thrilled to hear that you had a fantastic experience! 💐${fillmoney()}
-
-For more updates and details, 
-Instagram: 👇
-https://instagram.com/gc_jewellers_karnal/
-
-Website: 👇
-https://dimoss.in/
-`;
-        let link = `https://wa.me/91${mobile}?text=` + encodeURIComponent(msg);
+        let money = document.getElementById("money").value;
+        let temp = msg.replace("[{CustomeName}]", formatText(name));
+        temp = temp.replace("[{VoucherAmount}]", money);
+        temp = temp.replace("[{ExpiryDate}]", getLastDateOfNextMonth());
+        let link = `https://wa.me/91${mobile}?text=` + encodeURIComponent(temp);
         window.open(link);
     }
+    let xyz =
+        `Dear [{CustomeName}] Ji,\n\nThank you for choosing GC Jewellers and for your recent visit. We're thrilled to hear that you had a fantastic experience! 💐\n\nWe've added ₹[{VoucherAmount}] as Cashback to your account for your next shopping until [{ExpiryDate}].\n\nFor more updates and details, \nInstagram: 👇\nhttps://instagram.com/gc_jewellers_karnal/\n\nWebsite: 👇\nhttps://dimoss.in/`;
 </script>
 
 </html>

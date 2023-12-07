@@ -1,0 +1,233 @@
+<html lang="en">
+
+<head>
+    <link rel="icon" href="calculator.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable = no">
+    <title>Jewellery Calculator</title>
+    <script src="https://kit.fontawesome.com/9f9e58ef8b.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        let firebaseConfig = {
+            apiKey: "AIzaSyC2UPzS4WS4rec5VcWUwD15lR7p-Ba7js0",
+            authDomain: "goldrate-b474f.firebaseapp.com",
+            projectId: "goldrate-b474f",
+            storageBucket: "goldrate-b474f.appspot.com",
+            messagingSenderId: "1091177947332",
+            appId: "1:1091177947332:web:f58b7ead15a1b6b1d8a991"
+        };
+        firebase.initializeApp(firebaseConfig);
+        let firestore = firebase.firestore();
+        let docRef = firestore.collection("GoldRate").doc("XRe7zLwLsKAVNKzIrWVh");
+        docRef.get()
+            .then((doc) => {
+                if (doc.exists) {
+                    document.getElementById("goldprice").value = doc.data().Rate;
+                } else {}
+            })
+            .catch((error) => {
+                console.error("Error getting document:", error);
+            });
+
+        function updatePrice() {
+            let temp = document.getElementById("updateprice").value;
+            if (temp.toString().length != 5) {
+                window.alert("Gold Price not correct!");
+            } else {
+                docRef.update({
+                        Rate: temp.toString()
+                    })
+                    .then(() => {
+                        location.reload()
+                    })
+                    .catch((error) => {
+                        console.error("Error updating document: ", error);
+                    });
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        div input {
+            position: relative;
+            height: 10%;
+            width: 80%;
+            padding-left: 10px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        label {
+            position: relative;
+            height: fit-content;
+            font-size: 12px;
+        }
+
+        select {
+            position: relative;
+            height: 10%;
+            width: 80%;
+            padding-left: 10px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        #maincontainer {
+            margin: 10px;
+            border: 2px solid black;
+            width: 90%;
+            height: 50%;
+            display: flex;
+        }
+
+        #leftcontainer {
+            border-right: 2px solid black;
+            width: 50%;
+            height: 100%;
+        }
+
+        #rightcontainer {
+            width: 50%;
+            height: 100%;
+        }
+
+        #topcontainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            border-bottom: 2px solid black;
+            width: 100%;
+            height: 45%;
+        }
+
+        #bottomcontainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 100%;
+            height: 55%;
+        }
+
+        button {
+            width: fit-content;
+            border: 0;
+            background-color: rgb(247, 194, 20);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="window.location.href='index.html'" class="fas fa-home" style="height: 40px; width: 40px;"></button>
+    <center>
+        <div id="maincontainer">
+            <div id="leftcontainer">
+                <div id="topcontainer">
+                    <label for="goldweight">Gold Weight In gms</label>
+                    <input id="goldweight" type="number" placeholder="Gold Weight In gms">
+                    <label for="goldpurity">Gold Purity</label>
+                    <select id="goldpurity">
+                        <option value="60">14 |60</option>
+                        <option value="75">18 |75</option>
+                        <option value="92">22 78-80 |92</option>
+                        <option value="101.2">22 KDM |101.2</option>
+                        <option value="96">23/85 |96</option>
+                    </select>
+                    <label for="goldprice">24ct Gold Price</label>
+                    <input id="goldprice" type="number" placeholder="24ct Gold Price">
+                    <label for="wastage">Wastage %</label>
+                    <input id="wastage" type="number" placeholder="Wastage %">
+                </div>
+                <div id="bottomcontainer">
+                    <label for="mosweight">MD Weight In ct</label>
+                    <input id="mosweight" type="text" inputmode="numeric" placeholder="MD Weight In ct">
+                    <label for="mosprice">MD Price Per ct</label>
+                    <input id="mosprice" type="text" inputmode="numeric" placeholder="MD Price Per ct">
+                    <label for="stoneweight">Stone Price</label>
+                    <input id="stoneweight" type="number" placeholder="Stone Price">
+                </div>
+            </div>
+            <div id="rightcontainer">
+                <div id="topcontainer">
+                    <input id="result" type="number" placeholder="Result"
+                        style="font-size: 20px;height: 30px; font-weight: bold;" disabled>
+                    <input id="updateprice" type="number" placeholder="Update Gold Price">
+                    <button onclick="updatePrice()">Update Gold Price</button>
+                </div>
+                <div id="bottomcontainer">
+                    <label for="rapaport">Rapaport Number</label>
+                    <input id="rapaport" type="number" placeholder="Rapaport Number">
+                    <label for="back">Back (-)</label>
+                    <input id="back" type="number" placeholder="Back (-)">
+                    <label for="dollar">Dollar</label>
+                    <input id="dollar" type="number" placeholder="Dollar">
+                    <label for="diamondweight">Diamond Weigth in ct</label>
+                    <input id="diamondweight" type="number" placeholder="Diamond Weigth in ct">
+                    <label for="diamondprice">Diamond Price</label>
+                    <input id="diamondprice" type="number" placeholder="Diamond Price" style="font-weight: bold;"
+                        disabled>
+                </div>
+            </div>
+        </div>
+        <button style="width: 70%;" onclick="location.reload()">Reset</button>
+    </center>
+</body>
+<script>
+    function helper(inputString1, inputString2) {
+        if (inputString1 == "" || inputString2 == "") {
+            return 0;
+        }
+        let arr1 = inputString1.split(",").map(parseFloat);
+        let arr2 = inputString2.split(",").map(parseFloat);
+        if (arr1.length !== arr2.length) {
+            return 0;
+        } else if (arr1.length == 1 && arr2.length == 1) {
+            return arr1[0] * arr2[0];
+        }
+        let sum = 0;
+        for (let i = 0; i < arr1.length; i++) {
+            sum += arr1[i] * arr2[i];
+        }
+        return sum;
+    }
+
+    function changefunc() {
+        let goldweight = document.getElementById("goldweight").value;
+        let goldpurity = document.getElementById("goldpurity").value;
+        let goldprice = document.getElementById("goldprice").value;
+        let mosweight = document.getElementById("mosweight").value;
+        let mosprice = document.getElementById("mosprice").value;
+        let stoneweight = document.getElementById("stoneweight").value;
+        let wastage = document.getElementById("wastage").value;
+        if (goldprice.toString().length < 5) {
+            goldprice = goldprice * 10;
+        }
+        document.getElementById("result").value = Math.floor((((goldpurity * 1) + (wastage * 1)) / 100) * (goldprice /
+            10) * (goldweight) + helper(mosprice, mosweight) + (stoneweight * 1));
+    }
+    document.addEventListener("change", changefunc);
+    document.addEventListener("keyup", changefunc);
+
+    function changefunc2() {
+        let rapaport = document.getElementById("rapaport").value;
+        let back = document.getElementById("back").value;
+        let dollar = document.getElementById("dollar").value;
+        let diamondweight = document.getElementById("diamondweight").value;
+        document.getElementById("diamondprice").value = Math.floor(rapaport * dollar * diamondweight * (100 - back));
+    }
+    document.addEventListener("change", changefunc2);
+    document.addEventListener("keyup", changefunc2);
+</script>
+
+</html>
