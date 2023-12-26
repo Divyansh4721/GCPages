@@ -3,51 +3,25 @@ if (!localStorage.getItem('savedHeader') && !document.getElementById("goldrate")
 }
 
 function printTable() {
+    console.log("hi");
     let table = document.getElementById("table");
+    console.log(table);
     if (table) {
         let win = window.open('', '_blank');
         win.document.write(
-            `<html>
-            <head>
-                <title>Print Table</title>
-                <link rel="stylesheet" href="dimossbill.css">
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
-                    integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
-                    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-            </head>
-            
-            <body>
-                <div id="previewImg"></div>
-                <div id="maindata">
-                    <center>
-                        <div id="previewImg"></div>
-                        <div id="maindata">
-                            <div id="heading">
-                                <span>From :: Dimoss</span>
-                                <span>${getCurrentTime()}</span>
-                            </div>
-                            <div id="heading">
-                                <span>To :: ${document.getElementById("name").value}</span>
-                                <span>Rought Estimate / Quotation</span>
-                            </div>
-                            ${table.outerHTML}
-                            </div>
-                            <script>
-                                let element = document.getElementById("maindata");
-                                html2canvas(element).then(function (canvas) {
-                                    let anchorTag = document.createElement("a");
-                                    document.body.appendChild(anchorTag);
-                                    document.getElementById("previewImg").appendChild(canvas);
-                                    element.innerHTML = "";
-                                    anchorTag.download = "Image.jpg";
-                                    anchorTag.href = canvas.toDataURL();
-                                    anchorTag.target = '_blank';
-                                    anchorTag.click();
-                                    window.print();
-                                });
-                            </script>
-                    </body>
-                    </html>`);
+            `<html><head><title>Print Table</title><style>#previewImg {width: 100%;}canvas {width: 100% !important;height: auto !important;}body {width: 95vw;font-family: sans-serif;}#table {border: 2px solid black;border-collapse: collapse;text-align: center;transform-origin: top left;}#datarow td {border-top: 0;border-bottom: 0;}.double-top {border-top: 2px solid black;}.double-bottom {border-bottom: 2px solid black;}.double-left {border-left: 2px solid black;}.double-right {border-right: 2px solid black;}.single-top {border-top: 1px solid black;}.single-bottom {border-bottom: 1px solid black;}.single-left {border-left: 1px solid black;}.single-right {border-right: 1px solid black;}.no-top {border-top: 0;}.no-bottom {border-bottom: 0;}.no-left {border-left: 0;}.no-right {border-right: 0;}.bold {font-weight: bold;}.highlight {background-color: #ebecee;}#totalrow {font-weight: bold;border-bottom: 2px solid black;border-top: 2px solid black;}#table td,#table th {padding: 10px;white-space: nowrap;}#outerbox {display: flex;width: 100%;flex-direction: row;}form {border: 1px solid black;width: 50%;align-content: center;display: flex;flex-direction: column;align-items: center;}input {width: 80%;margin: 10px;padding: 0px 5px;font-size: 12px;border: 1px solid #dfe1e4;border-radius: 10px;outline: 0;}select {width: 90%;margin: 10px;padding: 0px 5px;font-size: 12px;border: 1px solid #dfe1e4;border-radius: 10px;outline: 0;}button {width: 90%;margin: 10px;border: 0;background-color: rgb(247, 194, 20);border-radius: 10px;cursor: pointer;font-size: 15px;font-weight: bold;color: white;}#table {font-size: 16px;}#editor {border-collapse: collapse;text-align: center;}#deletebutton {font-size: 4px;margin: 0;}div {width: min-content;}#heading {width: 99%;font-size: 20px;word-spacing: 5px;letter-spacing: 2px;background-color: lightgray;padding: 5px;display: flex;justify-content: space-between;}#maindata {padding:10px;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri` +
+            `pt></head><body><div id="previewImg"></div><div id="maindata"><center>` +
+            `<div id="previewImg"></div><div id="maindata"><div id="heading"><span>From :: Dimoss</span><span>${getCurrentTime()}</span></div><div id="heading"><span>To :: ${document.getElementById("name").value}</span><span>Rought Estimate / Quotation</span></div>`
+        );
+        let temp = table.outerHTML;
+        while (temp.includes("button")) {
+            temp = temp.substring(0, temp.indexOf("<button")) + temp.substring(temp.indexOf("</button>") + 9);
+        }
+        win.document.write(temp);
+        win.document.write(
+            `</div><script>let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.innerHTML="";` +
+            `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();window.print();` +
+            `});</scri` + `pt></bod` + `y></htm` + `l>`);
         win.document.close();
         win.open();
     }
@@ -67,17 +41,25 @@ function getCurrentTime() {
     return formattedTime;
 }
 
-function itemForm(event) {
+function itemForm() {
     event.preventDefault();
+    let prefix = document.getElementById("prefix").value;
+    let ornament = document.getElementById("ornament").value;
+    let purity = document.getElementById("purity").value;
+    let tagnumber = document.getElementById("tagnumber").value;
+    let grossweight = document.getElementById("grossweight").value;
+    let netweight = document.getElementById("netweight").value;
+    let labour = document.getElementById("labour").value;
+    let wastage = document.getElementById("wastage").value;
     let temp = {
-        "prefix": document.getElementById("prefix").value,
-        "ornament": document.getElementById("ornament").value,
-        "purity": document.getElementById("purity").value,
-        "tagnumber": document.getElementById("tagnumber").value,
-        "grossweight": document.getElementById("grossweight").value,
-        "netweight": document.getElementById("netweight").value,
-        "labour": document.getElementById("labour").value,
-        "wastage": document.getElementById("wastage").value,
+        "prefix": prefix,
+        "ornament": ornament,
+        "purity": purity,
+        "tagnumber": tagnumber,
+        "grossweight": grossweight,
+        "netweight": netweight,
+        "labour": labour,
+        "wastage": wastage,
         "stone": []
     }
     let data = localStorage.getItem('savedData');
@@ -86,16 +68,24 @@ function itemForm(event) {
     localStorage.setItem('savedData', JSON.stringify(data));
     buildTable();
     buildEditor();
-    let form = document.getElementById("itemform");
-    form.reset();
+    document.getElementById("ornament").value = "";
+    document.getElementById("purity").value = "";
+    document.getElementById("tagnumber").value = "";
+    document.getElementById("grossweight").value = "";
+    document.getElementById("netweight").value = "";
+    document.getElementById("labour").value = "";
+    document.getElementById("wastage").value = "";
 }
 
-function stoneForm(event) {
+function stoneForm() {
     event.preventDefault();
+    let stonetype = document.getElementById("stonetype").value;
+    let stoneweight = document.getElementById("stoneweight").value;
+    let stonerate = document.getElementById("stonerate").value;
     let temp = {
-        "stonetype": document.getElementById("stonetype").value,
-        "stoneweight": document.getElementById("stoneweight").value,
-        "stonerate": document.getElementById("stonerate").value,
+        "stonetype": stonetype,
+        "stoneweight": stoneweight,
+        "stonerate": stonerate,
     }
     let data = localStorage.getItem('savedData');
     data = data ? JSON.parse(data) : JSON.parse("[]");
@@ -103,8 +93,8 @@ function stoneForm(event) {
     localStorage.setItem('savedData', JSON.stringify(data));
     buildTable();
     buildEditor();
-    let form = document.getElementById("stoneform");
-    form.reset();
+    document.getElementById("stoneweight").value = "";
+    document.getElementById("stonerate").value = "";
 }
 buildTable();
 buildEditor();
@@ -120,23 +110,10 @@ function submitEditor() {
             if (i !== 1)
                 json += `]},`;
             json +=
-                `{
-                    "prefix": "${ele[tempind++].childNodes[0].value}",
-                    "ornament": "${ele[tempind++].childNodes[0].value}",
-                    "purity": "${ele[tempind++].childNodes[0].value}",
-                    "tagnumber": "${ele[tempind++].childNodes[0].value}",
-                    "grossweight": "${ele[tempind++].childNodes[0].value}",
-                    "netweight": "${ele[tempind++].childNodes[0].value}",
-                    "labour": "${ele[tempind++].childNodes[0].value}",
-                    "wastage": "${ele[tempind++].childNodes[0].value}",
-                    "stone": [`;
+                `{"prefix":"${ele[tempind++].childNodes[0].value}","ornament":"${ele[tempind++].childNodes[0].value}","purity":"${ele[tempind++].childNodes[0].value}","tagnumber":"${ele[tempind++].childNodes[0].value}","grossweight":"${ele[tempind++].childNodes[0].value}","netweight":"${ele[tempind++].childNodes[0].value}","labour":"${ele[tempind++].childNodes[0].value}","wastage":"${ele[tempind++].childNodes[0].value}","stone":[`;
         } else {
             json +=
-                `{
-                    "stonetype": "${ele[tempind++].childNodes[0].value}",
-                    "stoneweight": "${ele[tempind++].childNodes[0].value}",
-                    "stonerate": "${ele[tempind++].childNodes[0].value}"
-                },`;
+                `{"stonetype":"${ele[tempind++].childNodes[0].value}","stoneweight":"${ele[tempind++].childNodes[0].value}","stonerate":"${ele[tempind++].childNodes[0].value}"},`;
         }
     }
     json += `]}]`;
@@ -145,92 +122,22 @@ function submitEditor() {
     location.reload();
 }
 
+
 function buildEditor() {
     let data = localStorage.getItem('savedData');
     data = data ? JSON.parse(data) : JSON.parse("[]");
     document.getElementById("editor").innerHTML =
-        `<tr>
-            <th>Prefix</th>
-            <th>Ornament</th>
-            <th>Purity</th>
-            <th>Tag Number</th>
-            <th>Gross Weight</th>
-            <th>Net Weight</th>
-            <th>Labour</th>
-            <th>Wastage</th>
-        </tr>`;
+        `<tr><th>Prefix</th><th>Ornament</th><th>Purity</th><th>Tag Number</th><th>Gross Weight</th><th>Net Weight</th><th>Labour</th><th>Wastage</th></tr>`;
     data.forEach(in1 => {
+
         document.getElementById("editor").innerHTML +=
-            `<tr id="type1">
-                <td>
-                    <select id="prefix">
-                        <option value="">Select Start Name</option>
-                        <option ${in1.prefix==="MP." ?"selected":"${rows[i].childNodes[0].value}"==="MP." ?"selected":""}
-                            value="MP.">MP</option>
-                        <option ${in1.prefix==="MD." ?"selected":""} value="MD.">MD</option>
-                    </select>
-                </td>
-                <td>
-                    <select id="ornament">
-                        <option>Select Ornament</option>
-                        <option ${in1.ornament==="B.Bali" ?"selected":""} value="B.Bali">B.Bali</option>
-                        <option ${in1.ornament==="Bali" ?"selected":""} value="Bali">Bali</option>
-                        <option ${in1.ornament==="Bangles" ?"selected":""} value="Bangles">Bangles</option>
-                        <option ${in1.ornament==="Bracelet" ?"selected":""} value="Bracelet">Bracelet</option>
-                        <option ${in1.ornament==="Chain" ?"selected":""} value="Chain">Chain</option>
-                        <option ${in1.ornament==="CPS" ?"selected":""} value="CPS">CPS</option>
-                        <option ${in1.ornament==="G.R." ?"selected":""} value="G.R.">G.R.</option>
-                        <option ${in1.ornament==="K.Chain" ?"selected":""} value="K.Chain">K.Chain</option>
-                        <option ${in1.ornament==="K.Set" ?"selected":""} value="K.Set">K.Set</option>
-                        <option ${in1.ornament==="Kade" ?"selected":""} value="Kade">Kade</option>
-                        <option ${in1.ornament==="L.R." ?"selected":""} value="L.R.">L.R.</option>
-                        <option ${in1.ornament==="L.R.C." ?"selected":""} value="L.R.C.">L.R.C.</option>
-                        <option ${in1.ornament==="L.R.N." ?"selected":""} value="L.R.N.">L.R.N.</option>
-                        <option ${in1.ornament==="M.P." ?"selected":""} value="M.P.">M.P.</option>
-                        <option ${in1.ornament==="M.S.L." ?"selected":""} value="M.S.L.">M.S.L.</option>
-                        <option ${in1.ornament==="MSPS" ?"selected":""} value="MSPS">MSPS</option>
-                        <option ${in1.ornament==="Nath" ?"selected":""} value="Nath">Nath</option>
-                        <option ${in1.ornament==="PDL" ?"selected":""} value="PDL">PDL</option>
-                        <option ${in1.ornament==="Set" ?"selected":""} value="Set">Set</option>
-                        <option ${in1.ornament==="T.C." ?"selected":""} value="T.C.">T.C.</option>
-                        <option ${in1.ornament==="T.J." ?"selected":""} value="T.J.">T.J.</option>
-                        <option ${in1.ornament==="T.N." ?"selected":""} value="T.N.">T.N.</option>
-                        <option ${in1.ornament==="Tika" ?"selected":""} value="Tika">Tika</option>
-                        <option ${in1.ornament==="Tops" ?"selected":""} value="Tops">Tops</option>
-                    </select>
-                </td>
-                <td>
-                    <select id="purity">
-                        <option cde>Select Purity</option>
-                        <option ${in1.purity==="18$75" ?"selected":""} value="18$75">18 | 75</option>
-                        <option ${in1.purity==="14$60" ?"selected":""} value="14$60">14 | 60</option>
-                    </select>
-                </td>
-                <td><input value="${in1.tagnumber}" type="number" id="tagnumber" placeholder="Tag Number"></td>
-                <td><input value="${in1.grossweight}" type="number" id="grossweight" placeholder="Gross Weight" step="0.001"></td>
-                <td><input value="${in1.netweight}" type="number" id="netweight" placeholder="Net Weight" step="0.001"></td>
-                <td><input value="${in1.labour}" type="number" id="labour" placeholder="Labour" step="0.001"></td>
-                <td><input value="${in1.wastage}" type="number" id="wastage" placeholder="Wastage" step="0.001"></td>
-            </tr>`;
+            `<tr id="type1"><td><select id="prefix"><option value="">Select Start Name</option><option ${in1.prefix==="MP." ?"selected":"${rows[i].childNodes[0].value}"==="MP." ?"selected":""} value="MP.">MP</option><option ${in1.prefix==="MD." ?"selected":""} value="MD.">MD</option></select></td><td><select id="ornament"><option cde343>Select Ornament</option><option ${in1.ornament==="B.Bali" ?"selected":""} value="B.Bali">B.Bali</option><option ${in1.ornament==="Bali" ?"selected":""} value="Bali">Bali</option><option ${in1.ornament==="Bangles" ?"selected":""} value="Bangles">Bangles</option><option ${in1.ornament==="Bracelet" ?"selected":""} value="Bracelet">Bracelet</option><option ${in1.ornament==="Chain" ?"selected":""} value="Chain">Chain</option><option ${in1.ornament==="CPS" ?"selected":""} value="CPS">CPS</option><option ${in1.ornament==="G.R." ?"selected":""} value="G.R.">G.R.</option><option ${in1.ornament==="K.Chain" ?"selected":""} value="K.Chain">K.Chain</option><option ${in1.ornament==="K.Set" ?"selected":""} value="K.Set">K.Set</option><option ${in1.ornament==="Kade" ?"selected":""} value="Kade">Kade</option><option ${in1.ornament==="L.R." ?"selected":""} value="L.R.">L.R.</option><option ${in1.ornament==="L.R.C." ?"selected":""} value="L.R.C.">L.R.C.</option><option ${in1.ornament==="L.R.N." ?"selected":""} value="L.R.N.">L.R.N.</option><option ${in1.ornament==="M.P." ?"selected":""} value="M.P.">M.P.</option><option ${in1.ornament==="M.S.L." ?"selected":""} value="M.S.L.">M.S.L.</option><option ${in1.ornament==="MSPS" ?"selected":""} value="MSPS">MSPS</option><option ${in1.ornament==="Nath" ?"selected":""} value="Nath">Nath</option><option ${in1.ornament==="PDL" ?"selected":""} value="PDL">PDL</option><option ${in1.ornament==="Set" ?"selected":""} value="Set">Set</option><option ${in1.ornament==="T.C." ?"selected":""} value="T.C.">T.C.</option><option ${in1.ornament==="T.J." ?"selected":""} value="T.J.">T.J.</option><option ${in1.ornament==="T.N." ?"selected":""} value="T.N.">T.N.</option><option ${in1.ornament==="Tika" ?"selected":""} value="Tika">Tika</option><option ${in1.ornament==="Tops" ?"selected":""} value="Tops">Tops</option></select></td><td><select id="purity"><option cde>Select Purity</option><option ${in1.purity==="18$75" ?"selected":""} value="18$75">18 | 75</option><option ${in1.purity==="14$60" ?"selected":""} value="14$60">14 | 60</option></select></td><td><input value="${in1.tagnumber}" type="number" id="tagnumber" placeholder="Tag Number"></td><td><input value="${in1.grossweight}" type="number" id="grossweight" placeholder="Gross Weight" step="0.001"></td><td><input value="${in1.netweight}" type="number" id="netweight" placeholder="Net Weight" step="0.001"></td><td><input value="${in1.labour}" type="number" id="labour" placeholder="Labour" step="0.001"></td><td><input value="${in1.wastage}" type="number" id="wastage" placeholder="Wastage" step="0.001"></td></tr>`;
+
         in1.stone.forEach(in2 => {
             document.getElementById("editor").innerHTML +=
-                `<tr id="type2">
-                    <td>
-                        <select id="stonetype" required>
-                            <option value="">Select Stone Type</option>
-                            <option ${in2.stonetype==="Stone" ?"selected":""} value="Stone">Stone</option>
-                            <option ${in2.stonetype==="Diamond" ?"selected":""} value="Diamond">Diamond</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input value="${in2.stoneweight}" type="number" id="stoneweight" placeholder="Stone Weight" step="0.001"
-                            required>
-                    </td>
-                    <td>
-                        <input value="${in2.stonerate}" type="number" id="stonerate" placeholder="Stone Rate" step="0.01" required>
-                    </td>
-                </tr>`;
+                `<tr id="type2"><td><select id="stonetype" required><option value="">Select Stone Type</option><option ${in2.stonetype==="Stone" ?"selected":""} value="Stone">Stone</option><option ${in2.stonetype==="Diamond" ?"selected":""} value="Diamond">Diamond</option></select></td><td><input value="${in2.stoneweight}" type="number" id="stoneweight" placeholder="Stone Weight" step="0.001" required></td><td><input value="${in2.stonerate}" type="number" id="stonerate" placeholder="Stone Rate" step="0.01" required></td></tr>`;
         });
+
     });
 }
 
@@ -261,13 +168,16 @@ function buildTable() {
             data[i].diamondamount = 0;
             for (let j = 0; j < data[i]["stone"]["Diamond"].length; j++) {
                 data[i].diamondweight += 1 * data[i]["stone"]["Diamond"][j]["stoneweight"];
-                data[i].diamondamount += data[i]["stone"]["Diamond"][j]["stoneweight"] * data[i]["stone"]["Diamond"][j]["stonerate"];
+                data[i].diamondamount += data[i]["stone"]["Diamond"][j]["stoneweight"] * data[i]["stone"]["Diamond"]
+                    [j]["stonerate"];
             }
             data[i].stoneweight = 0;
             data[i].stoneamount = 0;
             for (let j = 0; j < data[i]["stone"]["Stone"].length; j++) {
                 data[i].stoneweight += 1 * data[i]["stone"]["Stone"][j]["stoneweight"];
-                data[i].stoneamount += data[i]["stone"]["Stone"][j]["stoneweight"] * data[i]["stone"]["Stone"][j]["stonerate"];
+                data[i].stoneamount += data[i]["stone"]["Stone"][j]["stoneweight"] * data[i]["stone"]["Stone"][j][
+                    "stonerate"
+                ];
             }
         }
     }
@@ -287,37 +197,7 @@ function buildTable() {
         document.getElementById("goldrate").value :
         tempHeader["goldrate"];
     document.getElementById("table").innerHTML =
-        `<tr class="highlight">
-            <td class="double-right"></td>
-            <td colspan="2" class="double-bottom double-right"><b>Item</b></td>
-            <td colspan="3" class="double-bottom double-right"><b>Moissanite</b></td>
-            <td colspan="3" class="double-bottom double-right"><b>Stone</b></td>
-            <td colspan="8" class="double-bottom double-right"><b>Metal</b></td>
-            <td colspan="2" class="double-bottom double-right"><b>Labour</b></td>
-            <td class="double-right"></td>
-        </tr>
-        <tr class="highlight">
-            <th class="double-right">S.No</th>
-            <th>Name</th>
-            <th class="double-right">Tag No.</th>
-            <th>MD. Wt.</th>
-            <th>MD. Rate</th>
-            <th class="double-right">MD. Amt.</th>
-            <th>St. Wt.</th>
-            <th>St. Rate</th>
-            <th class="double-right">St. Amt.</th>
-            <th>Purity</th>
-            <th>Tounch</th>
-            <th>Wastage</th>
-            <th>Gross Wt.</th>
-            <th>Net Wt.</th>
-            <th>Pure Wt.</th>
-            <th>M. Rate</th>
-            <th class="double-right">M. Amount</th>
-            <th>L. Rate</th>
-            <th class="double-right">L. Amount</th>
-            <th class="double-bottom double-right">Amount</th>
-        </tr>`;
+        `<tr class="highlight"><td class="double-right"></td><td colspan="2" class="double-bottom double-right"><b>Item</b></td><td colspan="3" class="double-bottom double-right"><b>Moissanite</b></td><td colspan="3" class="double-bottom double-right"><b>Stone</b></td><td colspan="8" class="double-bottom double-right"><b>Metal</b></td><td colspan="2" class="double-bottom double-right"><b>Labour</b></td><td class="double-right"></td></tr><tr class="highlight"><th class="double-right">S.No</th><th>Name</th><th class="double-right">Tag No.</th><th>MD. Wt.</th><th>MD. Rate</th><th class="double-right">MD. Amt.</th><th>St. Wt.</th><th>St. Rate</th><th class="double-right">St. Amt.</th><th>Purity</th><th>Tounch</th><th>Wastage</th><th>Gross Wt.</th><th>Net Wt.</th><th>Pure Wt.</th><th>M. Rate</th><th class="double-right">M. Amount</th><th>L. Rate</th><th class="double-right">L. Amount</th><th class="double-bottom double-right">Amount</th></tr>`;
     for (let i = 0; i < result.length; i++) {
         for (let j = 0; j < result[i].length; j++) {
             let row = $('<tr/>');
@@ -339,7 +219,8 @@ function buildTable() {
                 row.append($('<td/>').html(result[i][j]["stone"]["Diamond"][0]["stonerate"]));
                 //  MD. Amt.
                 row.append($('<td/>').html((result[i][j]["stone"]["Diamond"][0]["stoneweight"] *
-                    result[i][j]["stone"]["Diamond"][0]["stonerate"]).toFixed(0)).attr("class", "single-right"));
+                    result[i][j]["stone"]["Diamond"][0]["stonerate"]).toFixed(0)).attr("class",
+                    "single-right"));
             } else {
                 //  MD. Wt.
                 row.append($('<td/>').html(""));
@@ -355,7 +236,8 @@ function buildTable() {
                 row.append($('<td/>').html(result[i][j]["stone"]["Stone"][0]["stonerate"]));
                 //  St. Amt.
                 row.append($('<td/>').html((result[i][j]["stone"]["Stone"][0]["stoneweight"] *
-                    result[i][j]["stone"]["Stone"][0]["stonerate"]).toFixed(0)).attr("class", "single-right"));
+                    result[i][j]["stone"]["Stone"][0]["stonerate"]).toFixed(0)).attr("class",
+                    "single-right"));
             } else {
                 //  St. Wt.
                 row.append($('<td/>').html(""));
@@ -391,7 +273,8 @@ function buildTable() {
             //  LabourRate
             row.append($('<td/>').html((result[i][j].labour * 1).toFixed(0)));
             //  LabourAmt
-            row.append($('<td/>').html((result[i][j].labour * result[i][j].netweight).toFixed(2)).attr("class", "single-right"));
+            row.append($('<td/>').html((result[i][j].labour * result[i][j].netweight).toFixed(2)).attr("class",
+                "single-right"));
             //  Amount
             result[i][j].amount = ((
                     result.goldrate * (result[i][j].netweight * (
@@ -416,20 +299,26 @@ function buildTable() {
                 row.append($('<td/>').html(""));
                 row.append($('<td/>').html("").attr("class", "single-right"));
                 if (result[i][j]["stone"]["Diamond"][k + 1]) {
-                    row.append($('<td/>').html((result[i][j]["stone"]["Diamond"][k + 1]["stoneweight"] * 1).toFixed(2)));
+                    row.append($('<td/>').html((result[i][j]["stone"]["Diamond"][k + 1]["stoneweight"] *
+                        1).toFixed(
+                        2)));
                     row.append($('<td/>').html(result[i][j]["stone"]["Diamond"][k + 1]["stonerate"]));
                     row.append($('<td/>').html((result[i][j]["stone"]["Diamond"][k + 1]["stoneweight"] *
-                        result[i][j]["stone"]["Diamond"][k + 1]["stonerate"]).toFixed(0)).attr("class", "single-right"));
+                        result[i][j]["stone"]["Diamond"][k + 1]["stonerate"]).toFixed(0)).attr("class",
+                        "single-right"));
                 } else {
                     row.append($('<td/>').html(""));
                     row.append($('<td/>').html(""));
                     row.append($('<td/>').html("").attr("class", "single-right"));
                 }
                 if (result[i][j]["stone"]["Stone"][k + 1]) {
-                    row.append($('<td/>').html((result[i][j]["stone"]["Stone"][k + 1]["stoneweight"] * 1).toFixed(2)));
+                    row.append($('<td/>').html((result[i][j]["stone"]["Stone"][k + 1]["stoneweight"] *
+                        1).toFixed(
+                        2)));
                     row.append($('<td/>').html(result[i][j]["stone"]["Stone"][k + 1]["stonerate"]));
                     row.append($('<td/>').html((result[i][j]["stone"]["Stone"][k + 1]["stoneweight"] *
-                        result[i][j]["stone"]["Stone"][k + 1]["stonerate"]).toFixed(0)).attr("class", "single-right"));
+                        result[i][j]["stone"]["Stone"][k + 1]["stonerate"]).toFixed(0)).attr("class",
+                        "single-right"));
                 } else {
                     row.append($('<td/>').html(""));
                     row.append($('<td/>').html(""));
@@ -639,6 +528,7 @@ function buildTable() {
         table = $("#table");
         table.append(row);
     }
+
     // Update variables
     {
         let temp = localStorage.getItem('savedHeader');
@@ -649,45 +539,7 @@ function buildTable() {
         localStorage.setItem('savedHeader', JSON.stringify(temp));
     }
     document.getElementById("table").innerHTML +=
-        `<tr>
-            <td rowspan="2" colspan="9" class="double-right" style="text-align: left;vertical-align:top;">
-                <b>Remarks :- ${document.getElementById("remark").value}</b>
-            </td>
-            <td colspan="9">
-                <b>Pure Gold Weight :- ${temppureweigth}</b>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="9">
-                <b>Total Amount :- ${tempamount}</b>
-            </td>
-        </tr>`;
-}
-
-function appendRow(arr) {
-    let row = $('<tr/>');
-    row.append($('<td/>').html("").attr("class", "single-right"));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html("").attr("class", "single-right"));
-    row.append($('<td/>').html(result[i][j].diamondweight.toFixed(2)));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html(result[i][j].diamondamount.toFixed(0)).attr("class", "single-right"));
-    row.append($('<td/>').html(result[i][j].stoneweight.toFixed(2)));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html(result[i][j].stoneamount.toFixed(0)).attr("class", "single-right"));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html("").attr("class", "single-right"));
-    row.append($('<td/>').html(""));
-    row.append($('<td/>').html("").attr("class", "single-right"));
-    row.append($('<td/>').html(""));
-    table = $("#table");
-    table.append(row);
+        `<tr style=""><td rowspan="2" colspan="9" class="double-right" style="text-align: left;vertical-align:top;"><b>Remarks :- ${document.getElementById("remark").value}</b></td><td colspan="9"><b>Pure Gold Weight :- ${temppureweigth}</b></td></tr><tr style=""><td colspan="9"><b>Total Amount :- ${tempamount}</b></td></tr>`;
 }
 
 function tableRowToDataObject(rowElement) {
