@@ -1,0 +1,217 @@
+body {
+    width: 95vw;
+    font-family: sans-serif;
+}
+
+#table {
+    border: 2px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    transform-origin: top left;
+    font-size: 12px;
+}
+
+
+#totalrow {
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+}
+
+#table td,
+#table th {
+    padding: 10px;
+    white-space: nowrap;
+}
+
+
+#datarow td {
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.double-top {
+    border-top: 2px solid black;
+}
+
+.double-bottom {
+    border-bottom: 2px solid black;
+}
+
+.double-left {
+    border-left: 2px solid black;
+}
+
+.double-right {
+    border-right: 2px solid black;
+}
+
+.single-top {
+    border-top: 1px solid black;
+}
+
+.single-bottom {
+    border-bottom: 1px solid black;
+}
+
+.single-left {
+    border-left: 1px solid black;
+}
+
+.single-right {
+    border-right: 1px solid black;
+}
+
+.no-top {
+    border-top: 0;
+}
+
+.no-bottom {
+    border-bottom: 0;
+}
+
+.no-left {
+    border-left: 0;
+}
+
+.no-right {
+    border-right: 0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.highlight {
+    background-color: #ebecee;
+}
+
+
+#outerbox {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+form {
+    border: 1px solid black;
+    width: 50%;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form input {
+    width: 80%;
+    margin: 10px;
+    padding: 0px 5px;
+    font-size: 12px;
+    border: 1px solid #dfe1e4;
+    border-radius: 10px;
+    outline: 0;
+}
+
+form select {
+    width: 90%;
+    margin: 10px;
+    padding: 0px 5px;
+    font-size: 12px;
+    border: 1px solid #dfe1e4;
+    border-radius: 10px;
+    outline: 0;
+}
+
+button {
+    width: 90%;
+    margin: 10px;
+    border: 0;
+    background-color: rgb(247, 194, 20);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+
+
+#editor {
+    border-collapse: collapse;
+    text-align: center;
+    white-space: nowrap;
+    transform-origin: top left;
+}
+
+#editor input,
+#editor select {
+    width: 120px;
+}
+
+#deletebutton {
+    font-size: 4px;
+    margin: 0;
+}
+
+@media (max-width: 767px) {
+    #editor {
+        font-size: 5px;
+    }
+
+    #editor input,
+    #editor select {
+        font-size: 5px;
+        width: 30px;
+    }
+
+    #table {
+        border: 0.2px solid black;
+        border-collapse: collapse;
+        text-align: center;
+        transform-origin: top left;
+        font-size: 4px;
+    }
+
+    #totalrow {
+        font-weight: bold;
+        border-bottom: 0.2px solid black;
+        border-top: 0.2px solid black;
+    }
+
+    #table td,
+    #table th {
+        padding: 2px;
+        white-space: nowrap;
+    }
+
+    .double-top {
+        border-top: 0.2px solid black;
+    }
+
+    .double-bottom {
+        border-bottom: 0.2px solid black;
+    }
+
+    .double-left {
+        border-left: 0.2px solid black;
+    }
+
+    .double-right {
+        border-right: 0.2px solid black;
+    }
+
+    .single-top {
+        border-top: 0.1px solid black;
+    }
+
+    .single-bottom {
+        border-bottom: 0.1px solid black;
+    }
+
+    .single-left {
+        border-left: 0.1px solid black;
+    }
+
+    .single-right {
+        border-right: 0.1px solid black;
+    }
+}
