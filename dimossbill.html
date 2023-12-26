@@ -236,7 +236,7 @@
             <select id="prefix" required>
                 <option value="">Select Start Name</option>
                 <option value="MP.">MP</option>
-                <option value="MD.">MD</option>
+                <option value="MD." selected>MD</option>
             </select>
             <select id="ornament" required>
                 <option value="">Select Ornament</option>
@@ -313,7 +313,7 @@
         if (table) {
             let win = window.open('', '_blank');
             win.document.write(
-                `<html><head><title>Print Table</title><style>body {width: 95vw;font-family: sans-serif;}#table {border: 2px solid black;border-collapse: collapse;text-align: center;transform-origin: top left;}#datarow td {border-top: 0;border-bottom: 0;}.double-top {border-top: 2px solid black;}.double-bottom {border-bottom: 2px solid black;}.double-left {border-left: 2px solid black;}.double-right {border-right: 2px solid black;}.single-top {border-top: 1px solid black;}.single-bottom {border-bottom: 1px solid black;}.single-left {border-left: 1px solid black;}.single-right {border-right: 1px solid black;}.no-top {border-top: 0;}.no-bottom {border-bottom: 0;}.no-left {border-left: 0;}.no-right {border-right: 0;}.bold {font-weight: bold;}.highlight {background-color: #ebecee;}#totalrow {font-weight: bold;border-bottom: 2px solid black;border-top: 2px solid black;}#table td,#table th {padding: 10px;white-space: nowrap;}#outerbox {display: flex;width: 100%;flex-direction: row;}form {border: 1px solid black;width: 50%;align-content: center;display: flex;flex-direction: column;align-items: center;}input {width: 80%;margin: 10px;padding: 0px 5px;font-size: 12px;border: 1px solid #dfe1e4;border-radius: 10px;outline: 0;}select {width: 90%;margin: 10px;padding: 0px 5px;font-size: 12px;border: 1px solid #dfe1e4;border-radius: 10px;outline: 0;}button {width: 90%;margin: 10px;border: 0;background-color: rgb(247, 194, 20);border-radius: 10px;cursor: pointer;font-size: 15px;font-weight: bold;color: white;}#table {font-size: 16px;}#editor {border-collapse: collapse;text-align: center;}#deletebutton {font-size: 4px;margin: 0;}div {width: min-content;}#heading {width: 99%;font-size: 20px;word-spacing: 5px;letter-spacing: 2px;background-color: lightgray;padding: 5px;display: flex;justify-content: space-between;}#maindata {padding:10px;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri` +
+                `<html><head><title>Print Table</title><style>#previewImg {width: 100%;}canvas {width: 100% !important;height: auto !important;}body {width: 95vw;font-family: sans-serif;}#table {border: 2px solid black;border-collapse: collapse;text-align: center;transform-origin: top left;}#datarow td {border-top: 0;border-bottom: 0;}.double-top {border-top: 2px solid black;}.double-bottom {border-bottom: 2px solid black;}.double-left {border-left: 2px solid black;}.double-right {border-right: 2px solid black;}.single-top {border-top: 1px solid black;}.single-bottom {border-bottom: 1px solid black;}.single-left {border-left: 1px solid black;}.single-right {border-right: 1px solid black;}.no-top {border-top: 0;}.no-bottom {border-bottom: 0;}.no-left {border-left: 0;}.no-right {border-right: 0;}.bold {font-weight: bold;}.highlight {background-color: #ebecee;}#totalrow {font-weight: bold;border-bottom: 2px solid black;border-top: 2px solid black;}#table td,#table th {padding: 10px;white-space: nowrap;}#outerbox {display: flex;width: 100%;flex-direction: row;}form {border: 1px solid black;width: 50%;align-content: center;display: flex;flex-direction: column;align-items: center;}input {width: 80%;margin: 10px;padding: 0px 5px;font-size: 12px;border: 1px solid #dfe1e4;border-radius: 10px;outline: 0;}select {width: 90%;margin: 10px;padding: 0px 5px;font-size: 12px;border: 1px solid #dfe1e4;border-radius: 10px;outline: 0;}button {width: 90%;margin: 10px;border: 0;background-color: rgb(247, 194, 20);border-radius: 10px;cursor: pointer;font-size: 15px;font-weight: bold;color: white;}#table {font-size: 16px;}#editor {border-collapse: collapse;text-align: center;}#deletebutton {font-size: 4px;margin: 0;}div {width: min-content;}#heading {width: 99%;font-size: 20px;word-spacing: 5px;letter-spacing: 2px;background-color: lightgray;padding: 5px;display: flex;justify-content: space-between;}#maindata {padding:10px;}</style><script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></scri` +
                 `pt></head><body><div id="previewImg"></div><div id="maindata"><center>` +
                 `<div id="previewImg"></div><div id="maindata"><div id="heading"><span>From :: Dimoss</span><span>${getCurrentTime()}</span></div><div id="heading"><span>To :: ${document.getElementById("name").value}</span><span>Rought Estimate / Quotation</span></div>`
             );
@@ -324,7 +324,7 @@
             win.document.write(temp);
             win.document.write(
                 `</div><script>let element = document.getElementById("maindata");html2canvas(element).then(function (canvas) {let anchorTag = document.createElement("a");document.body.appendChild(anchorTag);document.getElementById("previewImg").appendChild(canvas);element.innerHTML="";` +
-                `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();` +
+                `anchorTag.download = "Image.jpg";anchorTag.href = canvas.toDataURL();anchorTag.target = '_blank';anchorTag.click();window.print();` +
                 `});</scri` + `pt></bod` + `y></htm` + `l>`);
             win.document.close();
             win.open();
@@ -372,7 +372,6 @@
         localStorage.setItem('savedData', JSON.stringify(data));
         buildTable();
         buildEditor();
-        document.getElementById("prefix").value = "";
         document.getElementById("ornament").value = "";
         document.getElementById("purity").value = "";
         document.getElementById("tagnumber").value = "";
@@ -384,7 +383,6 @@
 
     function stoneForm() {
         event.preventDefault();
-        let stonetype = document.getElementById("stonetype").value;
         let stoneweight = document.getElementById("stoneweight").value;
         let stonerate = document.getElementById("stonerate").value;
         let temp = {
