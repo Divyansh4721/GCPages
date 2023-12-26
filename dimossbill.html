@@ -383,6 +383,7 @@
 
     function stoneForm() {
         event.preventDefault();
+        let stonetype = document.getElementById("stonetype").value;
         let stoneweight = document.getElementById("stoneweight").value;
         let stonerate = document.getElementById("stonerate").value;
         let temp = {
@@ -396,7 +397,6 @@
         localStorage.setItem('savedData', JSON.stringify(data));
         buildTable();
         buildEditor();
-        document.getElementById("stonetype").value = "";
         document.getElementById("stoneweight").value = "";
         document.getElementById("stonerate").value = "";
     }
