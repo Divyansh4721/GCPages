@@ -431,7 +431,7 @@
         let data = localStorage.getItem('savedData');
         data = data ? JSON.parse(data) : JSON.parse("[]");
         document.getElementById("editor").innerHTML =
-            `<tr><th>Prefix</th><th>Ornament</th><th>Tag Number</th><th>Purity</th><th>Gross Weight</th><th>Net Weight</th><th>Labour</th><th>Wastage</th></tr>`;
+            `<tr><th>Prefix</th><th>Ornament</th><th>Purity</th><th>Tag Number</th><th>Gross Weight</th><th>Net Weight</th><th>Labour</th><th>Wastage</th></tr>`;
         data.forEach(in1 => {
 
             document.getElementById("editor").innerHTML +=
