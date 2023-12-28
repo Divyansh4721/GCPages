@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    width: 100vw;
+}
+
+table {
+    border: 2px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    scale: 1;
+}
+
+th {
+    padding: 5px;
+}
+
+td {
+    padding: 5px;
+    white-space: nowrap;
+}
+
+div {
+    width: min-content;
+}
+
+tbody tr:last-child td {
+    padding-top: 140px;
+}
+
+#previewImg {
+    width: 100%;
+}
+
+canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+#maindata {
+    position: relative;
+}
+
+#gclogo {
+    height: 60px;
+    position: absolute;
+    top: 6px;
+    left: 10px;
+}
