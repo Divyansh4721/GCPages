@@ -1,0 +1,442 @@
+<html>
+
+<head>
+    <title>Print Table</title>
+    <link rel="stylesheet" href="dimossbillprint.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+        integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <center>
+        <div id="previewImg"></div>
+    </center>
+    <div id="maindata">
+        <div id="heading">
+            <span>From :: Dimoss</span>
+            <span>Wed 27-Dec-2023 at 22:36</span>
+        </div>
+        <div id="heading">
+            <span>To :: </span>
+            <span>Rought Estimate / Quotation</span>
+        </div>
+        <table id="table">
+            <tbody>
+                <tr class="highlight">
+                    <td class="double-right"></td>
+                    <td colspan="2" class="double-bottom double-right"><b>Item</b></td>
+                    <td colspan="3" class="double-bottom double-right"><b>Moissanite</b></td>
+                    <td colspan="3" class="double-bottom double-right"><b>Stone</b></td>
+                    <td colspan="8" class="double-bottom double-right"><b>Metal</b></td>
+                    <td colspan="2" class="double-bottom double-right"><b>Labour</b></td>
+                    <td class="double-right"></td>
+                </tr>
+                <tr class="highlight">
+                    <th class="double-right">S.No</th>
+                    <th>Name</th>
+                    <th class="double-right">Tag No.</th>
+                    <th>MD. Wt.</th>
+                    <th>MD. Rate</th>
+                    <th class="double-right">MD. Amt.</th>
+                    <th>St. Wt.</th>
+                    <th>St. Rate</th>
+                    <th class="double-right">St. Amt.</th>
+                    <th>Purity</th>
+                    <th>Tounch</th>
+                    <th>Wastage</th>
+                    <th>Gross Wt.</th>
+                    <th>Net Wt.</th>
+                    <th>Pure Wt.</th>
+                    <th>M. Rate</th>
+                    <th class="double-right">M. Amount</th>
+                    <th>L. Rate</th>
+                    <th class="double-right">L. Amount</th>
+                    <th class="double-bottom double-right">Amount</th>
+                </tr>
+                <tr class="double-top" id="datarow">
+                    <td class="double-right">1</td>
+                    <td>MP. B.Bali</td>
+                    <td class="double-right">30</td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>99.00</td>
+                    <td>40</td>
+                    <td class="double-right">3960</td>
+                    <td>14K</td>
+                    <td>60</td>
+                    <td>0</td>
+                    <td>46.000</td>
+                    <td>23.000</td>
+                    <td>13.800</td>
+                    <td>6250</td>
+                    <td class="double-right">86250.00</td>
+                    <td>0</td>
+                    <td class="double-right">0.00</td>
+                    <td>93434</td>
+                </tr>
+                <tr id="datarow">
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>52.00</td>
+                    <td>62</td>
+                    <td class="double-right">3224</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                </tr>
+                <tr class="bold">
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>0.00</td>
+                    <td></td>
+                    <td class="double-right">0</td>
+                    <td>151.00</td>
+                    <td></td>
+                    <td class="double-right">7184</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                </tr>
+                <tr class="single-top highlight bold">
+                    <td class="double-right">Total</td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>0.00</td>
+                    <td></td>
+                    <td class="double-right">0</td>
+                    <td>151.00</td>
+                    <td></td>
+                    <td class="double-right">7184</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>46.000</td>
+                    <td>23.000</td>
+                    <td>13.800</td>
+                    <td></td>
+                    <td class="double-right">86250.00</td>
+                    <td></td>
+                    <td class="double-right">0.00</td>
+                    <td>93434</td>
+                </tr>
+                <tr class="double-top" id="datarow">
+                    <td class="double-right">1</td>
+                    <td>MD. Kade</td>
+                    <td class="double-right">12</td>
+                    <td>51.00</td>
+                    <td>12</td>
+                    <td class="double-right">612</td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>14K</td>
+                    <td>60</td>
+                    <td>0</td>
+                    <td>7.000</td>
+                    <td>40.000</td>
+                    <td>24.000</td>
+                    <td>6250</td>
+                    <td class="double-right">150000.00</td>
+                    <td>0</td>
+                    <td class="double-right">0.00</td>
+                    <td>150612</td>
+                </tr>
+                <tr class="bold">
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>51.00</td>
+                    <td></td>
+                    <td class="double-right">612</td>
+                    <td>0.00</td>
+                    <td></td>
+                    <td class="double-right">0</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                </tr>
+                <tr class="single-top highlight bold">
+                    <td class="double-right">Total</td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>51.00</td>
+                    <td></td>
+                    <td class="double-right">612</td>
+                    <td>0.00</td>
+                    <td></td>
+                    <td class="double-right">0</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>7.000</td>
+                    <td>40.000</td>
+                    <td>24.000</td>
+                    <td></td>
+                    <td class="double-right">150000.00</td>
+                    <td></td>
+                    <td class="double-right">0.00</td>
+                    <td>150612</td>
+                </tr>
+                <tr class="double-top" id="datarow">
+                    <td class="double-right">1</td>
+                    <td>MD. M.P.</td>
+                    <td class="double-right">10</td>
+                    <td>20.00</td>
+                    <td>15</td>
+                    <td class="double-right">300</td>
+                    <td>61.00</td>
+                    <td>40</td>
+                    <td class="double-right">2440</td>
+                    <td>18K</td>
+                    <td>75</td>
+                    <td>0</td>
+                    <td>21.000</td>
+                    <td>1.000</td>
+                    <td>0.750</td>
+                    <td>6250</td>
+                    <td class="double-right">4687.50</td>
+                    <td>0</td>
+                    <td class="double-right">0.00</td>
+                    <td>8154</td>
+                </tr>
+                <tr id="datarow">
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>33.00</td>
+                    <td>22</td>
+                    <td class="double-right">726</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                </tr>
+                <tr class="bold">
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>20.00</td>
+                    <td></td>
+                    <td class="double-right">300</td>
+                    <td>94.00</td>
+                    <td></td>
+                    <td class="double-right">3166</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                </tr>
+                <tr class="single-top highlight bold">
+                    <td class="double-right">Total</td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>20.00</td>
+                    <td></td>
+                    <td class="double-right">300</td>
+                    <td>94.00</td>
+                    <td></td>
+                    <td class="double-right">3166</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>21.000</td>
+                    <td>1.000</td>
+                    <td>0.750</td>
+                    <td></td>
+                    <td class="double-right">4687.50</td>
+                    <td></td>
+                    <td class="double-right">0.00</td>
+                    <td>8154</td>
+                </tr>
+                <tr class="double-top" id="datarow">
+                    <td class="double-right">1</td>
+                    <td>MD. MSPS</td>
+                    <td class="double-right">27</td>
+                    <td>61.00</td>
+                    <td>1</td>
+                    <td class="double-right">61</td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>18K</td>
+                    <td>75</td>
+                    <td>0</td>
+                    <td>8.000</td>
+                    <td>52.000</td>
+                    <td>39.000</td>
+                    <td>6250</td>
+                    <td class="double-right">243750.00</td>
+                    <td>0</td>
+                    <td class="double-right">0.00</td>
+                    <td>244751</td>
+                </tr>
+                <tr id="datarow">
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>20.00</td>
+                    <td>47</td>
+                    <td class="double-right">940</td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                </tr>
+                <tr class="bold">
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>81.00</td>
+                    <td></td>
+                    <td class="double-right">1001</td>
+                    <td>0.00</td>
+                    <td></td>
+                    <td class="double-right">0</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td></td>
+                </tr>
+                <tr class="single-top highlight bold">
+                    <td class="double-right">Total</td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>81.00</td>
+                    <td></td>
+                    <td class="double-right">1001</td>
+                    <td>0.00</td>
+                    <td></td>
+                    <td class="double-right">0</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>8.000</td>
+                    <td>52.000</td>
+                    <td>39.000</td>
+                    <td></td>
+                    <td class="double-right">243750.00</td>
+                    <td></td>
+                    <td class="double-right">0.00</td>
+                    <td>244751</td>
+                </tr>
+                <tr id="totalrow" class="highlight">
+                    <td class="double-right">Grand Total</td>
+                    <td></td>
+                    <td class="double-right"></td>
+                    <td>152.00</td>
+                    <td></td>
+                    <td class="double-right">1913</td>
+                    <td>245.00</td>
+                    <td></td>
+                    <td class="double-right">10350</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>82.000</td>
+                    <td>116.000</td>
+                    <td>77.550</td>
+                    <td></td>
+                    <td class="double-right">484687.50</td>
+                    <td></td>
+                    <td class="double-right">0.00</td>
+                    <td>496951</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td rowspan="2" colspan="9" class="double-right" style="text-align: left;vertical-align:top;">
+                        <b>Remarks :- </b>
+                    </td>
+                    <td colspan="9">
+                        <b>Pure Gold Weight :- 77.550</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="9">
+                        <b>Total Amount :- 496951</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        let element = document.getElementById("maindata");
+        html2canvas(element).then(function (canvas) {
+            let anchorTag = document.createElement("a");
+            document.body.appendChild(anchorTag);
+            document.getElementById("previewImg").appendChild(canvas);
+            anchorTag.download = "Image.jpg";
+            anchorTag.href = canvas.toDataURL();
+            anchorTag.target = '_blank';
+        });
+    </script>
+
+
+</body>
+
+</html>

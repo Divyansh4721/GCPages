@@ -1,5 +1,4 @@
 body {
-    width: 95vw;
     font-family: sans-serif;
 }
 
@@ -8,6 +7,10 @@ body {
     border-collapse: collapse;
     text-align: center;
     transform-origin: top left;
+    background-image: url('dimoss.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 #previewImg {
@@ -77,7 +80,7 @@ canvas {
 }
 
 .highlight {
-    background-color: #ebecee;
+    background-color: #dedfe052;
 }
 
 #totalrow {
@@ -163,9 +166,9 @@ div {
     word-spacing: 5px;
     letter-spacing: 2px;
     background-color: lightgray;
-    padding: 5px;
     display: flex;
     justify-content: space-between;
+    padding: 9px;
 }
 
 #maindata {

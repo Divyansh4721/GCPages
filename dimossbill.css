@@ -9,8 +9,11 @@ body {
     text-align: center;
     transform-origin: top left;
     font-size: 12px;
+    background-image: url('dimoss.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
-
 
 #totalrow {
     font-weight: bold;
@@ -83,7 +86,7 @@ body {
 }
 
 .highlight {
-    background-color: #ebecee;
+    background-color: #dedfe052;
 }
 
 
@@ -93,7 +96,7 @@ body {
     flex-direction: row;
 }
 
-form {
+#outerbox form {
     border: 1px solid black;
     width: 50%;
     align-content: center;
@@ -102,7 +105,7 @@ form {
     align-items: center;
 }
 
-form input {
+#outerbox form input {
     width: 80%;
     margin: 10px;
     padding: 0px 5px;
@@ -112,7 +115,7 @@ form input {
     outline: 0;
 }
 
-form select {
+#outerbox form select {
     width: 90%;
     margin: 10px;
     padding: 0px 5px;
@@ -148,8 +151,12 @@ button {
 }
 
 #deletebutton {
-    font-size: 4px;
+    font-size: 10px;
     margin: 0;
+}
+
+#editor td {
+    padding: 5px 0px 5px 0px;
 }
 
 @media (max-width: 767px) {

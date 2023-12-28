@@ -2,15 +2,19 @@ if (!localStorage.getItem('savedHeader') && !document.getElementById("goldrate")
     localStorage.setItem('savedHeader', '{"goldrate":""}');
 }
 
+buildTable();
+buildEditor();
+
 function printTable() {
     let table = document.getElementById("table");
     if (table) {
         let win = window.open('', '_blank');
         win.document.write(
             `<html>
+
             <head>
                 <title>Print Table</title>
-                <link rel="stylesheet" href="dimossbill.css">
+                <link rel="stylesheet" href="dimossbillprint.css">
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
                     integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
                     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -19,35 +23,33 @@ function printTable() {
             <body>
                 <div id="previewImg"></div>
                 <div id="maindata">
-                    <center>
-                        <div id="previewImg"></div>
-                        <div id="maindata">
-                            <div id="heading">
-                                <span>From :: Dimoss</span>
-                                <span>${getCurrentTime()}</span>
-                            </div>
-                            <div id="heading">
-                                <span>To :: ${document.getElementById("name").value}</span>
-                                <span>Rought Estimate / Quotation</span>
-                            </div>
-                            ${table.outerHTML}
-                            </div>
-                            <script>
-                                let element = document.getElementById("maindata");
-                                html2canvas(element).then(function (canvas) {
-                                    let anchorTag = document.createElement("a");
-                                    document.body.appendChild(anchorTag);
-                                    document.getElementById("previewImg").appendChild(canvas);
-                                    element.innerHTML = "";
-                                    anchorTag.download = "Image.jpg";
-                                    anchorTag.href = canvas.toDataURL();
-                                    anchorTag.target = '_blank';
-                                    anchorTag.click();
-                                    window.print();
-                                });
-                            </script>
-                    </body>
-                    </html>`);
+                    <div id="heading">
+                        <span>From :: Dimoss</span>
+                        <span>${getCurrentTime()}</span>
+                    </div>
+                    <div id="heading">
+                        <span>To :: ${document.getElementById("name").value}</span>
+                        <span>Rought Estimate / Quotation</span>
+                    </div>
+                    ${table.outerHTML}
+                </div>
+                <script>
+                    let element = document.getElementById("maindata");
+                    html2canvas(element).then(function (canvas) {
+                        let anchorTag = document.createElement("a");
+                        document.body.appendChild(anchorTag);
+                        document.getElementById("previewImg").appendChild(canvas);
+                        element.innerHTML = "";
+                        anchorTag.download = "Image.jpg";
+                        anchorTag.href = canvas.toDataURL();
+                        anchorTag.target = '_blank';
+                        anchorTag.click();
+                        window.print();
+                    });
+                </script>
+            </body>
+            
+            </html>`);
         win.document.close();
         win.open();
     }
@@ -106,10 +108,9 @@ function stoneForm(event) {
     let form = document.getElementById("stoneform");
     form.reset();
 }
-buildTable();
-buildEditor();
 
 function submitEditor() {
+    console.log("hi");
     let table = document.getElementById("editor");
     let rows = table.getElementsByTagName("tr");
     let ele = table.getElementsByTagName("td");
@@ -121,34 +122,34 @@ function submitEditor() {
                 json += `]},`;
             json +=
                 `{
-                    "prefix": "${ele[tempind++].childNodes[0].value}",
-                    "ornament": "${ele[tempind++].childNodes[0].value}",
-                    "purity": "${ele[tempind++].childNodes[0].value}",
-                    "tagnumber": "${ele[tempind++].childNodes[0].value}",
-                    "grossweight": "${ele[tempind++].childNodes[0].value}",
-                    "netweight": "${ele[tempind++].childNodes[0].value}",
-                    "labour": "${ele[tempind++].childNodes[0].value}",
-                    "wastage": "${ele[tempind++].childNodes[0].value}",
+                    "prefix": "${ele[tempind++].getElementsByTagName("select")[0].value}",
+                    "ornament": "${ele[tempind++].getElementsByTagName("select")[0].value}",
+                    "purity": "${ele[tempind++].getElementsByTagName("select")[0].value}",
+                    "tagnumber": "${ele[tempind++].getElementsByTagName("input")[0].value}",
+                    "grossweight": "${ele[tempind++].getElementsByTagName("input")[0].value}",
+                    "netweight": "${ele[tempind++].getElementsByTagName("input")[0].value}",
+                    "labour": "${ele[tempind++].getElementsByTagName("input")[0].value}",
+                    "wastage": "${ele[tempind++].getElementsByTagName("input")[0].value}",
                     "stone": [`;
         } else {
             json +=
                 `{
-                    "stonetype": "${ele[tempind++].childNodes[0].value}",
-                    "stoneweight": "${ele[tempind++].childNodes[0].value}",
-                    "stonerate": "${ele[tempind++].childNodes[0].value}"
+                    "stonetype": "${ele[tempind++].getElementsByTagName("select")[0].value}",
+                    "stoneweight": "${ele[tempind++].getElementsByTagName("input")[0].value}",
+                    "stonerate": "${ele[tempind++].getElementsByTagName("input")[0].value}"
                 },`;
         }
     }
     json += `]}]`;
     json = json.replaceAll("},]", "}]");
     localStorage.setItem('savedData', JSON.stringify(JSON.parse(json)));
-    location.reload();
+    // location.reload();
 }
 
 function buildEditor() {
     let data = localStorage.getItem('savedData');
     data = data ? JSON.parse(data) : JSON.parse("[]");
-    document.getElementById("editor").innerHTML =
+    let tempHTML =
         `<tr>
             <th>Prefix</th>
             <th>Ornament</th>
@@ -160,19 +161,18 @@ function buildEditor() {
             <th>Wastage</th>
         </tr>`;
     data.forEach(in1 => {
-        document.getElementById("editor").innerHTML +=
+        tempHTML +=
             `<tr id="type1">
                 <td>
-                    <select id="prefix">
+                    <select id="prefix" required>
                         <option value="">Select Start Name</option>
-                        <option ${in1.prefix==="MP." ?"selected":"${rows[i].childNodes[0].value}"==="MP." ?"selected":""}
-                            value="MP.">MP</option>
+                        <option ${in1.prefix==="MP." ?"selected":"${rows[i].childNodes[0].value}"==="MP." ?"selected":""} value="MP.">MP</option>
                         <option ${in1.prefix==="MD." ?"selected":""} value="MD.">MD</option>
                     </select>
                 </td>
                 <td>
-                    <select id="ornament">
-                        <option>Select Ornament</option>
+                    <select id="ornament" required>
+                        <option value="">Select Ornament</option>
                         <option ${in1.ornament==="B.Bali" ?"selected":""} value="B.Bali">B.Bali</option>
                         <option ${in1.ornament==="Bali" ?"selected":""} value="Bali">Bali</option>
                         <option ${in1.ornament==="Bangles" ?"selected":""} value="Bangles">Bangles</option>
@@ -200,20 +200,21 @@ function buildEditor() {
                     </select>
                 </td>
                 <td>
-                    <select id="purity">
-                        <option cde>Select Purity</option>
+                    <select id="purity" required>
+                        <option value="">Select Purity</option>
                         <option ${in1.purity==="18$75" ?"selected":""} value="18$75">18 | 75</option>
                         <option ${in1.purity==="14$60" ?"selected":""} value="14$60">14 | 60</option>
                     </select>
                 </td>
-                <td><input value="${in1.tagnumber}" type="number" id="tagnumber" placeholder="Tag Number"></td>
-                <td><input value="${in1.grossweight}" type="number" id="grossweight" placeholder="Gross Weight" step="0.001"></td>
-                <td><input value="${in1.netweight}" type="number" id="netweight" placeholder="Net Weight" step="0.001"></td>
+                <td><input value="${in1.tagnumber}" type="number" id="tagnumber" placeholder="Tag Number" required></td>
+                <td><input value="${in1.grossweight}" type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required></td>
+                <td><input value="${in1.netweight}" type="number" id="netweight" placeholder="Net Weight" step="0.001" required></td>
                 <td><input value="${in1.labour}" type="number" id="labour" placeholder="Labour" step="0.001"></td>
                 <td><input value="${in1.wastage}" type="number" id="wastage" placeholder="Wastage" step="0.001"></td>
+                <td><button type="button" id="deletebutton" onclick="deleteRow(this)">Delete</button></td>
             </tr>`;
         in1.stone.forEach(in2 => {
-            document.getElementById("editor").innerHTML +=
+            tempHTML +=
                 `<tr id="type2">
                     <td>
                         <select id="stonetype" required>
@@ -222,26 +223,33 @@ function buildEditor() {
                             <option ${in2.stonetype==="Diamond" ?"selected":""} value="Diamond">Diamond</option>
                         </select>
                     </td>
-                    <td>
-                        <input value="${in2.stoneweight}" type="number" id="stoneweight" placeholder="Stone Weight" step="0.001"
-                            required>
-                    </td>
-                    <td>
-                        <input value="${in2.stonerate}" type="number" id="stonerate" placeholder="Stone Rate" step="0.01" required>
-                    </td>
+                    <td><input value="${in2.stoneweight}" type="number" id="stoneweight" placeholder="Stone Weight" step="0.001" required></td>
+                    <td><input value="${in2.stonerate}" type="number" id="stonerate" placeholder="Stone Rate" step="0.01" required></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><button type="button" id="deletebutton" onclick="deleteRow(this)">Delete</button></td>
                 </tr>`;
         });
     });
+    document.getElementById("editor").innerHTML += tempHTML
 }
 
 function buildTable() {
+    if (!localStorage.getItem('savedData')) {
+        return;
+    }
     let data = localStorage.getItem('savedData');
     data = data ? JSON.parse(data) : JSON.parse("[]");
     data.sort((a, b) => {
         let ornamentA = a.ornament.toUpperCase();
         let ornamentB = b.ornament.toUpperCase();
         return ornamentA < ornamentB ? -1 : ornamentB < ornamentA ? 1 : 0;
-    }); {
+    });
+    // variable fill
+    {
         for (let i = 0; i < data.length; i++) {
             data[i].stoneprice = 0;
             for (let j = 0; j < data[i]["stone"].length; j++) {
@@ -318,81 +326,11 @@ function buildTable() {
             <th class="double-right">L. Amount</th>
             <th class="double-bottom double-right">Amount</th>
         </tr>`;
+
+
     for (let i = 0; i < result.length; i++) {
         for (let j = 0; j < result[i].length; j++) {
-            let row = $('<tr/>');
-            if (j === 0)
-                row.attr("class", "double-top");
-            else
-                row.attr("class", "single-top");
-            row.attr("id", "datarow");
-            //  S.No
-            row.append($('<td/>').html(j + 1).attr("class", "single-right"));
-            //  Name
-            row.append($('<td/>').html(result[i][j].prefix + " " + result[i][j].ornament));
-            //  Tag No.
-            row.append($('<td/>').html(result[i][j].tagnumber).attr("class", "single-right"));
-            if (result[i][j]["stone"]["Diamond"][0]) {
-                //  MD. Wt.
-                row.append($('<td/>').html((result[i][j]["stone"]["Diamond"][0]["stoneweight"] * 1).toFixed(2)));
-                //  MD. Rate
-                row.append($('<td/>').html(result[i][j]["stone"]["Diamond"][0]["stonerate"]));
-                //  MD. Amt.
-                row.append($('<td/>').html((result[i][j]["stone"]["Diamond"][0]["stoneweight"] *
-                    result[i][j]["stone"]["Diamond"][0]["stonerate"]).toFixed(0)).attr("class", "single-right"));
-            } else {
-                //  MD. Wt.
-                row.append($('<td/>').html(""));
-                //  MD. Rate
-                row.append($('<td/>').html(""));
-                //  MD. Amt.
-                row.append($('<td/>').html("").attr("class", "single-right"));
-            }
-            if (result[i][j]["stone"]["Stone"][0]) {
-                //  St. Wt.
-                row.append($('<td/>').html((result[i][j]["stone"]["Stone"][0]["stoneweight"] * 1).toFixed(2)));
-                //  St. Rate
-                row.append($('<td/>').html(result[i][j]["stone"]["Stone"][0]["stonerate"]));
-                //  St. Amt.
-                row.append($('<td/>').html((result[i][j]["stone"]["Stone"][0]["stoneweight"] *
-                    result[i][j]["stone"]["Stone"][0]["stonerate"]).toFixed(0)).attr("class", "single-right"));
-            } else {
-                //  St. Wt.
-                row.append($('<td/>').html(""));
-                //  St. Rate
-                row.append($('<td/>').html(""));
-                //  St. Amt.
-                row.append($('<td/>').html("").attr("class", "single-right"));
-            }
-            //  Purity
-            row.append($('<td/>').html(result[i][j].purity.split("$")[0] + "K"));
-            //  Tounch
-            row.append($('<td/>').html(result[i][j].purity.split("$")[1]));
-            //  Wastage
-            row.append($('<td/>').html(result[i][j].wastage));
-            //  Gross Wt.
-            row.append($('<td/>').html(result[i][j].grossweight));
-            //  Net Wt.
-            row.append($('<td/>').html(result[i][j].netweight));
-            //  Pure Wt.
-            row.append($('<td/>').html((result[i][j].netweight *
-                ((result[i][j].purity.split("$")[1] * 1) +
-                    (result[i][j].wastage * 1)) / 100).toFixed(3)));
-            //  Rate
-            row.append($('<td/>').html(result.goldrate));
-            //  M. Amt
-            row.append($('<td/>').html(
-                (
-                    result.goldrate * (result[i][j].netweight * (
-                        (result[i][j].purity.split("$")[1] * 1) + (result[i][j].wastage * 1)
-                    ) / 100)
-                ).toFixed(2)
-            ).attr("class", "single-right"));
-            //  LabourRate
-            row.append($('<td/>').html((result[i][j].labour * 1).toFixed(0)));
-            //  LabourAmt
-            row.append($('<td/>').html((result[i][j].labour * result[i][j].netweight).toFixed(2)).attr("class", "single-right"));
-            //  Amount
+
             result[i][j].amount = ((
                     result.goldrate * (result[i][j].netweight * (
                         (result[i][j].purity.split("$")[1] * 1) + (result[i][j].wastage * 1)
@@ -400,167 +338,108 @@ function buildTable() {
                 ) +
                 (result[i][j].stoneprice * 1) +
                 (result[i][j].labour * result[i][j].netweight)).toFixed(0);
-            row.append($('<td/>').html(result[i][j].amount));
+
+            let row = returnRow([
+                j + 1,
+                result[i][j].prefix + " " + result[i][j].ornament,
+                result[i][j].tagnumber,
+                result[i][j]["stone"]["Diamond"][0] ? (result[i][j]["stone"]["Diamond"][0]["stoneweight"] * 1).toFixed(2) : "",
+                result[i][j]["stone"]["Diamond"][0] ? (result[i][j]["stone"]["Diamond"][0]["stonerate"] * 1) : "",
+                result[i][j]["stone"]["Diamond"][0] ? (result[i][j]["stone"]["Diamond"][0]["stoneweight"] * result[i][j]["stone"]["Diamond"][0]["stonerate"]).toFixed(0) : "",
+                result[i][j]["stone"]["Stone"][0] ? (result[i][j]["stone"]["Stone"][0]["stoneweight"] * 1).toFixed(2) : "",
+                result[i][j]["stone"]["Stone"][0] ? (result[i][j]["stone"]["Stone"][0]["stonerate"] * 1) : "",
+                result[i][j]["stone"]["Stone"][0] ? (result[i][j]["stone"]["Stone"][0]["stoneweight"] * result[i][j]["stone"]["Stone"][0]["stonerate"]).toFixed(0) : "",
+                result[i][j].purity.split("$")[0] + "K",
+                result[i][j].purity.split("$")[1],
+                (result[i][j].wastage * 1).toFixed(0),
+                (result[i][j].grossweight * 1).toFixed(3),
+                (result[i][j].netweight * 1).toFixed(3),
+                (result[i][j].netweight *
+                    ((result[i][j].purity.split("$")[1] * 1) +
+                        (result[i][j].wastage * 1)) / 100).toFixed(3),
+                result.goldrate,
+                (
+                    result.goldrate * (result[i][j].netweight * (
+                        (result[i][j].purity.split("$")[1] * 1) + (result[i][j].wastage * 1)
+                    ) / 100)
+                ).toFixed(2),
+                (result[i][j].labour * 1).toFixed(0),
+                (result[i][j].labour * result[i][j].netweight).toFixed(2),
+                result[i][j].amount
+            ]);
+
+            if (j === 0)
+                row.attr("class", "double-top");
+            else
+                row.attr("class", "single-top");
+            row.attr("id", "datarow");
+
             table = $("#table");
             table.append(row);
+
             // Tempmax
             let tempmax = Math.max(
                 result[i][j]["stone"]["Diamond"].length - 1,
                 result[i][j]["stone"]["Stone"].length - 1
             );
+
             // Stones
             for (let k = 0; k < tempmax; k++) {
-                let row = $('<tr/>');
+                let row = returnRow(["", "", "",
+                    result[i][j]["stone"]["Diamond"][k + 1] ? (result[i][j]["stone"]["Diamond"][k + 1]["stoneweight"] * 1).toFixed(2) : "",
+                    result[i][j]["stone"]["Diamond"][k + 1] ? (result[i][j]["stone"]["Diamond"][k + 1]["stonerate"] * 1) : "",
+                    result[i][j]["stone"]["Diamond"][k + 1] ? (result[i][j]["stone"]["Diamond"][k + 1]["stoneweight"] * result[i][j]["stone"]["Diamond"][k + 1]["stonerate"]).toFixed(0) : "",
+                    result[i][j]["stone"]["Stone"][k + 1] ? (result[i][j]["stone"]["Stone"][k + 1]["stoneweight"] * 1).toFixed(2) : "",
+                    result[i][j]["stone"]["Stone"][k + 1] ? (result[i][j]["stone"]["Stone"][k + 1]["stonerate"] * 1) : "",
+                    result[i][j]["stone"]["Stone"][k + 1] ? (result[i][j]["stone"]["Stone"][k + 1]["stoneweight"] * result[i][j]["stone"]["Stone"][k + 1]["stonerate"]).toFixed(0) : "",
+                    "", "", "", "", "", "", "", "", "", "", ""
+                ]);
                 row.attr("id", "datarow");
-                row.append($('<td/>').html("").attr("class", "single-right"));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html("").attr("class", "single-right"));
-                if (result[i][j]["stone"]["Diamond"][k + 1]) {
-                    row.append($('<td/>').html((result[i][j]["stone"]["Diamond"][k + 1]["stoneweight"] * 1).toFixed(2)));
-                    row.append($('<td/>').html(result[i][j]["stone"]["Diamond"][k + 1]["stonerate"]));
-                    row.append($('<td/>').html((result[i][j]["stone"]["Diamond"][k + 1]["stoneweight"] *
-                        result[i][j]["stone"]["Diamond"][k + 1]["stonerate"]).toFixed(0)).attr("class", "single-right"));
-                } else {
-                    row.append($('<td/>').html(""));
-                    row.append($('<td/>').html(""));
-                    row.append($('<td/>').html("").attr("class", "single-right"));
-                }
-                if (result[i][j]["stone"]["Stone"][k + 1]) {
-                    row.append($('<td/>').html((result[i][j]["stone"]["Stone"][k + 1]["stoneweight"] * 1).toFixed(2)));
-                    row.append($('<td/>').html(result[i][j]["stone"]["Stone"][k + 1]["stonerate"]));
-                    row.append($('<td/>').html((result[i][j]["stone"]["Stone"][k + 1]["stoneweight"] *
-                        result[i][j]["stone"]["Stone"][k + 1]["stonerate"]).toFixed(0)).attr("class", "single-right"));
-                } else {
-                    row.append($('<td/>').html(""));
-                    row.append($('<td/>').html(""));
-                    row.append($('<td/>').html("").attr("class", "single-right"));
-                }
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html("").attr("class", "single-right"));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html("").attr("class", "single-right"));
-                row.append($('<td/>').html(""));
                 table = $("#table");
                 table.append(row);
             }
             // total
             {
-                let row = $('<tr/>');
+                let row = returnRow(["", "", "",
+                    result[i][j].diamondweight.toFixed(2),
+                    "",
+                    result[i][j].diamondamount.toFixed(0),
+                    result[i][j].stoneweight.toFixed(2),
+                    "",
+                    result[i][j].stoneamount.toFixed(0),
+                    "", "", "", "", "", "", "", "", "", "", ""
+                ]);
                 row.attr("class", "bold");
-                row.append($('<td/>').html("").attr("class", "single-right"));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html("").attr("class", "single-right"));
-                row.append($('<td/>').html(result[i][j].diamondweight.toFixed(2)));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(result[i][j].diamondamount.toFixed(0)).attr("class", "single-right"));
-                row.append($('<td/>').html(result[i][j].stoneweight.toFixed(2)));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(result[i][j].stoneamount.toFixed(0)).attr("class", "single-right"));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html("").attr("class", "single-right"));
-                row.append($('<td/>').html(""));
-                row.append($('<td/>').html("").attr("class", "single-right"));
-                row.append($('<td/>').html(""));
                 table = $("#table");
                 table.append(row);
             }
         }
         //Section Total
         {
-            let row = $('<tr/>');
-            row.attr("class", "single-top highlight bold");
-            // S.No
-            row.append($('<td/>').html("Total").attr("class", "single-right"));
-            // Name
-            row.append($('<td/>').html(""));
-            // Tag No.
-            row.append($('<td/>').html("").attr("class", "single-right"));
-            // MD. Wt.
-            let temp = 0;
+            let mdweight = 0,
+                mdamt = 0,
+                stwt = 0,
+                stamt = 0,
+                grosswt = 0,
+                netwt = 0,
+                purewt = 0,
+                mamt = 0,
+                lbramt = 0,
+                amt = 0;
+
             result[i].forEach((item) => {
-                temp += item.diamondweight;
-            });
-            row.append($('<td/>').html(temp.toFixed(2)));
-            // MD. Rate
-            row.append($('<td/>').html(""));
-            // MD. Amt.
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += item.diamondamount;
-            });
-            row.append($('<td/>').html(temp.toFixed(0)).attr("class", "single-right"));
-            // St. Wt.
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += item.stoneweight;
-            });
-            row.append($('<td/>').html(temp.toFixed(2)));
-            // St. Rate
-            row.append($('<td/>').html(""));
-            // St. Amt.
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += item.stoneamount;
-            });
-            row.append($('<td/>').html(temp.toFixed(0)).attr("class", "single-right"));
-            // Purity
-            row.append($('<td/>').html(""));
-            // Tounch
-            row.append($('<td/>').html(""));
-            // Wastage
-            row.append($('<td/>').html(""));
-            // Gross Wt.
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += item.grossweight * 1;
-            });
-            row.append($('<td/>').html(temp.toFixed(3)));
-            // Net Wt.
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += item.netweight * 1;
-            });
-            row.append($('<td/>').html(temp.toFixed(3)));
-            // Pure Wt.
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += item.netweight *
+                mdweight += item.diamondweight;
+                mdamt += item.diamondamount;
+                stwt += item.stoneweight;
+                stamt += item.stoneamount;
+                grosswt += item.grossweight * 1;
+                netwt += item.netweight * 1;
+                purewt += item.netweight *
                     ((item.purity.split("$")[1] * 1) + (item.wastage * 1)) / 100;
-            });
-            row.append($('<td/>').html(temp.toFixed(3)));
-            // M.Rate
-            row.append($('<td/>').html(""));
-            // M. Amt
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += result.goldrate * item.netweight *
+                mamt += result.goldrate * item.netweight *
                     ((item.purity.split("$")[1] * 1) + (item.wastage * 1)) / 100;
-            });
-            row.append($('<td/>').html(temp.toFixed(2)).attr("class", "single-right"));
-            // Labour rate
-            row.append($('<td/>').html(""));
-            // Labour amt
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += item.netweight * item.labour;
-            });
-            row.append($('<td/>').html(temp.toFixed(2)).attr("class", "single-right"));
-            //  Amount
-            temp = 0;
-            result[i].forEach((item) => {
-                temp += (item.netweight * item.labour) +
+                lbramt += item.netweight * item.labour;
+                amt += (item.netweight * item.labour) +
                     (
                         result.goldrate * item.netweight *
                         ((item.purity.split("$")[1] * 1) + (item.wastage * 1)) /
@@ -568,7 +447,8 @@ function buildTable() {
                     ) +
                     item.stoneprice * 1;
             });
-            row.append($('<td/>').html(temp.toFixed(0)));
+            let row = returnRow(["Total", "", "", mdweight.toFixed(2), "", mdamt.toFixed(0), stwt.toFixed(2), "", stamt.toFixed(0), "", "", "", grosswt.toFixed(3), netwt.toFixed(3), purewt.toFixed(3), "", mamt.toFixed(2), "", lbramt.toFixed(2), amt.toFixed(0)]);
+            row.attr("class", "single-top highlight bold");
             table = $("#table");
             table.append(row);
         }
@@ -577,68 +457,39 @@ function buildTable() {
     {
         let TotalRowEle = document.querySelectorAll("#datarow");
         let TotalRowEleArr = [];
-        for (let i = 0; i < TotalRowEle.length; i++) {
+        for (let i = 0; i < TotalRowEle.length; i++)
             TotalRowEleArr.push(tableRowToDataObject(TotalRowEle[i]));
-        }
         let summedObject = {};
         TotalRowEleArr.forEach(function (obj) {
             Object.keys(obj).forEach(function (key) {
-                if (!summedObject.hasOwnProperty(key)) {
+                if (!summedObject.hasOwnProperty(key))
                     summedObject[key] = parseFloat(obj[key]) || 0;
-                } else {
-                    summedObject[key] += parseFloat(obj[key]) ||
-                        0;
-                }
+                else
+                    summedObject[key] += parseFloat(obj[key]) || 0;
             });
         });
-        let row = $('<tr/>');
+
+        let row = returnRow(["Grand Total", "", "",
+            (summedObject["MD. Wt."]).toFixed(2), "",
+            (summedObject["MD. Amt."]).toFixed(0),
+            (summedObject["St. Wt."]).toFixed(2), "",
+            (summedObject["St. Amt."]).toFixed(0), "", "", "",
+            (summedObject["Gross Wt."]).toFixed(3),
+            (summedObject["Net Wt."]).toFixed(3),
+            (summedObject["Pure Wt."]).toFixed(3), "",
+            (summedObject["M. Amount"]).toFixed(2), "",
+            (summedObject["L. Amount"]).toFixed(2),
+            (summedObject["Amount"]).toFixed(0)
+        ]);
+
+        var temppureweigth = (summedObject["Pure Wt."]).toFixed(3);
+        var tempamount = (summedObject["Amount"]).toFixed(0);
         row.attr('id', 'totalrow');
         row.attr('class', 'highlight');
-        // S.No
-        row.append($('<td/>').html("Grand Total"));
-        // Name
-        row.append($('<td/>').html(""));
-        // Tag No.
-        row.append($('<td/>').html(""));
-        // MD. Wt.
-        row.append($('<td/>').html((summedObject["MD. Wt."]).toFixed(2)));
-        // MD. Rate
-        row.append($('<td/>').html(""));
-        // MD. Amt.
-        row.append($('<td/>').html((summedObject["MD. Amt."]).toFixed(0)));
-        // St. Wt.
-        row.append($('<td/>').html((summedObject["St. Wt."]).toFixed(2)));
-        // St. Rate
-        row.append($('<td/>').html(""));
-        // St. Amt.
-        row.append($('<td/>').html((summedObject["St. Amt."]).toFixed(0)));
-        // Purity
-        row.append($('<td/>').html(""));
-        // Tounch
-        row.append($('<td/>').html(""));
-        // Wastage
-        row.append($('<td/>').html(""));
-        // Gross Wt.
-        row.append($('<td/>').html((summedObject["Gross Wt."]).toFixed(3)));
-        // Net Wt.
-        row.append($('<td/>').html((summedObject["Net Wt."]).toFixed(3)));
-        // Pure Wt.
-        var temppureweigth = (summedObject["Pure Wt."]).toFixed(3);
-        row.append($('<td/>').html((summedObject["Pure Wt."]).toFixed(3)));
-        // M. Rate
-        row.append($('<td/>').html(""));
-        // M. Amt
-        row.append($('<td/>').html((summedObject["M. Amount"]).toFixed(2)));
-        // Labour
-        row.append($('<td/>').html(""));
-        // Labour
-        row.append($('<td/>').html((summedObject["L. Amount"]).toFixed(2)));
-        //  Amount
-        var tempamount = (summedObject["Amount"]).toFixed(0);
-        row.append($('<td/>').html((summedObject["Amount"]).toFixed(0)));
         table = $("#table");
         table.append(row);
     }
+
     // Update variables
     {
         let temp = localStorage.getItem('savedHeader');
@@ -648,6 +499,7 @@ function buildTable() {
             temp["goldrate"];
         localStorage.setItem('savedHeader', JSON.stringify(temp));
     }
+
     document.getElementById("table").innerHTML +=
         `<tr>
             <td rowspan="2" colspan="9" class="double-right" style="text-align: left;vertical-align:top;">
@@ -666,15 +518,15 @@ function buildTable() {
 
 function returnRow(arr) {
     let row = $('<tr/>');
-    row.append($('<td/>').html(arr[0]).attr("class", "single-right"));
+    row.append($('<td/>').html(arr[0]).attr("class", "double-right"));
     row.append($('<td/>').html(arr[1]));
-    row.append($('<td/>').html(arr[2]).attr("class", "single-right"));
+    row.append($('<td/>').html(arr[2]).attr("class", "double-right"));
     row.append($('<td/>').html(arr[3]));
     row.append($('<td/>').html(arr[4]));
-    row.append($('<td/>').html(arr[5]).attr("class", "single-right"));
+    row.append($('<td/>').html(arr[5]).attr("class", "double-right"));
     row.append($('<td/>').html(arr[6]));
     row.append($('<td/>').html(arr[7]));
-    row.append($('<td/>').html(arr[8]).attr("class", "single-right"));
+    row.append($('<td/>').html(arr[8]).attr("class", "double-right"));
     row.append($('<td/>').html(arr[9]));
     row.append($('<td/>').html(arr[10]));
     row.append($('<td/>').html(arr[11]));
@@ -682,9 +534,9 @@ function returnRow(arr) {
     row.append($('<td/>').html(arr[13]));
     row.append($('<td/>').html(arr[14]));
     row.append($('<td/>').html(arr[15]));
-    row.append($('<td/>').html(arr[16]).attr("class", "single-right"));
+    row.append($('<td/>').html(arr[16]).attr("class", "double-right"));
     row.append($('<td/>').html(arr[17]));
-    row.append($('<td/>').html(arr[18]).attr("class", "single-right"));
+    row.append($('<td/>').html(arr[18]).attr("class", "double-right"));
     row.append($('<td/>').html(arr[19]));
     return row;
 }
@@ -700,3 +552,21 @@ function tableRowToDataObject(rowElement) {
     });
     return rowData;
 }
+var abcd;
+
+function deleteRow(input) {
+    let table = document.getElementById("editor");
+    table.deleteRow(input.parentElement.parentElement.rowIndex);
+}
+
+function randomFill() {
+    let arr = ["prefix", "ornament", "purity", "tagnumber", "grossweight", "netweight", "labour", "wastage", "stonetype", "stoneweight", "stonerate"];
+    arr.forEach(element => {
+        if (document.getElementById(element).nodeName === "INPUT") {
+            document.getElementById(element).value = Math.floor(Math.random() * 100) + 1;
+        } else if (document.getElementById(element).nodeName === "SELECT") {
+            document.getElementById(element).selectedIndex = Math.floor(Math.random() * (document.getElementById(element).length - 1)) + 1;
+        }
+    });
+}
+// randomFill();
