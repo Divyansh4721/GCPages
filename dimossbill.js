@@ -109,8 +109,8 @@ function stoneForm(event) {
     form.reset();
 }
 
-function submitEditor() {
-    console.log("hi");
+function submitEditor(event) {
+    event.preventDefault();
     let table = document.getElementById("editor");
     let rows = table.getElementsByTagName("tr");
     let ele = table.getElementsByTagName("td");
@@ -131,6 +131,7 @@ function submitEditor() {
                     "labour": "${ele[tempind++].getElementsByTagName("input")[0].value}",
                     "wastage": "${ele[tempind++].getElementsByTagName("input")[0].value}",
                     "stone": [`;
+            tempind++
         } else {
             json +=
                 `{
@@ -138,17 +139,24 @@ function submitEditor() {
                     "stoneweight": "${ele[tempind++].getElementsByTagName("input")[0].value}",
                     "stonerate": "${ele[tempind++].getElementsByTagName("input")[0].value}"
                 },`;
+            tempind++
+            tempind++
+            tempind++
+            tempind++
+            tempind++
+            tempind++
         }
     }
     json += `]}]`;
     json = json.replaceAll("},]", "}]");
     localStorage.setItem('savedData', JSON.stringify(JSON.parse(json)));
-    // location.reload();
+    location.reload();
 }
 
 function buildEditor() {
     let data = localStorage.getItem('savedData');
     data = data ? JSON.parse(data) : JSON.parse("[]");
+    document.getElementById("editor").innerHTML = "";
     let tempHTML =
         `<tr>
             <th>Prefix</th>
@@ -560,7 +568,7 @@ function deleteRow(input) {
 }
 
 function randomFill() {
-    let arr = ["prefix", "ornament", "purity", "tagnumber", "grossweight", "netweight", "labour", "wastage", "stonetype", "stoneweight", "stonerate"];
+    let arr = ["prefix", "ornament", "purity", "tagnumber", "grossweight", "netweight", "stonetype", "stoneweight", "stonerate"];
     arr.forEach(element => {
         if (document.getElementById(element).nodeName === "INPUT") {
             document.getElementById(element).value = Math.floor(Math.random() * 100) + 1;
