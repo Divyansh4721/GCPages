@@ -1,6 +1,4 @@
-if (!localStorage.getItem('savedHeader') && !document.getElementById("goldrate").value) {
-    localStorage.setItem('savedHeader', '{"goldrate":""}');
-}
+document.getElementById("goldrate").value = localStorage.getItem("goldrate");
 
 buildTable();
 buildEditor();
@@ -82,10 +80,10 @@ function itemForm(event) {
         "wastage": document.getElementById("wastage").value,
         "stone": []
     }
-    let data = localStorage.getItem('savedData');
+    let data = localStorage.getItem('dimossbilldata');
     data = data ? JSON.parse(data) : JSON.parse("[]");
     data.push(temp);
-    localStorage.setItem('savedData', JSON.stringify(data));
+    localStorage.setItem('dimossbilldata', JSON.stringify(data));
     buildTable();
     buildEditor();
     let form = document.getElementById("itemform");
@@ -99,10 +97,10 @@ function stoneForm(event) {
         "stoneweight": document.getElementById("stoneweight").value,
         "stonerate": document.getElementById("stonerate").value,
     }
-    let data = localStorage.getItem('savedData');
+    let data = localStorage.getItem('dimossbilldata');
     data = data ? JSON.parse(data) : JSON.parse("[]");
     data[data.length - 1]["stone"].push(temp);
-    localStorage.setItem('savedData', JSON.stringify(data));
+    localStorage.setItem('dimossbilldata', JSON.stringify(data));
     buildTable();
     buildEditor();
     let form = document.getElementById("stoneform");
@@ -149,12 +147,12 @@ function submitEditor(event) {
     }
     json += `]}]`;
     json = json.replaceAll("},]", "}]");
-    localStorage.setItem('savedData', JSON.stringify(JSON.parse(json)));
+    localStorage.setItem('dimossbilldata', JSON.stringify(JSON.parse(json)));
     location.reload();
 }
 
 function buildEditor() {
-    let data = localStorage.getItem('savedData');
+    let data = localStorage.getItem('dimossbilldata');
     data = data ? JSON.parse(data) : JSON.parse("[]");
     document.getElementById("editor").innerHTML = "";
     let tempHTML =
@@ -246,10 +244,10 @@ function buildEditor() {
 }
 
 function buildTable() {
-    if (!localStorage.getItem('savedData')) {
+    if (!localStorage.getItem('dimossbilldata')) {
         return;
     }
-    let data = localStorage.getItem('savedData');
+    let data = localStorage.getItem('dimossbilldata');
     data = data ? JSON.parse(data) : JSON.parse("[]");
     data.sort((a, b) => {
         let ornamentA = a.ornament.toUpperCase();
@@ -297,11 +295,9 @@ function buildTable() {
         ornaments[ornament].push(item);
     });
     let result = Object.values(ornaments);
-    let tempHeader = localStorage.getItem('savedHeader');
+    let tempHeader = localStorage.getItem('goldrate');
     tempHeader = tempHeader ? JSON.parse(tempHeader) : JSON.parse("{}");
-    result.goldrate = document.getElementById("goldrate").value ?
-        document.getElementById("goldrate").value :
-        tempHeader["goldrate"];
+    result.goldrate = localStorage.getItem('goldrate') ? localStorage.getItem('goldrate') : 0;
     document.getElementById("table").innerHTML =
         `<tr class="highlight">
             <td class="double-right"></td>
@@ -496,16 +492,6 @@ function buildTable() {
         row.attr('class', 'highlight');
         table = $("#table");
         table.append(row);
-    }
-
-    // Update variables
-    {
-        let temp = localStorage.getItem('savedHeader');
-        temp = temp ? JSON.parse(temp) : JSON.parse("{}");
-        temp["goldrate"] = document.getElementById("goldrate").value ?
-            document.getElementById("goldrate").value :
-            temp["goldrate"];
-        localStorage.setItem('savedHeader', JSON.stringify(temp));
     }
 
     document.getElementById("table").innerHTML +=

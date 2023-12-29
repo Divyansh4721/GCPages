@@ -3,22 +3,78 @@ body {
     font-family: sans-serif;
 }
 
-table {
+#table {
     border: 2px solid black;
     border-collapse: collapse;
     text-align: center;
-    width: 1%;
-    transform-origin: top left;
+    background-image: url('GCwatermark.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-td {
-    padding-top: 5px;
-    padding-bottom: 5px;
+.bold {
+    font-weight: bold;
+    background-color: rgba(211, 211, 211, 0.5);
+}
+
+#table td,
+#table th {
+    padding: 5px;
     white-space: nowrap;
 }
 
-tbody tr:last-child td {
-    padding-top: 140px;
+#table tbody tr:nth-last-child(2) td {
+    padding-bottom: 140px;
+}
+
+#editor {
+    border-collapse: collapse;
+    text-align: center;
+    white-space: nowrap;
+    transform-origin: top left;
+}
+
+#editor input,
+#editor select {
+    width: 120px;
+}
+
+#editor button {
+    font-size: 15px;
+    padding: 5px;
+}
+
+@media (max-width: 767px) {
+    #editor {
+        font-size: 5px;
+    }
+
+    #editor td,
+    #editor th {
+        padding: 2px;
+    }
+
+    #editor input,
+    #editor select {
+        font-size: 5px;
+        width: 30px;
+    }
+
+    #editor button {
+        font-size: 8px;
+        padding: 0px;
+    }
+
+    #table {
+        font-size: 5px;
+    }
+
+    #table td,
+    #table th {
+        padding: 2px;
+        white-space: nowrap;
+    }
 }
 
 #outerbox {
@@ -27,7 +83,7 @@ tbody tr:last-child td {
     flex-direction: row;
 }
 
-form {
+#outerbox form {
     border: 1px solid black;
     width: 50%;
     align-content: center;
@@ -36,7 +92,7 @@ form {
     align-items: center;
 }
 
-input {
+#outerbox form input {
     width: 80%;
     margin: 10px;
     padding: 0px 5px;
@@ -46,7 +102,7 @@ input {
     outline: 0;
 }
 
-select {
+#outerbox form select {
     width: 90%;
     margin: 10px;
     padding: 0px 5px;

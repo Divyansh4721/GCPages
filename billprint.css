@@ -1,19 +1,24 @@
 body {
-    margin: 0;
-    width: 100vw;
+    font-family: sans-serif;
 }
 
 table {
     border: 2px solid black;
     border-collapse: collapse;
     text-align: center;
-    scale: 1;
+    background-image: url('GCwatermark.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-th {
-    padding: 5px;
+.bold {
+    font-weight: bold;
+    background-color: rgba(211, 211, 211, 0.5);
 }
 
+
+th,
 td {
     padding: 5px;
     white-space: nowrap;
@@ -23,8 +28,8 @@ div {
     width: min-content;
 }
 
-tbody tr:last-child td {
-    padding-top: 140px;
+tbody tr:nth-last-child(2) td {
+    padding-bottom: 140px;
 }
 
 #previewImg {

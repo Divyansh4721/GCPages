@@ -17,7 +17,7 @@
         style="font-size: 15px; height: 40px; width: 40px;"></button>
     <center>
         <div id="outerbox">
-            <form id="itemform" onsubmit="ItemForm(event)">
+            <form id="itemform" onsubmit="itemForm(event)">
                 <select id="prefix">
                     <option value="">Select Start Name</option>
                     <option value="MD.">MD</option>
@@ -53,15 +53,14 @@
                 </select>
                 <select id="purity" required>
                     <option value="">Select Purity</option>
-                    <option value="22/KDM$92-93">22/KDM | 92-93</option>
-                    <option value="23/20$83-85" selected>23/20 | 83-85</option>
-                    <option value="22/18$78-80">22/18 | 78-80</option>
-                    <option value="18$75">18 | 75</option>
-                    <option value="14$60">14 | 60</option>
+                    <option value="22/KDM$92-93$92">22/KDM | 92-93 | 92</option>
+                    <option value="23/20$83-85$85" selected>23/20 | 83-85 | 85</option>
+                    <option value="22/18$78-80$80">22/18 | 78-80 | 80</option>
+                    <option value="18$75$90">18 | 75 | 90</option>
+                    <option value="14$60$75">14 | 60 | 75</option>
                 </select>
                 <input type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required>
                 <input type="number" id="netweight" placeholder="Net Weight" step="0.001" required>
-                <input type="number" id="goldrate" placeholder="Gold Rate" step="0.01" min="1000" max="9999" required>
                 <select id="wastage" required>
                     <option value="0">0</option>
                     <option value="5">5</option>
@@ -73,7 +72,7 @@
                 </select>
                 <button type="submit">Submit</button>
             </form>
-            <form id="stoneform" onsubmit="StoneForm(event)">
+            <form id="stoneform" onsubmit="stoneForm(event)">
                 <select id="stonetype" required>
                     <option value="">Select Stone Type</option>
                     <option value="Stone">Stone</option>
@@ -84,28 +83,17 @@
                 <input type="number" id="stoneweight" placeholder="Stone Weight" step="0.001">
                 <input type="number" id="stonerate" placeholder="Stone Rate" step="0.01">
                 <button type="submit">Submit</button>
+                <input type="number" id="goldrate" onchange="localStorage.setItem('goldrate', this.value);buildTable();"
+                    placeholder="Gold Rate" step="0.01" min="1000" max="9999">
             </form>
         </div>
-        <button onclick=" localStorage.setItem('mydata', ''); location.reload();">Reset</button>
+        <button onclick="localStorage.setItem('billdata', '');localStorage.setItem('goldrate', ''); location.reload();">Reset</button>
+        <form onsubmit="submitEditor(event)">
+            <table id="editor" border="1"></table>
+            <button type="submit">Update</button>
+        </form>
+        <table id="table" border="1"></table>
         <button onclick="printTable()">Print Table</button>
-        <table id="table" border="1">
-            <tr>
-                <th>S.No</th>
-                <th>Ornament</th>
-                <th>Carat</th>
-                <th>Purity</th>
-                <th>Gross Weight</th>
-                <th>Stone Weight</th>
-                <th>Net Weight</th>
-                <th>Wastage (In gms)</th>
-                <th>Charged Weight</th>
-                <th>Gold Rate</th>
-                <th>KDM Rate</th>
-                <th>Rate</th>
-                <th>Amount</th>
-                <th>With GST3%</th>
-            </tr>
-        </table>
     </center>
 </body>
 <script src="bill.js"></script>

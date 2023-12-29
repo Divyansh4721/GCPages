@@ -71,13 +71,13 @@
                 <input type="number" id="stoneweight" placeholder="Stone Weight" step="0.001" required>
                 <input type="number" id="stonerate" placeholder="Stone Rate" step="0.01" required>
                 <button type="submit">Submit</button>
-                <input type="number" id="goldrate" onchange="buildTable()" placeholder="Gold Rate" step="0.01"
+                <input type="number" id="goldrate" onchange="localStorage.setItem('goldrate', this.value);buildTable();" placeholder="Gold Rate" step="0.01"
                     min="1000" max="9999">
                 <input type="text" id="remark" onchange="buildTable()" placeholder="Remark" step="0.01">
                 <input type="text" id="name" placeholder="Company Name">
             </form>
         </div>
-        <button onclick=" localStorage.setItem('savedData', ''); location.reload();">Reset</button>
+        <button onclick=" localStorage.setItem('dimossbilldata', ''); location.reload();">Reset</button>
         <form onsubmit="submitEditor(event)">
             <table id="editor" border="1"></table>
             <button type="submit">Update</button>
