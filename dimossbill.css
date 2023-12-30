@@ -3,6 +3,13 @@ body {
     font-family: sans-serif;
 }
 
+input,
+select,
+button,
+td,
+th {
+    font-family: "Times New Roman", Times, serif !important;
+}
 #table {
     border: 2px solid black;
     border-collapse: collapse;
