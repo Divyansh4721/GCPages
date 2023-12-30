@@ -73,11 +73,11 @@
                 <button type="submit">Submit</button>
                 <input type="number" id="goldrate" onchange="localStorage.setItem('goldrate', this.value);buildTable();" placeholder="Gold Rate" step="0.01"
                     min="1000" max="9999">
-                <input type="text" id="remark" onchange="buildTable()" placeholder="Remark" step="0.01">
-                <input type="text" id="name" placeholder="Company Name">
+                <input type="text" id="remark" onchange="localStorage.setItem('remark', this.value);buildTable();" placeholder="Remark" step="0.01">
+                <input type="text" id="name" onchange="localStorage.setItem('name', this.value);" placeholder="Company Name">
             </form>
         </div>
-        <button onclick=" localStorage.setItem('dimossbilldata', ''); location.reload();">Reset</button>
+        <button onclick="localStorage.setItem('dimossbilldata', ''); localStorage.setItem('goldrate', ''); localStorage.setItem('remark', ''); localStorage.setItem('name', ''); location.reload();">Reset</button>
         <form onsubmit="submitEditor(event)">
             <table id="editor" border="1"></table>
             <button type="submit">Update</button>

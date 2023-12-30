@@ -1,4 +1,6 @@
 document.getElementById("goldrate").value = localStorage.getItem("goldrate");
+document.getElementById("remark").value = localStorage.getItem("remark");
+document.getElementById("name").value = localStorage.getItem("name");
 
 buildTable();
 buildEditor();
@@ -26,7 +28,7 @@ function printTable() {
                         <span>${getCurrentTime()}</span>
                     </div>
                     <div id="heading">
-                        <span>To :: ${document.getElementById("name").value}</span>
+                        <span>To :: ${localStorage.getItem("name")}</span>
                         <span>Rought Estimate / Quotation</span>
                     </div>
                     ${table.outerHTML}
@@ -498,7 +500,7 @@ function buildTable() {
     document.getElementById("table").innerHTML +=
         `<tr>
             <td rowspan="2" colspan="9" class="double-right" style="text-align: left;vertical-align:top;">
-                <b>Remarks :- ${document.getElementById("remark").value}</b>
+                <b>Remarks :- ${localStorage.getItem("remark")}</b>
             </td>
             <td colspan="9">
                 <b>Pure Gold Weight :- ${temppureweigth}</b>
