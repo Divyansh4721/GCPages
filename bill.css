@@ -7,7 +7,7 @@ select,
 button,
 td,
 th {
-    font-family: sans-serif !important;
+    font-family: "Times New Roman", Times, serif !important;
 }
 
 #table {
