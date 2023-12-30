@@ -1,6 +1,13 @@
 body {
     width: 95vw;
-    font-family: Arial, sans-serif !important;
+}
+
+input,
+select,
+button,
+td,
+th {
+    font-family: sans-serif !important;
 }
 
 #table {
