@@ -38,7 +38,7 @@ function printTable() {
                     document.body.appendChild(anchorTag);
                     document.getElementById("previewImg").appendChild(canvas);
                     element.innerHTML = "";
-                    anchorTag.download = "Image.jpg";
+                    anchorTag.download = "Image";
                     anchorTag.href = canvas.toDataURL();
                     anchorTag.target = '_blank';
                     anchorTag.click();
