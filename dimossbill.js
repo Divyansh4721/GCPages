@@ -473,7 +473,8 @@ function buildTable() {
             });
         });
 
-        let row = returnRow(["Grand Total", "", "",
+        let row = returnRow(["Grand Total",
+            JSON.parse(localStorage.getItem('dimossbilldata')).length+" Items", "",
             (summedObject["MD. Wt."]).toFixed(2), "",
             (summedObject["MD. Amt."]).toFixed(0),
             (summedObject["St. Wt."]).toFixed(2), "",
