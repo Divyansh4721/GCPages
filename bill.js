@@ -160,7 +160,7 @@ function buildEditor() {
             tempHTML +=
                 `<tr id="type1">
                 <td>
-                    <select id="prefix" required>
+                    <select id="prefix">
                         <option value="">Select Start Name</option>
                         <option ${in1.prefix==="MD." ?"selected":""} value="MD.">MD</option>
                         <option ${in1.prefix==="D." ?"selected":""} value="D.">D</option>
@@ -202,8 +202,8 @@ function buildEditor() {
                         <option ${in1.purity==="22/KDM$92-93$92" ?"selected":""} value="22/KDM$92-93$92">22/KDM | 92-93 | 92</option>
                         <option ${in1.purity==="23/20$83-85$96" ?"selected":""} value="23/20$83-85$96">23/20 | 83-85 | 96</option>
                         <option ${in1.purity==="22/18$78-80$92" ?"selected":""} value="22/18$78-80$92">22/18 | 78-80 | 92</option>
-                        <option ${in1.purity==="18$75$76" ?"selected":""} value="18$75$76">18 | 75 | 76</option>
-                        <option ${in1.purity==="14$60$60" ?"selected":""} value="14$60$60">14 | 60 | 60</option>
+                        <option ${in1.purity==="18$75$91" ?"selected":""} value="18$75$91">18 | 75 | 91</option>
+                        <option ${in1.purity==="14$60$76" ?"selected":""} value="14$60$76">14 | 60 | 76</option>
                     </select>
                 </td>
                 <td><input value="${in1.grossweight}" type="number" id="grossweight" placeholder="Gross Weight" step="0.001" required></td>
@@ -278,7 +278,7 @@ function buildTable() {
             if (data[i].carat.includes("KDM"))
                 data[i].kdmrate = (goldrate * data[i].multiplier / 100) / 10;
             data[i].rate = goldrate * data[i].multiplier / 100;
-            if (data[i].carat.includes("KDM"))
+            if (data[i].carat.includes("KDM"))  
                 data[i].rate = goldrate * data[i].multiplier / 100 * 1.10;
 
             let row = returnRow([
