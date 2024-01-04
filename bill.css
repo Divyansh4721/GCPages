@@ -2,12 +2,13 @@ body {
     width: 95vw;
 }
 
+center,
 input,
 select,
 button,
 td,
 th {
-    font-family: sans-serif;
+    font-family: "Times New Roman", Times, serif !important;
 }
 
 #table {
@@ -25,10 +26,13 @@ th {
     background-color: rgba(211, 211, 211, 0.5);
 }
 
-#table td,
-#table th {
+#table td {
     padding: 5px;
     white-space: nowrap;
+}
+
+#table th {
+    padding: 5px;
 }
 
 #table tbody tr:nth-last-child(2) td {
@@ -77,10 +81,13 @@ th {
         font-size: 5px;
     }
 
-    #table td,
-    #table th {
+    #table td {
         padding: 2px;
         white-space: nowrap;
+    }
+
+    #table th {
+        padding: 2px;
     }
 }
 
