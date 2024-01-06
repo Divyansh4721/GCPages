@@ -83,7 +83,7 @@
                 <input type="number" id="stoneweight" placeholder="Stone Weight" step="0.001">
                 <input type="number" id="stonerate" placeholder="Stone Rate" step="0.01">
                 <button type="submit">Submit</button>
-                <input type="number" id="goldrate" onchange="localStorage.setItem('goldrate', this.value);buildTable();"
+                <input type="number" id="goldrate" onchange="goldRateUpdate(this.value)"
                     placeholder="Gold Rate" step="0.01" min="1000" max="9999">
             </form>
         </div>

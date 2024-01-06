@@ -1,3 +1,13 @@
+function goldRateUpdate(rate) {
+    if (rate.length > 4) {
+        window.alert("Gold Rate Not Correct!")
+    } else {
+        localStorage.setItem('goldrate', rate);
+        buildTable();
+    }
+}
+
+
 document.getElementById("goldrate").value = localStorage.getItem("goldrate");
 
 document.getElementById("grossweight").addEventListener("change", () => {
@@ -278,7 +288,7 @@ function buildTable() {
             if (data[i].carat.includes("KDM"))
                 data[i].kdmrate = (goldrate * data[i].multiplier / 100) / 10;
             data[i].rate = goldrate * data[i].multiplier / 100;
-            if (data[i].carat.includes("KDM"))  
+            if (data[i].carat.includes("KDM"))
                 data[i].rate = goldrate * data[i].multiplier / 100 * 1.10;
 
             let row = returnRow([
