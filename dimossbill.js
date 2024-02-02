@@ -210,7 +210,7 @@ function buildEditor() {
                 <td>
                     <select id="purity" required>
                         <option value="">Select Purity</option>
-                        <option ${in1.purity==="18$75" ?"selected":""} value="18$75">18 | 75</option>
+                        <option ${in1.purity==="18$76" ?"selected":""} value="18$76">18 | 76</option>
                         <option ${in1.purity==="14$60" ?"selected":""} value="14$60">14 | 60</option>
                     </select>
                 </td>
