@@ -150,7 +150,7 @@ button {
 }
 
 #table {
-    font-size: 16px;
+    font-size: 50px;
 }
 
 #editor {
@@ -169,7 +169,7 @@ div {
 
 #heading {
     width: 99%;
-    font-size: 20px;
+    font-size: 55px;
     word-spacing: 5px;
     letter-spacing: 2px;
     background-color: lightgray;
