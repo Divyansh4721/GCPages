@@ -180,7 +180,7 @@ function buildEditor() {
                 </td>
                 <td>
                     <select id="ornament" required>
-                        <option value="">Select Ornament</option>
+                        <option ${in1.ornament===" " ?"selected":""} value=" ">Select Ornament</option>
                         <option ${in1.ornament==="B.Bali" ?"selected":""} value="B.Bali">B.Bali</option>
                         <option ${in1.ornament==="Bali" ?"selected":""} value="Bali">Bali</option>
                         <option ${in1.ornament==="Bangles" ?"selected":""} value="Bangles">Bangles</option>
@@ -210,6 +210,7 @@ function buildEditor() {
                 <td>
                     <select id="purity" required>
                         <option value="">Select Purity</option>
+                        <option ${in1.purity==="0$0" ?"selected":""} value="0$0">0 | 0</option>
                         <option ${in1.purity==="18$76" ?"selected":""} value="18$76">18 | 76</option>
                         <option ${in1.purity==="14$60" ?"selected":""} value="14$60">14 | 60</option>
                     </select>
