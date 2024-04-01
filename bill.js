@@ -1,5 +1,8 @@
-function goldRateUpdate(rate) {
-    if (rate.length > 4) {
+function goldRateUpdate() {
+    let rate = document.getElementById("goldrate").value;
+    let purity = document.getElementById("goldratepurity").value;
+    rate = ((rate / purity) * 100);
+    if (Math.round(rate).length > 4) {
         window.alert("Gold Rate Not Correct!")
     } else {
         localStorage.setItem('goldrate', rate);
@@ -311,13 +314,24 @@ function buildTable() {
             table = $("#table");
             table.append(row);
         } else {
-            let row = returnRow([
-                i + 1,
-                data[i].stonetype, "", "", "", "",
-                data[i].stoneweight, "", "", "", "",
-                data[i].stonerate,
-                (data[i].stoneweight * data[i].stonerate).toFixed(0)
-            ]);
+            let row = "";
+            if (data[i].stonetype === "Stone") {
+                row = returnRow([
+                    i + 1,
+                    data[i].stonetype, "", "", "", "",
+                    data[i].stoneweight, "", "", "", "",
+                    data[i].stonerate,
+                    (data[i].stonerate*1).toFixed(0)
+                ]);
+            } else {
+                row = returnRow([
+                    i + 1,
+                    data[i].stonetype, "", "", "", "",
+                    data[i].stoneweight, "", "", "", "",
+                    data[i].stonerate,
+                    (data[i].stoneweight * data[i].stonerate).toFixed(0)
+                ]);
+            }
             row.attr("id", "type2");
             table = $("#table");
             table.append(row);
