@@ -240,6 +240,7 @@ function buildEditor() {
                         <option ${in1.stonetype==="Stone" ?"selected":""} value="Stone">Stone</option>
                         <option ${in1.stonetype==="Diamond" ?"selected":""} value="Diamond">Diamond</option>
                         <option ${in1.stonetype==="M.Diamond" ?"selected":""} value="M.Diamond">M.Diamond</option>
+                        <option ${in1.stonetype==="CVD.Diamond" ?"selected":""} value="CVD.Diamond">CVD.Diamond</option>
                         <option ${in1.stonetype==="Mala" ?"selected":""} value="Mala">Mala</option>
                     </select>
                 </td>
