@@ -1,7 +1,7 @@
 function goldRateUpdate() {
     let rate = document.getElementById("goldrate").value;
     let purity = document.getElementById("goldratepurity").value;
-    rate = ((rate / purity) * 100);
+    rate = Math.round(((rate / purity) * 100));
     if (Math.round(rate).length > 4) {
         window.alert("Gold Rate Not Correct!")
     } else {
