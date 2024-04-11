@@ -321,7 +321,7 @@ function buildTable() {
                     data[i].stonetype, "", "", "", "",
                     data[i].stoneweight, "", "", "", "",
                     data[i].stonerate,
-                    (data[i].stonerate*1).toFixed(0)
+                    (data[i].stonerate * 1).toFixed(0)
                 ]);
             } else {
                 row = returnRow([
@@ -355,8 +355,12 @@ function buildTable() {
             stonewt += ((item.stoneweight ? item.stoneweight : 0) * 1)
             if (item.type === "type1")
                 amt += ((item.netweight * 1) + (item.netweight * item.wastage / 100)) * (item.rate * 1);
-            else
-                amt += (item.stoneweight * item.stonerate);
+            else {
+                if (item.stonetype === "Stone")
+                    amt += (1 * item.stonerate);
+                else
+                    amt += (item.stoneweight * item.stonerate);
+            }
         });
         let row = returnRow(["Total", "", "", "", grosswt.toFixed(3), netwt.toFixed(3), stonewt.toFixed(3), wstg.toFixed(3), chwt.toFixed(3), "", "", "", (amt * 1).toFixed(0), (amt * 1.03).toFixed(0)]);
         row.attr("class", "bold");
