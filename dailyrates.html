@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="voucher.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/9f9e58ef8b.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+        integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Daily Rates</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        input {
+            width: 90%;
+            margin-top: 10px;
+            padding: 14px 16px;
+            font-size: 17px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            outline: 0;
+        }
+
+        textarea {
+            width: 90%;
+            margin-top: 10px;
+            padding: 14px 16px;
+            font-size: 17px;
+            border: 1px solid #dfe1e4;
+            border-radius: 10px;
+            outline: 0;
+        }
+
+        button {
+            width: 90%;
+            height: 50px;
+            margin-top: 10px;
+            border: 0;
+            background-color: rgb(247, 194, 20);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 23px;
+            font-weight: bold;
+            color: white;
+        }
+
+        #imageContainer {
+            position: relative;
+            height: fit-content;
+            width: fit-content;
+            transform: scale(0.3);
+            transform-origin: top left;
+        }
+
+        @font-face {
+            font-family: "Constantia";
+            src: url("./Constantia.woff")format("woff");
+        }
+
+        span {
+            position: absolute;
+            font-size: 32px;
+            color: #1a2334;
+            font-weight: bold;
+            font-family: 'Constantia';
+        }
+
+        #goldrate1 {
+            top: 492px;
+            left: 175px;
+        }
+
+        #goldrate2 {
+            top: 492px;
+            left: 449px;
+        }
+
+        #goldrate3 {
+            top: 492px;
+            left: 724px;
+        }
+
+        #goldrate4 {
+            top: 760px;
+            left: 330px;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="window.location.href='index.html'" class="fas fa-home"
+        style="font-size: 15px; height: 40px; width: 40px;"></button>
+    <center>
+        <input id="goldrate" onchange="helper()" type="number" placeholder="Gold Rate">
+        <input id="silverrate" onchange="helper()" type="number" placeholder="Silver Rate">
+        <button type="button" onclick="exportImg()">Download Image</button>
+        <br>
+        <br>
+        <div id="imageContainer">
+            <img src="./dailyrates.png">
+            <span id="goldrate1"></span>
+            <span id="goldrate2"></span>
+            <span id="goldrate3"></span>
+            <span id="goldrate4"></span>
+        </div>
+        <div id="previewImg"></div>
+    </center>
+</body>
+<script>
+    goldrate.value = localStorage.getItem("goldrate");
+    silverrate.value = localStorage.getItem("silverrate");
+
+    function helper() {
+        let a = goldrate.value;
+        let b = silverrate.value;
+        goldrate1.innerText = new Intl.NumberFormat('en-IN').format(Math.round((a * 22 / 24) / 100) * 100);
+        goldrate2.innerText = new Intl.NumberFormat('en-IN').format(Math.round((a * 23 / 24) / 100) * 100);
+        goldrate3.innerText = new Intl.NumberFormat('en-IN').format(Math.floor(a));
+        goldrate4.innerText = b;
+        localStorage.setItem('goldrate', a);
+        localStorage.setItem('silverrate', b);
+    }
+
+    function exportImg() {
+        let element = document.getElementById("imageContainer");
+        html2canvas(element).then(function (canvas) {
+            let anchorTag = document.createElement("a");
+            document.body.appendChild(anchorTag);
+            document.getElementById("previewImg").appendChild(canvas);
+            anchorTag.download = "Image";
+            anchorTag.href = canvas.toDataURL();
+            anchorTag.target = '_blank';
+            anchorTag.click();
+        });
+    }
+    helper();
+</script>
+
+</html>
