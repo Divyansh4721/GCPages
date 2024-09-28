@@ -14,7 +14,7 @@
         body {
             font-family: sans-serif;
             height: 100vh;
-            overflow: hidden;
+            background-color: #1b2234;
         }
 
         input {
@@ -54,8 +54,12 @@
             position: relative;
             height: fit-content;
             width: fit-content;
-            transform: scale(0.3);
-            transform-origin: top left;
+        }
+
+        #imageContainer img {
+            display: block;
+            height: 300px;
+            width: 282px;
         }
 
         @font-face {
@@ -65,30 +69,30 @@
 
         span {
             position: absolute;
-            font-size: 32px;
-            color: #1a2334;
+            font-size: 9px;
+            color: #1b2234;
             font-weight: bold;
             font-family: 'Constantia';
         }
 
         #goldrate1 {
-            top: 492px;
-            left: 175px;
+            top: 139px;
+            left: 50px;
         }
 
         #goldrate2 {
-            top: 492px;
-            left: 449px;
+            top: 139px;
+            left: 129px;
         }
 
         #goldrate3 {
-            top: 492px;
-            left: 724px;
+            top: 139px;
+            left: 207px;
         }
 
         #goldrate4 {
-            top: 760px;
-            left: 330px;
+            top: 215px;
+            left: 95px;
         }
     </style>
 </head>
@@ -99,7 +103,7 @@
     <center>
         <input id="goldrate" onchange="helper()" type="number" placeholder="Gold Rate">
         <input id="silverrate" onchange="helper()" type="number" placeholder="Silver Rate">
-        <button type="button" onclick="exportImg()">Download Image</button>
+        <button id="Dbutton" type="button" onclick="exportImg()">Download Image</button>
         <br>
         <br>
         <div id="imageContainer">
@@ -115,7 +119,6 @@
 <script>
     goldrate.value = localStorage.getItem("goldrate");
     silverrate.value = localStorage.getItem("silverrate");
-
     function helper() {
         let a = goldrate.value;
         let b = silverrate.value;
@@ -140,6 +143,7 @@
         });
     }
     helper();
+    Dbutton.click();
 </script>
 
 </html>
