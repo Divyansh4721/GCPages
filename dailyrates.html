@@ -103,7 +103,16 @@
     <center>
         <input id="goldrate" onchange="helper()" type="number" placeholder="Gold Rate">
         <input id="silverrate" onchange="helper()" type="number" placeholder="Silver Rate">
-        <button id="Dbutton" type="button" onclick="exportImg()">Download Image</button>
+        <button type="button" onclick="exportImg()">Download Image</button>
+        <textarea style="position: absolute;opacity: 0;" id="copymessage">🌟 Daily Shine Update! 🌟
+
+🎉 Enjoy ₹1,000 OFF on your next piece! 💎
+
+🛍️ Elevate your elegance with our exquisite collection!
+📲 Reach out for more details!
+
+🔍 Note: Prices exclude GST. Making charges apply separately.</textarea>
+        <button type="button" onclick="copymessage.select();document.execCommand('copy');">Copy Message</button>
         <br>
         <br>
         <div id="imageContainer">
