@@ -113,12 +113,13 @@
             <span id="goldrate3"></span>
             <span id="goldrate4"></span>
         </div>
-        <div id="previewImg"></div>
+        <div id="previewImg" hidden></div>
     </center>
 </body>
 <script>
     goldrate.value = localStorage.getItem("goldrate");
     silverrate.value = localStorage.getItem("silverrate");
+    helper();
     function helper() {
         let a = goldrate.value;
         let b = silverrate.value;
@@ -142,8 +143,6 @@
             anchorTag.click();
         });
     }
-    helper();
-    Dbutton.click();
 </script>
 
 </html>
