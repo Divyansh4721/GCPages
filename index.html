@@ -3,117 +3,178 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="GCLogo.ico" type="image/x-icon">
+    <link rel="icon" href="assets/ico/GCLogo.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GC Pages</title>
-    <style>
-        body {
-            font-family: sans-serif;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            light: {
+                                bg: '#F3F4F6',
+                                input: '#E5E7EB',
+                                inputHover: '#D1D5DB',
+                                icon: '#FFFFFF',
+                                text: '#000000',
+                                button: '#3B82F6',
+                                buttonHover: '#2563EB'
+                            },
+                            dark: {
+                                bg: '#121212',
+                                input: '#1E1E1E',
+                                inputHover: '#2A2A2A',
+                                icon: '#2A2A2A',
+                                text: '#FFFFFF',
+                                button: '#4F46E5',
+                                buttonHover: '#4338CA'
+                            }
+                        }
+                    }
+                }
+            }
         }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .theme-bg {
+                @apply bg-theme-light-bg dark:bg-theme-dark-bg;
+            }
 
-        img {
-            height: 80px;
-            width: 80px;
-            border-radius: 50%;
-            background-color: white;
-            box-shadow: 0 0 5px #000;
-        }
+            .theme-input {
+                @apply bg-theme-light-input dark:bg-theme-dark-input hover:bg-theme-light-inputHover dark:hover:bg-theme-dark-inputHover;
+            }
 
-        #inner {
-            display: flex;
-            justify-content: space-evenly;
-        }
+            .theme-icon {
+                @apply bg-theme-light-icon dark:bg-theme-dark-icon;
+            }
 
-        #contentbox {
-            width: 50vw;
-            text-align: center;
-            background-color: lightgray;
-            border-radius: 10px;
-            box-shadow: 0 0 5px #000;
-            margin: 10px;
-            padding: 10px;
-        }
+            .theme-text {
+                @apply text-theme-light-text dark:text-theme-dark-text;
+            }
 
-        span {
-            font-weight: bold;
-            color: black;
-            text-decoration: underline;
+            .theme-button {
+                @apply bg-theme-light-button dark:bg-theme-dark-button hover:bg-theme-light-buttonHover dark:hover:bg-theme-dark-buttonHover;
+            }
         }
     </style>
+    <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
 </head>
 
-<body>
-    <div id="outer">
-        <div id="inner">
-            <a id="contentbox" href="dailyrates.html">
-                <img src="voucher.jpg">
-                <br>
-                <span>Rate Update</span>
+<body class="theme-bg h-full font-sans p-4">
+    <div class="max-w-lg mx-auto">
+        <div class="grid grid-cols-2 gap-4 md:gap-6">
+            <a href="https://stock.divyanshbansal.com"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/gclogot.png" alt="Stock Software" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Stock Software</p>
             </a>
-            <a id="contentbox" href="https://stock.divyanshbansal.com">
-                <img src="gclogot.png">
-                <br>
-                <span>Stock Software</span>
+            <a href="https://kitty.divyanshbansal.com"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/gclogot.png" alt="Kitty" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Kitty</p>
             </a>
-        </div>
-        <div id="inner">
-            <a id="contentbox" href="khatabook.html">
-                <img src="khatabook.png">
-                <br>
-                <span>KhataBook Message</span>
+            <a href="https://dimoss.in"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/dimoss.jpg" alt="Dimoss Website" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Dimoss Website</p>
             </a>
-            <a id="contentbox" href="https://dimoss.divyanshbansal.com">
-                <img src="dimoss.jpg">
-                <br>
-                <span>Dimoss Software</span>
+            <a href="dailyrates.html"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/voucher.jpg" alt="Rate Update" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Rate Update</p>
             </a>
-        </div>
-        <div id="inner">
-            <a id="contentbox" href="bill.html">
-                <img src="bill.png">
-                <br>
-                <span>GC Bill</span>
+            <a href="https://svtc.divyanshbansal.com"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/svtc.png" alt="SVTC" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">SVTC</p>
             </a>
-            <a id="contentbox" href="dimossbill.html">
-                <img src="bill.png">
-                <br>
-                <span>Dimoss Bill</span>
+            <a href="https://dimoss.divyanshbansal.com"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/dimoss.jpg" alt="Dimoss Software" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Dimoss Software</p>
             </a>
-        </div>
-        <div id="inner">
-            <a id="contentbox" href="https://kitty.divyanshbansal.com">
-                <img src="gclogot.png">
-                <br>
-                <span>Kitty</span>
+            <a href="calculator.html"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/calculator.png" alt="Calculator" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Calculator</p>
             </a>
-            <a id="contentbox" href="calculator.html">
-                <img src="calculator.png">
-                <br>
-                <span>Calculator</span>
+            <a href="khatabook.html"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/khatabook.png" alt="KhataBook Message" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">KhataBook Message</p>
             </a>
-        </div>
-        <div id="inner">
-            <a id="contentbox" href="https://dimoss.in">
-                <img src="dimoss.jpg">
-                <br>
-                <span>Dimoss Website</span>
+            <a href="bill.html"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/bill.png" alt="GC Bill" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">GC Bill</p>
             </a>
-            <a id="contentbox" href="https://svtc.divyanshbansal.com">
-                <img src="svtc.png">
-                <br>
-                <span>SVTC</span>
+            <a href="dimossbill.html"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/bill.png" alt="Dimoss Bill" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Dimoss Bill</p>
             </a>
-        </div>
-        <div id="inner">
-            <a id="contentbox" href="contact.html">
-                <img src="contact.jpeg">
-                <br>
-                <span>Contact List</span>
+            <a href="contact.html"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/contact.jpeg" alt="Contact List" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Contact List</p>
             </a>
-            <a id="contentbox" href="voucher.html">
-                <img src="voucher.jpg">
-                <br>
-                <span>Voucher Message</span>
+            <a href="voucher.html"
+                class="theme-input rounded-xl shadow-md p-4 flex flex-col items-center justify-center transition duration-300 transform hover:scale-105">
+                <div
+                    class="w-16 h-16 md:w-20 md:h-20 rounded-full theme-icon shadow-md flex items-center justify-center overflow-hidden">
+                    <img src="assets/images/voucher.jpg" alt="Voucher Message" class="w-full h-full object-cover">
+                </div>
+                <p class="mt-3 font-bold theme-text underline text-sm md:text-base">Voucher Message</p>
             </a>
         </div>
     </div>

@@ -1,12 +1,85 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <link rel="icon" href="calculator.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <link rel="icon" href="assets/ico/calculator.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable = no">
     <title>Jewellery Calculator</title>
     <script src="https://kit.fontawesome.com/9f9e58ef8b.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            light: {
+                                bg: '#F3F4F6',
+                                input: '#E5E7EB',
+                                inputHover: '#D1D5DB',
+                                icon: '#FFFFFF',
+                                text: '#000000',
+                                button: '#3B82F6',
+                                buttonHover: '#2563EB'
+                            },
+                            dark: {
+                                bg: '#121212',
+                                input: '#1E1E1E',
+                                inputHover: '#2A2A2A',
+                                icon: '#2A2A2A',
+                                text: '#FFFFFF',
+                                button: '#4F46E5',
+                                buttonHover: '#4338CA'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .theme-bg {
+                @apply bg-theme-light-bg dark:bg-theme-dark-bg;
+            }
+
+            .theme-input {
+                @apply bg-theme-light-input dark:bg-theme-dark-input hover:bg-theme-light-inputHover dark:hover:bg-theme-dark-inputHover;
+            }
+
+            .theme-icon {
+                @apply bg-theme-light-icon dark:bg-theme-dark-icon;
+            }
+
+            .theme-text {
+                @apply text-theme-light-text dark:text-theme-dark-text;
+            }
+
+            .theme-button {
+                @apply bg-theme-light-button dark:bg-theme-dark-button hover:bg-theme-light-buttonHover dark:hover:bg-theme-dark-buttonHover;
+            }
+        }
+    </style>
+    <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+
     <script>
         let firebaseConfig = {
             apiKey: "AIzaSyC2UPzS4WS4rec5VcWUwD15lR7p-Ba7js0",
@@ -34,8 +107,8 @@
                 window.alert("Gold Price not correct!");
             } else {
                 docRef.update({
-                        Rate: temp.toString()
-                    })
+                    Rate: temp.toString()
+                })
                     .then(() => {
                         location.reload()
                     })
@@ -45,143 +118,151 @@
             }
         }
     </script>
-    <style>
-        body {
-            font-family: sans-serif;
-        }
-
-        div input {
-            position: relative;
-            height: 10%;
-            width: 80%;
-            padding-left: 10px;
-            border: 1px solid #dfe1e4;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-
-        label {
-            position: relative;
-            height: fit-content;
-            font-size: 12px;
-        }
-
-        select {
-            position: relative;
-            height: 10%;
-            width: 80%;
-            padding-left: 10px;
-            border: 1px solid #dfe1e4;
-            border-radius: 10px;
-            font-size: 12px;
-        }
-
-        #maincontainer {
-            margin: 10px;
-            border: 2px solid black;
-            width: 90%;
-            height: 50%;
-            display: flex;
-        }
-
-        #leftcontainer {
-            border-right: 2px solid black;
-            width: 50%;
-            height: 100%;
-        }
-
-        #rightcontainer {
-            width: 50%;
-            height: 100%;
-        }
-
-        #topcontainer {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            border-bottom: 2px solid black;
-            width: 100%;
-            height: 45%;
-        }
-
-        #bottomcontainer {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            align-items: center;
-            width: 100%;
-            height: 55%;
-        }
-
-        button {
-            width: fit-content;
-            border: 0;
-            background-color: rgb(247, 194, 20);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
-            color: white;
-        }
-    </style>
 </head>
 
-<body>
-    <button onclick="window.location.href='index.html'" class="fas fa-home"
-        style="font-size: 15px; height: 40px; width: 40px;"></button>
-    <center>
-        <div id="maincontainer">
-            <div id="leftcontainer">
-                <div id="topcontainer">
-                    <label for="goldweight">Gold Weight In gms</label>
-                    <input id="goldweight" type="number" placeholder="Gold Weight In gms">
-                    <label for="goldpurity">Gold Purity</label>
-                    <select id="goldpurity">
-                        <option value="60">14 |60</option>
-                        <option value="75">18 |75</option>
-                        <option value="92">22 78-80 |92</option>
-                        <option value="101.2">22 KDM |101.2</option>
-                        <option value="96">23/85 |96</option>
-                    </select>
-                    <label for="goldprice">24ct Gold Price</label>
-                    <input id="goldprice" type="number" placeholder="24ct Gold Price">
-                    <label for="wastage">Wastage %</label>
-                    <input id="wastage" type="number" placeholder="Wastage %">
-                </div>
-                <div id="bottomcontainer">
-                    <label for="mosweight">MD Weight In ct</label>
-                    <input id="mosweight" type="text" inputmode="numeric" placeholder="MD Weight In ct">
-                    <label for="mosprice">MD Price Per ct</label>
-                    <input id="mosprice" type="text" inputmode="numeric" placeholder="MD Price Per ct">
-                    <label for="stoneweight">Stone Price</label>
-                    <input id="stoneweight" type="number" placeholder="Stone Price">
+<body class="theme-bg h-full font-sans theme-text px-4 py-6 transition-colors duration-300">
+    <button onclick="window.location.href='index.html'"
+        class="theme-button text-white rounded-lg w-12 h-12 flex items-center justify-center transition duration-300 fixed top-4 left-4 shadow-lg z-10">
+        <i class="fas fa-home"></i>
+    </button>
+
+    <h1 class="text-2xl font-bold mb-6 text-center">Jewellery Calculator</h1>
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Grid layout with 2x2 on both mobile and desktop -->
+        <div class="grid grid-cols-2 gap-2 border-2 border-gray-400 dark:border-gray-700 rounded-lg overflow-hidden">
+            <!-- Top Left -->
+            <div class="border-r-2 border-b-2 border-gray-400 dark:border-gray-700 p-3">
+                <h2 class="text-lg font-medium mb-2 text-center">Gold Info</h2>
+
+                <div class="space-y-2">
+                    <div class="flex flex-col">
+                        <label for="goldweight" class="text-xs mb-1">Gold Weight (gms)</label>
+                        <input id="goldweight" type="number" placeholder="Weight"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="goldpurity" class="text-xs mb-1">Gold Purity</label>
+                        <select id="goldpurity"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                            <option value="60">14 | 60</option>
+                            <option value="75">18 | 75</option>
+                            <option value="92">22 78-80 | 92</option>
+                            <option value="101.2">22 KDM | 101.2</option>
+                            <option value="96">23/85 |96</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="goldprice" class="text-xs mb-1">24ct Gold Price</label>
+                        <input id="goldprice" type="number" placeholder="Price"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="wastage" class="text-xs mb-1">Wastage %</label>
+                        <input id="wastage" type="number" placeholder="Wastage"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
                 </div>
             </div>
-            <div id="rightcontainer">
-                <div id="topcontainer">
-                    <input id="result" type="number" placeholder="Result"
-                        style="font-size: 20px;height: 30px; font-weight: bold;" disabled>
-                    <input id="updateprice" type="number" placeholder="Update Gold Price">
-                    <button onclick="updatePrice()">Update Gold Price</button>
+
+            <!-- Top Right -->
+            <div class="border-b-2 border-gray-400 dark:border-gray-700 p-3">
+                <h2 class="text-lg font-medium mb-2 text-center">Result</h2>
+
+                <div class="space-y-2">
+                    <div class="flex flex-col">
+                        <input id="result" type="number" placeholder="Result" disabled
+                            class="px-2 py-2 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-lg font-bold">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="updateprice" class="text-xs mb-1">Update Gold Price</label>
+                        <input id="updateprice" type="number" placeholder="Update Price"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
+
+                    <button onclick="updatePrice()"
+                        class="w-full px-2 py-1 mt-2 theme-button rounded-lg font-bold text-white shadow-lg transition duration-300 text-sm">
+                        Update Price
+                    </button>
                 </div>
-                <div id="bottomcontainer">
-                    <label for="rapaport">Rapaport Number</label>
-                    <input id="rapaport" type="number" placeholder="Rapaport Number">
-                    <label for="back">Back (-)</label>
-                    <input id="back" type="number" placeholder="Back (-)">
-                    <label for="dollar">Dollar</label>
-                    <input id="dollar" type="number" placeholder="Dollar">
-                    <label for="diamondweight">Diamond Weigth in ct</label>
-                    <input id="diamondweight" type="number" placeholder="Diamond Weigth in ct">
-                    <label for="diamondprice">Diamond Price</label>
-                    <input id="diamondprice" type="number" placeholder="Diamond Price" style="font-weight: bold;"
-                        disabled>
+            </div>
+
+            <!-- Bottom Left -->
+            <div class="border-r-2 border-gray-400 dark:border-gray-700 p-3">
+                <h2 class="text-lg font-medium mb-2 text-center">Stone Info</h2>
+
+                <div class="space-y-2">
+                    <div class="flex flex-col">
+                        <label for="mosweight" class="text-xs mb-1">MD Weight (ct)</label>
+                        <input id="mosweight" type="text" inputmode="numeric" placeholder="MD Weight"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="mosprice" class="text-xs mb-1">MD Price (per ct)</label>
+                        <input id="mosprice" type="text" inputmode="numeric" placeholder="MD Price"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="stoneweight" class="text-xs mb-1">Stone Price</label>
+                        <input id="stoneweight" type="number" placeholder="Stone Price"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Right -->
+            <div class="p-3">
+                <h2 class="text-lg font-medium mb-2 text-center">Diamond</h2>
+
+                <div class="space-y-2">
+                    <div class="flex flex-col">
+                        <label for="rapaport" class="text-xs mb-1">Rapaport</label>
+                        <input id="rapaport" type="number" placeholder="Rapaport"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="back" class="text-xs mb-1">Back (-)</label>
+                        <input id="back" type="number" placeholder="Back"
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex flex-col">
+                            <label for="dollar" class="text-xs mb-1">Dollar</label>
+                            <input id="dollar" type="number" placeholder="Dollar"
+                                class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                        </div>
+
+                        <div class="flex flex-col">
+                            <label for="diamondweight" class="text-xs mb-1">Weight (ct)</label>
+                            <input id="diamondweight" type="number" placeholder="Weight"
+                                class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="diamondprice" class="text-xs mb-1">Diamond Price</label>
+                        <input id="diamondprice" type="number" placeholder="Diamond Price" disabled
+                            class="px-2 py-1 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 transition text-sm font-bold">
+                    </div>
                 </div>
             </div>
         </div>
-        <button style="width: 70%;" onclick="location.reload()">Reset</button>
-    </center>
+
+        <div class="mt-4 flex justify-center">
+            <button onclick="location.reload()"
+                class="px-4 py-3 w-3/4 theme-button rounded-lg font-bold text-white shadow-lg transition duration-300">
+                Reset
+            </button>
+        </div>
+    </div>
 </body>
 <script>
     function helper(inputString1, inputString2) {

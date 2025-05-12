@@ -3,13 +3,84 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="voucher.ico" type="image/x-icon">
+    <link rel="icon" href="assets/ico/voucher.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voucher Message</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/9f9e58ef8b.js" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            light: {
+                                bg: '#F3F4F6',
+                                input: '#E5E7EB',
+                                inputHover: '#D1D5DB',
+                                icon: '#FFFFFF',
+                                text: '#000000',
+                                button: '#3B82F6',
+                                buttonHover: '#2563EB'
+                            },
+                            dark: {
+                                bg: '#121212',
+                                input: '#1E1E1E',
+                                inputHover: '#2A2A2A',
+                                icon: '#2A2A2A',
+                                text: '#FFFFFF',
+                                button: '#4F46E5',
+                                buttonHover: '#4338CA'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .theme-bg {
+                @apply bg-theme-light-bg dark:bg-theme-dark-bg;
+            }
+
+            .theme-input {
+                @apply bg-theme-light-input dark:bg-theme-dark-input hover:bg-theme-light-inputHover dark:hover:bg-theme-dark-inputHover;
+            }
+
+            .theme-icon {
+                @apply bg-theme-light-icon dark:bg-theme-dark-icon;
+            }
+
+            .theme-text {
+                @apply text-theme-light-text dark:text-theme-dark-text;
+            }
+
+            .theme-button {
+                @apply bg-theme-light-button dark:bg-theme-dark-button hover:bg-theme-light-buttonHover dark:hover:bg-theme-dark-buttonHover;
+            }
+        }
+    </style>
+    <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+    </script>
+
     <script>
         let firebaseConfig = {
             apiKey: "AIzaSyC2UPzS4WS4rec5VcWUwD15lR7p-Ba7js0",
@@ -41,8 +112,8 @@
                 window.alert("Variable Not included [{CustomerName}],[{VoucherAmount}],[{ExpiryDate}]!");
             } else {
                 docRef.update({
-                        Message: temp.toString()
-                    })
+                    Message: temp.toString()
+                })
                     .then(() => {
                         location.reload()
                     })
@@ -52,62 +123,38 @@
             }
         }
     </script>
-    <style>
-        body {
-            font-family: sans-serif;
-        }
-
-        input {
-            width: 90%;
-            margin-top: 10px;
-            padding: 14px 16px;
-            font-size: 17px;
-            border: 1px solid #dfe1e4;
-            border-radius: 10px;
-            outline: 0;
-        }
-
-        textarea {
-            width: 90%;
-            margin-top: 10px;
-            padding: 14px 16px;
-            font-size: 17px;
-            border: 1px solid #dfe1e4;
-            border-radius: 10px;
-            outline: 0;
-        }
-
-        button {
-            width: 90%;
-            height: 50px;
-            margin-top: 10px;
-            border: 0;
-            background-color: rgb(247, 194, 20);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 23px;
-            font-weight: bold;
-            color: white;
-        }
-    </style>
 </head>
 
-<body>
-    <button onclick="window.location.href='index.html'" class="fas fa-home"
-        style="font-size: 15px; height: 40px; width: 40px;"></button>
-    <center>
-        <form onsubmit="myFunction(event)">
-            <input type="text" id="name" placeholder="Name" required autocomplete="off">
-            <br>
-            <input type="number" id="money" placeholder="Voucher Amount" required>
-            <br>
-            <input type="tel" id="mobile" placeholder="Mobile Number" required autocomplete="off">
-            <br>
-            <button type="submit">Submit</button>
+<body class="theme-bg h-full font-sans theme-text px-4 py-6 transition-colors duration-300">
+    <button onclick="window.location.href='index.html'"
+        class="theme-button text-white rounded-lg w-12 h-12 flex items-center justify-center transition duration-300 fixed top-4 left-4 shadow-lg z-10">
+        <i class="fas fa-home"></i>
+    </button>
+
+    <h1 class="text-2xl font-bold mb-6 text-center">Voucher Message</h1>
+
+    <div class="max-w-md mx-auto mt-16 flex flex-col items-center gap-4">
+        <form onsubmit="myFunction(event)" class="w-full flex flex-col items-center gap-4">
+            <input type="text" id="name" placeholder="Name" required autocomplete="off"
+                class="w-full px-4 py-3 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+
+            <input type="number" id="money" placeholder="Voucher Amount" required
+                class="w-full px-4 py-3 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+
+            <input type="tel" id="mobile" placeholder="Mobile Number" required autocomplete="off"
+                class="w-full px-4 py-3 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+
+            <button type="submit"
+                class="w-full py-3 theme-button rounded-lg font-bold text-white shadow-lg transition duration-300">
+                Submit
+            </button>
         </form>
-        <br>
-        <br>
-        <textarea type="text" id="updatemessage" rows="20" placeholder="Dear [{CustomerName}] Ji,
+
+        <div class="my-6 w-full border-t border-gray-300 dark:border-gray-700"></div>
+
+        <textarea id="updatemessage" rows="20"
+            class="w-full px-4 py-3 rounded-lg theme-input border border-gray-300 dark:border-gray-600 theme-text placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Dear [{CustomerName}] Ji,
 
 Thank you for choosing GC Jewellers and for your recent visit. We're thrilled to hear that you had a fantastic experience! 💐
 
@@ -119,8 +166,12 @@ https://instagram.com/gc_jewellers_karnal/
 
 Website: 👇
 https://dimoss.in/" required></textarea>
-        <button type="submit" onclick="updateMessage()">Update Message</button>
-    </center>
+
+        <button type="submit" onclick="updateMessage()"
+            class="w-full py-3 theme-button rounded-lg font-bold text-white shadow-lg transition duration-300">
+            Update Message
+        </button>
+    </div>
 </body>
 <script>
     function getLastDateOfNextMonth() {
@@ -166,7 +217,7 @@ https://dimoss.in/" required></textarea>
     }
     let msg = "";
 
-    function myFunction() {
+    function myFunction(event) {
         event.preventDefault();
         let name = document.getElementById("name").value;
         let mobile = document.getElementById("mobile").value;
